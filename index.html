@@ -365,6 +365,114 @@
   .deck-card h4 { font-weight: 600; margin-bottom: 4px; }
   .deck-card p { color: var(--muted); font-size: 0.78rem; }
 
+  /* ========== PREMIUM HUB ========== */
+  .premium-hub-header {
+    background: linear-gradient(135deg, #1a1520 0%, #1e1628 100%);
+    border-bottom: 1px solid rgba(245,215,110,0.15);
+    padding: 3rem 2rem 2rem;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .premium-hub-header::before {
+    content: ''; position: absolute; width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(245,215,110,0.08) 0%, transparent 70%);
+    top: -200px; left: 50%; transform: translateX(-50%); pointer-events: none;
+  }
+  .ph-tabs { display: flex; gap: 6px; background: var(--card); border-radius: 12px; padding: 5px; width: fit-content; margin: 0 auto 2.5rem; flex-wrap: wrap; justify-content: center; }
+  .ph-tab { padding: 9px 20px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; color: var(--muted); background: transparent; transition: all 0.15s; display: flex; align-items: center; gap: 6px; }
+  .ph-tab.active { background: linear-gradient(135deg,#f5d76e,#f5a623); color: #1a1000; }
+  .ph-tab:hover:not(.active) { color: var(--text); background: var(--bg3); }
+  .ph-panel { display: none; }
+  .ph-panel.active { display: block; }
+
+  /* Anki subject grid */
+  .anki-subject-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 16px; margin-bottom: 2rem; }
+  .anki-subject-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.6rem;
+    cursor: pointer; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  }
+  .anki-subject-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+  .anki-deck-list { display: flex; flex-direction: column; gap: 10px; }
+  .anki-deck-row {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 1rem 1.2rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    transition: border-color 0.2s;
+  }
+  .anki-deck-row:hover { border-color: rgba(245,215,110,0.3); }
+  .btn-download-premium {
+    background: rgba(245,215,110,0.15); border: 1px solid rgba(245,215,110,0.35);
+    color: var(--premium); font-size: 0.8rem; font-weight: 700;
+    padding: 7px 14px; border-radius: 7px; transition: all 0.15s; white-space: nowrap;
+  }
+  .btn-download-premium:hover { background: rgba(245,215,110,0.25); }
+
+  /* Progress tracking */
+  .progress-subject-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.6rem;
+    transition: border-color 0.2s;
+  }
+  .progress-subject-card:hover { border-color: rgba(200,240,90,0.25); }
+  .topic-checkbox-list { display: flex; flex-direction: column; gap: 8px; margin-top: 1rem; }
+  .topic-checkbox-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px; border-radius: 8px; cursor: pointer;
+    transition: background 0.15s; font-size: 0.88rem;
+  }
+  .topic-checkbox-item:hover { background: var(--bg3); }
+  .topic-checkbox-item input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; flex-shrink: 0; }
+  .topic-checkbox-item.done { color: var(--muted); text-decoration: line-through; }
+
+  /* Study planner */
+  .planner-week { display: grid; grid-template-columns: repeat(7,1fr); gap: 8px; margin-bottom: 1.5rem; }
+  .planner-day {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 0.9rem 0.5rem;
+    text-align: center; min-height: 90px; cursor: pointer; transition: border-color 0.2s;
+  }
+  .planner-day:hover { border-color: rgba(200,240,90,0.3); }
+  .planner-day .day-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 6px; }
+  .planner-day .day-num { font-family: Fraunces,serif; font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; }
+  .planner-day.today { border-color: rgba(200,240,90,0.5); background: rgba(200,240,90,0.05); }
+  .planner-day.today .day-num { color: var(--accent); }
+  .planner-session { font-size: 0.65rem; background: rgba(200,240,90,0.12); color: var(--accent); border-radius: 4px; padding: 2px 5px; margin-top: 3px; text-align: left; line-height: 1.3; }
+  .planner-session.premium-session { background: rgba(245,215,110,0.12); color: var(--premium); }
+
+  /* Flashcard mode */
+  .flashcard-wrap { perspective: 1000px; width: 100%; max-width: 560px; margin: 0 auto; }
+  .flashcard {
+    width: 100%; height: 240px;
+    position: relative; transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.4,0,0.2,1); cursor: pointer;
+    border-radius: var(--radius);
+  }
+  .flashcard.flipped { transform: rotateY(180deg); }
+  .flashcard-front, .flashcard-back {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    padding: 2rem; text-align: center;
+  }
+  .flashcard-front { background: var(--card); border: 1px solid rgba(245,215,110,0.2); }
+  .flashcard-back { background: linear-gradient(135deg,#1a1520,#1e1628); border: 1px solid rgba(245,215,110,0.35); transform: rotateY(180deg); }
+  .flashcard-hint { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.8rem; }
+  .flashcard-text { font-family: Fraunces,serif; font-size: 1.2rem; font-weight: 700; line-height: 1.4; }
+  .flashcard-answer { color: var(--premium); font-size: 1rem; line-height: 1.6; }
+
+  /* Streak / stats */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(160px,1fr)); gap: 14px; margin-bottom: 2rem; }
+  .stat-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.4rem; text-align: center;
+    transition: border-color 0.2s;
+  }
+  .stat-card:hover { border-color: rgba(245,215,110,0.25); }
+  .stat-card .stat-num { font-family: Fraunces,serif; font-size: 2.2rem; font-weight: 800; color: var(--premium); }
+  .stat-card .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+
   /* ========== ADMIN PANEL ========== */
   .admin-panel {
     background: var(--card);
@@ -656,6 +764,7 @@
       </div>
     </span>
     <a href="#" onclick="showPage('premium')">Premium</a>
+    <a href="#" id="navPremiumHubLink" onclick="requirePremiumPage('premium-hub')" style="display:none;color:var(--premium);font-weight:700">⭐ My Premium</a>
     <a href="#" onclick="showPage('creators')">About Us</a>
   </div>
   <div class="nav-right">
@@ -936,7 +1045,7 @@
             <div class="deck-card"><h4>Topic 5 Deck</h4><p>61 cards • Past Q vocab</p></div>
             <div class="deck-card"><h4>Full Subject Deck</h4><p>243 cards • Complete set</p></div>
           </div>
-          <div class="anki-overlay">
+          <div class="anki-overlay" id="subjectAnkiOverlay">
             <div class="anki-lock-msg">
               <h4>🔒 Premium Feature</h4>
               <p>Unlock all Anki decks with a Premium subscription</p>
@@ -1121,7 +1230,7 @@
               <div><div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:0.85rem"><span>⚡ Physics</span><span style="color:var(--accent)">81%</span></div><div class="progress-bar-track"><div class="progress-bar-fill" style="width:81%"></div></div></div>
             </div>
           </div>
-          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(15,15,19,0.7);border-radius:var(--radius)">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(15,15,19,0.7);border-radius:var(--radius)" id="progressLockOverlay">
             <div style="text-align:center">
               <div style="font-size:2rem;margin-bottom:0.5rem">🔒</div>
               <h4 style="font-family:Fraunces,serif;font-size:1.3rem;margin-bottom:6px">Premium Feature</h4>
@@ -1146,7 +1255,7 @@
               <div style="background:var(--bg3);border-radius:10px;padding:1rem;display:flex;align-items:center;gap:12px"><span style="font-size:1.4rem">🃏</span><div><div style="font-weight:600;font-size:0.88rem">Chemistry Anki Deck</div><div style="color:var(--muted);font-size:0.75rem">287 cards · .apkg</div></div></div>
             </div>
           </div>
-          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(15,15,19,0.7);border-radius:var(--radius)">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(15,15,19,0.7);border-radius:var(--radius)" id="offlineLockOverlay">
             <div style="text-align:center">
               <div style="font-size:2rem;margin-bottom:0.5rem">🔒</div>
               <h4 style="font-family:Fraunces,serif;font-size:1.3rem;margin-bottom:6px">Premium Feature</h4>
@@ -1415,6 +1524,198 @@
     </div>
   </div>
 
+  <!-- ======== PREMIUM HUB PAGE ======== -->
+  <div class="page-section" id="page-premium-hub">
+
+    <!-- Header -->
+    <div class="premium-hub-header">
+      <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(245,215,110,0.12);border:1px solid rgba(245,215,110,0.25);color:var(--premium);font-size:0.75rem;font-weight:700;letter-spacing:0.08em;padding:5px 14px;border-radius:999px;text-transform:uppercase;margin-bottom:1.2rem">⭐ Premium Member</div>
+      <h1 style="font-family:Fraunces,serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:800;letter-spacing:-1.5px;margin-bottom:0.6rem">Your Premium <em style="font-style:italic;color:var(--premium)">Hub</em></h1>
+      <p style="color:var(--muted);font-size:0.95rem;margin-bottom:1.8rem">Everything unlocked. Anki decks, progress tracking, flashcards, study planner & more.</p>
+      <div class="ph-tabs">
+        <button class="ph-tab active" onclick="switchPHTab(this,'ph-anki')">🃏 Anki Decks</button>
+        <button class="ph-tab" onclick="switchPHTab(this,'ph-progress')">📊 Progress</button>
+        <button class="ph-tab" onclick="switchPHTab(this,'ph-flashcards')">⚡ Flashcards</button>
+        <button class="ph-tab" onclick="switchPHTab(this,'ph-planner')">📅 Study Planner</button>
+        <button class="ph-tab" onclick="switchPHTab(this,'ph-stats')">🏆 My Stats</button>
+      </div>
+    </div>
+
+    <div class="section">
+
+      <!-- ===== ANKI DECKS PANEL ===== -->
+      <div class="ph-panel active" id="ph-anki">
+        <div class="section-label">Premium Feature</div>
+        <div class="section-title" style="margin-bottom:0.5rem">Revision Anki Decks</div>
+        <p class="section-sub">Download pre-made Anki decks for every subject. Import into Anki app and start memorising instantly.</p>
+
+        <div style="background:rgba(245,215,110,0.06);border:1px solid rgba(245,215,110,0.15);border-radius:12px;padding:1rem 1.4rem;margin-bottom:2rem;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <span style="font-size:1.2rem">💡</span>
+          <span style="font-size:0.85rem;color:var(--muted)">Don't have Anki? Download it free at <strong style="color:var(--text)">apps.ankiweb.net</strong> — then import any .apkg file below.</span>
+        </div>
+
+        <div id="phAnkiSubjectView">
+          <div class="anki-subject-grid" id="phAnkiGrid"></div>
+        </div>
+
+        <div id="phAnkiDeckView" style="display:none">
+          <button onclick="document.getElementById('phAnkiSubjectView').style.display='';document.getElementById('phAnkiDeckView').style.display='none'" style="background:var(--bg3);border:1px solid var(--border);color:var(--muted);font-size:0.82rem;padding:7px 14px;border-radius:8px;margin-bottom:1.5rem">← All Subjects</button>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.5rem;flex-wrap:wrap">
+            <div id="phAnkiDeckTitle" style="font-family:Fraunces,serif;font-size:1.5rem;font-weight:800"></div>
+            <span id="phAnkiDeckCount" style="font-size:0.78rem;color:var(--muted);background:var(--bg3);padding:4px 10px;border-radius:6px"></span>
+          </div>
+          <div class="anki-deck-list" id="phAnkiDeckList"></div>
+        </div>
+      </div>
+
+      <!-- ===== PROGRESS PANEL ===== -->
+      <div class="ph-panel" id="ph-progress">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:0.5rem">
+          <div>
+            <div class="section-label">Premium Feature</div>
+            <div class="section-title" style="margin-bottom:0">Progress Tracking</div>
+          </div>
+          <button onclick="resetAllProgress()" style="background:rgba(255,107,138,0.1);border:1px solid rgba(255,107,138,0.25);color:#ff6b8a;font-size:0.78rem;font-weight:600;padding:7px 14px;border-radius:8px">Reset All</button>
+        </div>
+        <p class="section-sub">Tick off topics as you revise them. Progress saves to your browser automatically.</p>
+
+        <!-- Overall stats bar -->
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;margin-bottom:2rem">
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:0.85rem">
+            <span style="font-weight:600">Overall Curriculum Progress</span>
+            <span id="overallProgressPct" style="color:var(--accent);font-weight:700">0%</span>
+          </div>
+          <div class="progress-bar-track" style="height:10px"><div id="overallProgressBar" class="progress-bar-fill" style="width:0%;transition:width 1s ease"></div></div>
+          <div id="overallProgressSub" style="font-size:0.75rem;color:var(--muted);margin-top:8px">0 of 0 topics completed</div>
+        </div>
+
+        <div id="progressSubjectGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px"></div>
+      </div>
+
+      <!-- ===== FLASHCARDS PANEL ===== -->
+      <div class="ph-panel" id="ph-flashcards">
+        <div class="section-label">Premium Feature</div>
+        <div class="section-title" style="margin-bottom:0.5rem">Flashcard Mode</div>
+        <p class="section-sub">Quick-fire Q&A flashcards built from your revision notes. Click a card to reveal the answer.</p>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:2rem;align-items:flex-end">
+          <div>
+            <label style="display:block;font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Subject</label>
+            <select id="fcSubjectSel" onchange="loadFlashcards()" style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:9px 14px;border-radius:9px;font-family:inherit;font-size:0.88rem">
+              <option value="maths">Maths</option>
+              <option value="biology">Biology</option>
+              <option value="chemistry">Chemistry</option>
+              <option value="physics">Physics</option>
+              <option value="english">English Language</option>
+              <option value="literature">English Literature</option>
+              <option value="geography">Geography</option>
+              <option value="history">History</option>
+              <option value="business">Business</option>
+              <option value="french">French</option>
+            </select>
+          </div>
+          <button onclick="loadFlashcards()" style="background:var(--accent);color:#0f0f13;font-weight:700;font-size:0.88rem;padding:10px 20px;border-radius:9px">Shuffle & Start</button>
+        </div>
+
+        <div id="fcArea" style="display:none">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;flex-wrap:wrap;gap:8px">
+            <span id="fcProgress" style="font-size:0.82rem;color:var(--muted)"></span>
+            <div style="display:flex;gap:8px">
+              <button onclick="fcPrev()" style="background:var(--bg3);border:1px solid var(--border);color:var(--muted);font-size:0.82rem;padding:6px 14px;border-radius:7px">← Prev</button>
+              <button onclick="fcNext()" style="background:var(--bg3);border:1px solid var(--border);color:var(--muted);font-size:0.82rem;padding:6px 14px;border-radius:7px">Next →</button>
+            </div>
+          </div>
+          <div class="flashcard-wrap">
+            <div class="flashcard" id="mainFlashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-front">
+                <div>
+                  <div class="flashcard-hint">Question — click to reveal</div>
+                  <div class="flashcard-text" id="fcQuestion"></div>
+                </div>
+              </div>
+              <div class="flashcard-back">
+                <div>
+                  <div class="flashcard-hint" style="color:rgba(245,215,110,0.6)">Answer</div>
+                  <div class="flashcard-answer" id="fcAnswer"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;justify-content:center;margin-top:1.5rem">
+            <button onclick="markFlashcard('hard')" style="background:rgba(255,107,138,0.1);border:1px solid rgba(255,107,138,0.3);color:#ff6b8a;font-weight:600;font-size:0.88rem;padding:9px 20px;border-radius:9px">😰 Hard</button>
+            <button onclick="markFlashcard('ok')" style="background:rgba(245,163,35,0.1);border:1px solid rgba(245,163,35,0.3);color:#f5a623;font-weight:600;font-size:0.88rem;padding:9px 20px;border-radius:9px">🤔 Got it</button>
+            <button onclick="markFlashcard('easy')" style="background:rgba(200,240,90,0.1);border:1px solid rgba(200,240,90,0.3);color:var(--accent);font-weight:600;font-size:0.88rem;padding:9px 20px;border-radius:9px">✅ Easy</button>
+          </div>
+          <p style="text-align:center;font-size:0.75rem;color:var(--muted);margin-top:1rem">Rating is saved — hard cards come back sooner</p>
+        </div>
+        <div id="fcEmpty" style="color:var(--muted);font-size:0.9rem;padding:2rem 0">Add revision notes via the Admin Panel to generate flashcards for this subject.</div>
+      </div>
+
+      <!-- ===== STUDY PLANNER PANEL ===== -->
+      <div class="ph-panel" id="ph-planner">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:0.5rem">
+          <div>
+            <div class="section-label">Premium Feature</div>
+            <div class="section-title" style="margin-bottom:0">Study Planner</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button onclick="plannerPrevWeek()" style="background:var(--bg3);border:1px solid var(--border);color:var(--muted);font-size:0.88rem;padding:7px 14px;border-radius:8px">← Prev</button>
+            <button onclick="plannerNextWeek()" style="background:var(--bg3);border:1px solid var(--border);color:var(--muted);font-size:0.88rem;padding:7px 14px;border-radius:8px">Next →</button>
+            <button onclick="plannerGoToday()" style="background:rgba(200,240,90,0.1);border:1px solid rgba(200,240,90,0.2);color:var(--accent);font-size:0.88rem;font-weight:600;padding:7px 14px;border-radius:8px">Today</button>
+          </div>
+        </div>
+        <p class="section-sub">Plan your revision week by week. Click a day to add a study session.</p>
+
+        <div id="plannerWeekLabel" style="font-size:0.82rem;color:var(--muted);margin-bottom:1rem;font-weight:600"></div>
+        <div class="planner-week" id="plannerWeek"></div>
+
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;margin-top:1.5rem" id="plannerAddSession">
+          <div style="font-weight:600;margin-bottom:1rem;font-size:0.9rem">➕ Add Session — <span id="plannerSelectedDay" style="color:var(--accent)">click a day first</span></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+            <div>
+              <label style="display:block;font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px">Subject</label>
+              <select id="plannerSubject" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-family:inherit;font-size:0.85rem">
+                <option>Maths</option><option>Biology</option><option>Chemistry</option><option>Physics</option>
+                <option>English Language</option><option>English Literature</option><option>Geography</option>
+                <option>History</option><option>Business</option><option>French</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:block;font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px">Duration</label>
+              <select id="plannerDuration" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-family:inherit;font-size:0.85rem">
+                <option>30 min</option><option>45 min</option><option>1 hour</option><option>1.5 hrs</option><option>2 hrs</option>
+              </select>
+            </div>
+            <button onclick="addPlannerSession()" style="background:var(--accent);color:#0f0f13;font-weight:700;font-size:0.85rem;padding:9px 18px;border-radius:8px">Add</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== STATS PANEL ===== -->
+      <div class="ph-panel" id="ph-stats">
+        <div class="section-label">Premium Feature</div>
+        <div class="section-title" style="margin-bottom:0.5rem">My Stats & Streak</div>
+        <p class="section-sub">Track your revision habit, quiz scores and overall progress over time.</p>
+
+        <div class="stats-grid" id="statsGrid"></div>
+
+        <!-- Streak calendar -->
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.6rem;margin-bottom:2rem">
+          <div style="font-weight:700;margin-bottom:1.2rem;display:flex;align-items:center;gap:8px">🔥 Revision Streak <span id="streakCount" style="color:var(--premium);font-family:Fraunces,serif;font-size:1.3rem;font-weight:800"></span></div>
+          <div id="streakCalendar" style="display:flex;gap:5px;flex-wrap:wrap"></div>
+          <p style="font-size:0.75rem;color:var(--muted);margin-top:1rem">Green = day you opened a note or completed a quiz</p>
+        </div>
+
+        <!-- Quiz history -->
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.6rem">
+          <div style="font-weight:700;margin-bottom:1rem">📝 Recent Quiz Results</div>
+          <div id="quizHistoryList" style="display:flex;flex-direction:column;gap:8px"></div>
+        </div>
+      </div>
+
+    </div><!-- /section -->
+  </div><!-- /page-premium-hub -->
+
   <!-- ======== ADMIN PAGE ======== -->
   <div class="page-section" id="page-admin">
     <div class="section">
@@ -1422,7 +1723,7 @@
         <div class="section-title" style="margin-bottom:0">Admin Panel</div>
         <span class="admin-badge">🔐 Owner Only</span>
         <button id="adminPremiumPreviewBtn" onclick="toggleAdminPremiumPreview()"
-          style="margin-left:auto;background:rgba(245,215,110,0.15);border:1px solid rgba(245,215,110,0.4);color:var(--premium);font-size:0.82rem;font-weight:700;padding:8px 18px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.2s">
+          style="margin-left:auto;background:rgba(245,215,110,0.15);border:1px solid rgba(245,215,110,0.4);color:var(--premium);font-size:0.82rem;font-weight:700;padding:8px 18px;border-radius:8px;cursor:pointer;transition:all 0.2s">
           ⭐ Preview as Premium User
         </button>
       </div>
@@ -1909,13 +2210,15 @@
           <div id="adminHistQList" style="display:flex;flex-direction:column;gap:8px;max-height:300px;overflow-y:auto"></div>
         </div>
       </div>
+
+      <!-- PREMIUM SECTIONS PREVIEW -->
       <div class="admin-panel" style="border-color:rgba(245,215,110,0.25)">
         <div class="admin-panel-header">
           <span class="admin-badge" style="background:rgba(245,215,110,0.15);border-color:rgba(245,215,110,0.3);color:var(--premium)">⭐</span>
           <h3>Premium Sections Preview</h3>
           <span style="font-size:0.75rem;color:var(--muted);margin-left:auto">This is what paying users see</span>
         </div>
-        <p style="color:var(--muted);font-size:0.83rem;margin-bottom:1.5rem">Below is a live preview of how the premium content sections appear to Premium subscribers.</p>
+        <p style="color:var(--muted);font-size:0.83rem;margin-bottom:1.5rem">Use the "Preview as Premium User" button above to browse the site exactly as a paying subscriber would. The locks below describe what each feature unlocks.</p>
 
         <div style="background:var(--bg3);border-radius:12px;padding:1.5rem;margin-bottom:1rem">
           <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--premium);margin-bottom:0.8rem">📥 Unlimited Revision Notes (Premium)</div>
@@ -1929,15 +2232,16 @@
 
         <div style="background:var(--bg3);border-radius:12px;padding:1.5rem;margin-bottom:1rem">
           <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--premium);margin-bottom:0.8rem">🃏 Unlimited Revision Anki Decks (Premium)</div>
-          <p style="color:var(--muted);font-size:0.83rem;margin-bottom:1rem">The lock overlay is removed and download links become active. Decks you add via the form above appear here for Premium users to download.</p>
-          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px">
-            ${defaultDecks.map(d => `<div style="background:var(--card);border:1px solid rgba(245,215,110,0.2);border-radius:10px;padding:1rem"><h4 style="font-weight:600;font-size:0.85rem;margin-bottom:4px">${d.title}</h4><p style="color:var(--muted);font-size:0.75rem">${d.cards} cards</p><span style="color:var(--premium);font-size:0.75rem;font-weight:600">⬇ Download .apkg</span></div>`).join('')}
+          <p style="color:var(--muted);font-size:0.83rem;margin-bottom:1rem">The lock overlay is removed and download links become active. Decks you add via the Admin Panel appear here for Premium users to download.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <span style="background:rgba(245,215,110,0.1);border:1px solid rgba(245,215,110,0.2);color:var(--premium);font-size:0.75rem;padding:4px 10px;border-radius:6px">✓ All subjects unlocked</span>
+            <span style="background:rgba(245,215,110,0.1);border:1px solid rgba(245,215,110,0.2);color:var(--premium);font-size:0.75rem;padding:4px 10px;border-radius:6px">✓ Download links active</span>
           </div>
         </div>
 
         <div style="background:var(--bg3);border-radius:12px;padding:1.5rem;margin-bottom:1rem">
           <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--premium);margin-bottom:0.8rem">📊 Progress Tracking (Premium)</div>
-          <p style="color:var(--muted);font-size:0.83rem;margin-bottom:1rem">Users see their revision progress per subject as a visual progress bar. Currently displayed as a UI preview — backend tracking can be wired to note reads.</p>
+          <p style="color:var(--muted);font-size:0.83rem;margin-bottom:1rem">Users see their revision progress per subject as a visual progress bar. The blurred overlay on the Premium page is removed.</p>
           <div style="display:grid;gap:10px;max-width:400px">
             <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:0.82rem"><span>📐 Maths</span><span style="color:var(--accent)">72%</span></div><div class="progress-bar-track"><div class="progress-bar-fill" style="width:72%"></div></div></div>
             <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:0.82rem"><span>🧬 Biology</span><span style="color:var(--accent)">55%</span></div><div class="progress-bar-track"><div class="progress-bar-fill" style="width:55%"></div></div></div>
@@ -1946,7 +2250,7 @@
 
         <div style="background:var(--bg3);border-radius:12px;padding:1.5rem">
           <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--premium);margin-bottom:0.8rem">📲 Offline Downloads (Premium)</div>
-          <p style="color:var(--muted);font-size:0.83rem">Premium users see download buttons on notes and Anki deck pages. Add download links via the paper/deck forms above and they become accessible to Premium subscribers.</p>
+          <p style="color:var(--muted);font-size:0.83rem">Premium users see download buttons on notes and Anki deck pages. The blurred overlay on the Premium page is removed, revealing the download UI.</p>
         </div>
       </div>
 
@@ -2303,6 +2607,10 @@ function showPage(page) {
   window.scrollTo(0, 0);
   if (page === 'papers') renderPapers('Maths');
   if (page === 'topic-tests') renderTopicTests('Maths', '');
+  if (page === 'premium-hub') {
+    if (!isPremium && !isAdmin) { showPage('premium'); return; }
+    renderPHAnki();
+  }
   if (page === 'admin') { renderAdminNotes(); renderAdminPapers(); renderAdminDecks(); renderAdminTopicTests(); updateTopicTestTopics(); updateQuizAdminTopics(); renderAdminEngQList(); renderAdminLitQList(); renderAdminHistQList(); updateLitTextFilter(); }
   if (page === 'eng-questions') { renderEngQuestions(); }
   if (page === 'lit-questions') { renderLitQuestions(); updateLitTextFilter(); }
@@ -2718,40 +3026,18 @@ function checkAdminPassword() {
   const err = document.getElementById('adminLoginError');
   if (val === ADMIN_PASS) {
     isAdmin = true;
+    isPremium = true; // admin always has full premium access
     err.style.display = 'none';
     closeModal('adminModal');
     showPage('admin');
-    showToast('✅ Admin access granted');
+    updatePremiumUI();
+    updateNavForAuth();
+    showToast('✅ Admin access granted — full premium access enabled');
   } else {
     err.style.display = 'block';
     document.getElementById('adminPasswordInput').value = '';
     document.getElementById('adminPasswordInput').focus();
   }
-}
-
-// ── Admin Premium Preview ─────────────────────────────────────────────────────
-let _adminPremiumPreview = false;
-function toggleAdminPremiumPreview() {
-  _adminPremiumPreview = !_adminPremiumPreview;
-  isPremium = _adminPremiumPreview;
-  const btn = document.getElementById('adminPremiumPreviewBtn');
-  if (btn) {
-    btn.textContent = _adminPremiumPreview ? '👁 Exit Premium Preview' : '⭐ Preview as Premium User';
-    btn.style.background = _adminPremiumPreview ? 'rgba(200,240,90,0.15)' : 'rgba(245,215,110,0.15)';
-    btn.style.borderColor = _adminPremiumPreview ? 'rgba(200,240,90,0.4)' : 'rgba(245,215,110,0.4)';
-    btn.style.color = _adminPremiumPreview ? 'var(--accent)' : 'var(--premium)';
-  }
-  // Re-render anything that depends on isPremium
-  updateNotesBanner();
-  updateNavForAuth();
-  // Re-render current page content if on notes/papers/topic-tests
-  const activePage = document.querySelector('.page-section.active');
-  if (activePage) {
-    const pid = activePage.id.replace('page-','');
-    if (pid === 'papers') renderPapers(currentPapersSubject);
-    if (pid === 'topic-tests') renderTopicTests(currentTopicTestSubject, '');
-  }
-  showToast(_adminPremiumPreview ? '⭐ Premium preview ON — you now see the site as a paying user' : '🔓 Back to admin view — premium preview off');
 }
 
 // ── Topic dropdown ────────────────────────────────────────────────────────────
@@ -2953,6 +3239,7 @@ function loginUser() {
   closeModal('loginModal');
   updateNavForAuth();
   updateNotesBanner();
+  updatePremiumUI();
   showToast('👋 Welcome back, ' + (user.name || 'there') + '!');
 }
 
@@ -3026,16 +3313,19 @@ function verifySignupCode() {
   closeModal('verifyModal');
   updateNavForAuth();
   updateNotesBanner();
+  updatePremiumUI();
   showToast('🎉 Account verified! Welcome to ReviseUp, ' + name + (isPremiumEmail ? ' ⭐ (Premium activated!)' : '') + '!');
 }
 
 function logoutUser() {
   isLoggedIn = false;
   isPremium = false;
+  isAdmin = false;
   currentUser = null;
   localStorage.removeItem('reviseup_session');
   updateNavForAuth();
   updateNotesBanner();
+  updatePremiumUI();
   showToast('👋 Logged out successfully');
 }
 
@@ -3049,6 +3339,7 @@ function premiumSignup() {
   closeModal('premiumModal');
   updateNavForAuth();
   updateNotesBanner();
+  updatePremiumUI();
   showToast('⭐ Welcome to Premium!');
 }
 
@@ -3058,7 +3349,13 @@ function updateNavForAuth() {
   const premiumBtn = document.getElementById('navPremiumBtn');
   const logoutBtn  = document.getElementById('navLogoutBtn');
   const userInfo   = document.getElementById('navUserInfo');
-  if (isLoggedIn) {
+  if (isAdmin) {
+    if (loginBtn)   loginBtn.style.display   = 'none';
+    if (joinBtn)    joinBtn.style.display    = 'none';
+    if (logoutBtn)  logoutBtn.style.display  = 'flex';
+    if (premiumBtn) premiumBtn.style.display = 'none';
+    if (userInfo)   { userInfo.style.display = 'flex'; userInfo.textContent = '🔐 Admin'; }
+  } else if (isLoggedIn) {
     if (loginBtn)   loginBtn.style.display   = 'none';
     if (joinBtn)    joinBtn.style.display    = 'none';
     if (logoutBtn)  logoutBtn.style.display  = 'flex';
@@ -3083,6 +3380,7 @@ document.addEventListener('DOMContentLoaded', () => {
     isPremium = true;
   }
   updateNavForAuth();
+  updatePremiumUI();
   // Init new question pages
   renderEngQuestions();
   renderLitQuestions();
@@ -3091,8 +3389,65 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ============================
-// MODAL HELPERS
+// UPDATE ALL PREMIUM UI
+// Controls every lock overlay and premium gate on the page
 // ============================
+function updatePremiumUI() {
+  const unlocked = isPremium || isAdmin;
+
+  // Subject detail Anki overlay
+  const subjectAnkiOverlay = document.getElementById('subjectAnkiOverlay');
+  if (subjectAnkiOverlay) subjectAnkiOverlay.style.display = unlocked ? 'none' : '';
+
+  // Premium page: Anki lock overlay
+  const ankiLockOverlay = document.getElementById('ankiLockOverlay');
+  if (ankiLockOverlay) ankiLockOverlay.style.display = unlocked ? 'none' : '';
+
+  // Premium page: Progress tracking lock
+  const progressLockOverlay = document.getElementById('progressLockOverlay');
+  if (progressLockOverlay) progressLockOverlay.style.display = unlocked ? 'none' : '';
+
+  // Premium page: Offline downloads lock
+  const offlineLockOverlay = document.getElementById('offlineLockOverlay');
+  if (offlineLockOverlay) offlineLockOverlay.style.display = unlocked ? 'none' : '';
+
+  // Subject detail header button — hide "Get Anki Decks" when unlocked
+  // (it opens premiumModal which isn't needed if already premium/admin)
+  const ankiHeaderBtn = document.querySelector('.topic-actions .btn-join');
+  if (ankiHeaderBtn) ankiHeaderBtn.style.display = unlocked ? 'none' : '';
+
+  // Nav: show "My Premium" hub link for premium/admin
+  const hubLink = document.getElementById('navPremiumHubLink');
+  if (hubLink) hubLink.style.display = (isPremium || isAdmin) ? '' : 'none';
+
+  // Nav: hide "Go Premium" button for premium/admin users
+  const navPremiumBtn = document.getElementById('navPremiumBtn');
+  if (navPremiumBtn && (isPremium || isAdmin)) navPremiumBtn.style.display = 'none';
+
+  // Re-render lists that embed isPremium checks
+  if (document.getElementById('papersList')) renderPapers(currentPapersSubject);
+  if (document.getElementById('topicTestsList')) renderTopicTests(currentTopicTestSubject, '');
+  updateNotesBanner();
+}
+
+// ── Admin Premium Preview Toggle ──────────────────────────────────────────────
+let _adminPremiumPreview = false;
+function toggleAdminPremiumPreview() {
+  _adminPremiumPreview = !_adminPremiumPreview;
+  isPremium = _adminPremiumPreview;
+  const btn = document.getElementById('adminPremiumPreviewBtn');
+  if (btn) {
+    btn.textContent = _adminPremiumPreview ? '👁 Exit Premium Preview' : '⭐ Preview as Premium User';
+    btn.style.background    = _adminPremiumPreview ? 'rgba(200,240,90,0.15)' : 'rgba(245,215,110,0.15)';
+    btn.style.borderColor   = _adminPremiumPreview ? 'rgba(200,240,90,0.4)'  : 'rgba(245,215,110,0.4)';
+    btn.style.color         = _adminPremiumPreview ? 'var(--accent)'         : 'var(--premium)';
+  }
+  updatePremiumUI();
+  updateNavForAuth();
+  showToast(_adminPremiumPreview
+    ? '⭐ Premium preview ON — you see the site exactly as a paying user'
+    : '🔓 Back to admin view — premium preview off');
+}
 function openModal(id)          { document.getElementById(id).classList.add('open'); }
 function closeModal(id)         { document.getElementById(id).classList.remove('open'); }
 function switchModal(from, to)  { closeModal(from); openModal(to); }
@@ -3858,7 +4213,548 @@ function goBackFromQResponse() {
   else showPage('subjects');
 }
 
-// (end of new functions)
+// ============================
+// PREMIUM HUB
+// ============================
+
+// ── Tab switching ─────────────────────────────────────────────────────────────
+function switchPHTab(btn, panelId) {
+  document.querySelectorAll('.ph-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.ph-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+  if (panelId === 'ph-anki')      renderPHAnki();
+  if (panelId === 'ph-progress')  renderProgress();
+  if (panelId === 'ph-planner')   initPlanner();
+  if (panelId === 'ph-stats')     renderStats();
+  if (panelId === 'ph-flashcards') loadFlashcards();
+}
+
+function requirePremiumPage(page) {
+  if (isPremium || isAdmin) { showPage(page); }
+  else { openModal('premiumModal'); }
+}
+
+// ── Anki Panel ────────────────────────────────────────────────────────────────
+const ankiSubjects = [
+  { key:'maths',      label:'Maths',             icon:'📐', color:'#c8f05a', decks:[
+    { title:'Algebra Complete',       cards:94,  desc:'Equations, quadratics, sequences, graphs' },
+    { title:'Number & Arithmetic',    cards:68,  desc:'Fractions, decimals, percentages, surds' },
+    { title:'Geometry & Measures',    cards:82,  desc:'Angles, area, volume, Pythagoras, trig' },
+    { title:'Statistics & Probability',cards:55, desc:'Charts, averages, probability trees' },
+  ]},
+  { key:'biology',    label:'Biology',            icon:'🧬', color:'#5af0a0', decks:[
+    { title:'Cell Biology',           cards:78,  desc:'Cell structure, transport, cell division' },
+    { title:'Organisation',           cards:62,  desc:'Tissues, organs, digestive & respiratory systems' },
+    { title:'Infection & Response',   cards:55,  desc:'Pathogens, immune system, vaccines' },
+    { title:'Genetics & Evolution',   cards:88,  desc:'DNA, inheritance, natural selection' },
+    { title:'Bioenergetics',          cards:49,  desc:'Photosynthesis, respiration, metabolism' },
+    { title:'Homeostasis & Ecology',  cards:71,  desc:'Hormones, nervous system, ecosystems' },
+  ]},
+  { key:'chemistry',  label:'Chemistry',          icon:'⚗️', color:'#5ab4f0', decks:[
+    { title:'Atomic Structure',       cards:58,  desc:'Atoms, elements, periodic table, isotopes' },
+    { title:'Bonding & Structure',    cards:64,  desc:'Ionic, covalent, metallic, nanostructures' },
+    { title:'Quantitative Chemistry', cards:72,  desc:'Moles, concentration, yield, Avogadro' },
+    { title:'Chemical Changes',       cards:66,  desc:'Reactivity, electrolysis, acids & bases' },
+    { title:'Organic Chemistry',      cards:54,  desc:'Alkanes, alkenes, polymers, alcohols' },
+  ]},
+  { key:'physics',    label:'Physics',            icon:'⚡', color:'#f05a9e', decks:[
+    { title:'Forces & Motion',        cards:80,  desc:'Newton\'s laws, momentum, pressure, space' },
+    { title:'Energy',                 cards:58,  desc:'Energy stores, efficiency, power' },
+    { title:'Waves & Optics',         cards:62,  desc:'EM spectrum, reflection, refraction, sound' },
+    { title:'Electricity',            cards:74,  desc:'Circuits, resistance, static, mains' },
+    { title:'Magnetism & Atomic',     cards:56,  desc:'Magnets, generators, nuclear physics' },
+  ]},
+  { key:'english',    label:'English Language',   icon:'✍️', color:'#f0b95a', decks:[
+    { title:'Language Techniques',    cards:60,  desc:'Simile, metaphor, alliteration, tone & more' },
+    { title:'Reading Skills',         cards:48,  desc:'Inference, analysis, structure, purpose' },
+    { title:'Writing Techniques',     cards:52,  desc:'AFOREST, PEEL, persuasion, narrative' },
+  ]},
+  { key:'literature', label:'English Literature', icon:'📖', color:'#c55af0', decks:[
+    { title:'Macbeth',                cards:65,  desc:'Themes, quotes, characters, context' },
+    { title:'An Inspector Calls',     cards:58,  desc:'Characters, responsibility, dramatic devices' },
+    { title:'A Christmas Carol',      cards:54,  desc:'Scrooge\'s journey, themes, Victorian context' },
+    { title:'Power & Conflict Poetry',cards:80,  desc:'All 15 poems — themes & comparisons' },
+    { title:'Unseen Poetry Skills',   cards:40,  desc:'Techniques, structure, how to analyse' },
+  ]},
+  { key:'geography',  label:'Geography',          icon:'🌍', color:'#5af0d8', decks:[
+    { title:'Natural Hazards',        cards:66,  desc:'Tectonic plates, earthquakes, volcanoes, weather' },
+    { title:'Living World',           cards:54,  desc:'Ecosystems, tropical rainforests, hot deserts' },
+    { title:'Urban Issues',           cards:60,  desc:'Urbanisation, UK cities, megacities' },
+    { title:'Changing Economic World',cards:58,  desc:'Development, LICs, NEEs, globalisation' },
+  ]},
+  { key:'history',    label:'History',            icon:'🏛️', color:'#f07e5a', decks:[
+    { title:'Elizabethan England',    cards:70,  desc:'Settlement, threats, culture, exploration' },
+    { title:'Cold War',               cards:74,  desc:'Origins, crises, proxy wars, end of Cold War' },
+    { title:'USA 1954–75',            cards:65,  desc:'Civil rights, Vietnam, protest movements' },
+    { title:'Medicine Through Time',  cards:68,  desc:'Medieval to modern — key figures & events' },
+    { title:'Germany 1890–1945',      cards:80,  desc:'Weimar, Nazi rise, Hitler\'s Germany' },
+  ]},
+  { key:'business',   label:'Business',           icon:'💼', color:'#f5d76e', decks:[
+    { title:'Enterprise & Marketing', cards:62,  desc:'Entrepreneurs, market research, 4Ps' },
+    { title:'Finance',                cards:58,  desc:'Revenue, costs, profit, cash flow, break even' },
+    { title:'HR & Operations',        cards:54,  desc:'Motivation, recruitment, production, quality' },
+    { title:'Business Growth',        cards:48,  desc:'Expansion, globalisation, ethical trade' },
+  ]},
+  { key:'french',     label:'French',             icon:'🇫🇷', color:'#5ae0f5', decks:[
+    { title:'Identity & Family',      cards:80,  desc:'Family vocab, personality, relationships' },
+    { title:'School & Free Time',     cards:72,  desc:'School subjects, hobbies, sports' },
+    { title:'Travel & Tourism',       cards:68,  desc:'Places, directions, accommodation' },
+    { title:'Grammar Essentials',     cards:90,  desc:'Tenses, verbs, conjugation, agreements' },
+  ]},
+];
+
+function renderPHAnki() {
+  const grid = document.getElementById('phAnkiGrid');
+  if (!grid) return;
+  grid.innerHTML = ankiSubjects.map(s => `
+    <div class="anki-subject-card" onclick="openAnkiSubject('${s.key}')" style="border-color:${s.color}22">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem">
+        <span style="font-size:1.8rem">${s.icon}</span>
+        <div>
+          <div style="font-weight:700;font-size:0.95rem">${s.label}</div>
+          <div style="font-size:0.75rem;color:var(--muted)">${s.decks.length} decks · ${s.decks.reduce((a,d)=>a+d.cards,0)} cards total</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:5px">
+        ${s.decks.slice(0,3).map(d=>`<span style="background:${s.color}15;color:${s.color};font-size:0.68rem;font-weight:600;padding:3px 9px;border-radius:999px">${d.title}</span>`).join('')}
+        ${s.decks.length>3?`<span style="background:var(--bg3);color:var(--muted);font-size:0.68rem;padding:3px 9px;border-radius:999px">+${s.decks.length-3} more</span>`:''}
+      </div>
+      <div style="margin-top:1rem;color:${s.color};font-size:0.8rem;font-weight:600">View decks →</div>
+    </div>`).join('');
+}
+
+function openAnkiSubject(key) {
+  const s = ankiSubjects.find(x => x.key === key);
+  if (!s) return;
+  document.getElementById('phAnkiSubjectView').style.display = 'none';
+  document.getElementById('phAnkiDeckView').style.display = '';
+  document.getElementById('phAnkiDeckTitle').textContent = s.icon + ' ' + s.label;
+  document.getElementById('phAnkiDeckCount').textContent = s.decks.length + ' decks · ' + s.decks.reduce((a,d)=>a+d.cards,0) + ' cards total';
+
+  // Check if admin has uploaded decks for this subject
+  const adminDecks = decks.filter(d => d.subject.toLowerCase().includes(s.label.toLowerCase().split(' ')[0]) || s.label.toLowerCase().includes(d.subject.toLowerCase()));
+
+  const list = document.getElementById('phAnkiDeckList');
+  list.innerHTML = s.decks.map(d => {
+    // Find matching admin-uploaded deck
+    const uploaded = adminDecks.find(ad => ad.title.toLowerCase().includes(d.title.toLowerCase().split(' ')[0]));
+    const hasLink = uploaded && uploaded.link && uploaded.link !== '#';
+    const linkHref = hasLink ? uploaded.link : '#';
+    return `<div class="anki-deck-row">
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:600;font-size:0.9rem;margin-bottom:2px">${d.title}</div>
+        <div style="font-size:0.75rem;color:var(--muted)">${d.cards} cards · ${d.desc}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+        <span style="font-size:0.7rem;color:var(--muted);background:var(--bg3);padding:3px 8px;border-radius:5px">${d.cards} cards</span>
+        ${hasLink
+          ? `<a href="${linkHref}" target="_blank" class="btn-download-premium">⬇ Download .apkg</a>`
+          : `<button class="btn-download-premium" style="opacity:0.5;cursor:default" title="Link not added yet — add via Admin Panel">📋 Coming Soon</button>`}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Progress Tracking ─────────────────────────────────────────────────────────
+const progressTopics = {
+  maths:      { icon:'📐', color:'#c8f05a', topics:['Algebra','Number','Ratio & Proportion','Geometry','Trigonometry','Statistics','Probability','Vectors'] },
+  biology:    { icon:'🧬', color:'#5af0a0', topics:['Cell Biology','Organisation','Infection & Response','Bioenergetics','Homeostasis','Inheritance','Evolution','Ecology'] },
+  chemistry:  { icon:'⚗️', color:'#5ab4f0', topics:['Atomic Structure','Bonding','Quantitative Chemistry','Chemical Changes','Energy Changes','Rates of Reaction','Organic Chemistry','Chemical Analysis'] },
+  physics:    { icon:'⚡', color:'#f05a9e', topics:['Forces','Energy','Waves','Electricity','Magnetism','Particle Model','Atomic Structure','Space'] },
+  english:    { icon:'✍️', color:'#f0b95a', topics:['Reading — Information','Reading — Language','Reading — Structure','Writing to Inform','Writing to Persuade','Writing to Describe','Spoken Language'] },
+  literature: { icon:'📖', color:'#c55af0', topics:['Macbeth','An Inspector Calls','A Christmas Carol','Romeo & Juliet','Power & Conflict Poetry','Unseen Poetry'] },
+  geography:  { icon:'🌍', color:'#5af0d8', topics:['Natural Hazards','Living World','Physical Landscapes UK','Urban Issues','Changing Economic World','Resource Management','Fieldwork'] },
+  history:    { icon:'🏛️', color:'#f07e5a', topics:['Elizabethan England','Cold War','USA 1954–75','Medicine Through Time','Germany 1890–1945'] },
+  business:   { icon:'💼', color:'#f5d76e', topics:['Enterprise','Marketing','Finance','Human Resources','Operations','Influences on Business','The Wider World'] },
+  french:     { icon:'🇫🇷', color:'#5ae0f5', topics:['Identity & Culture','Local Area','School','Future Aspirations','International World','Grammar'] },
+};
+
+function loadProgress() { return loadData('reviseup_progress', {}); }
+function saveProgress(p) { saveData('reviseup_progress', p); }
+
+function toggleTopic(subject, topic) {
+  const p = loadProgress();
+  if (!p[subject]) p[subject] = [];
+  const idx = p[subject].indexOf(topic);
+  if (idx === -1) p[subject].push(topic);
+  else p[subject].splice(idx, 1);
+  saveProgress(p);
+  renderProgress();
+  recordActivity();
+}
+
+function resetAllProgress() {
+  if (!confirm('Reset ALL topic progress? This cannot be undone.')) return;
+  saveData('reviseup_progress', {});
+  renderProgress();
+  showToast('🗑 Progress reset');
+}
+
+function renderProgress() {
+  const p = loadProgress();
+  const grid = document.getElementById('progressSubjectGrid');
+  if (!grid) return;
+
+  let totalDone = 0, totalAll = 0;
+
+  grid.innerHTML = Object.entries(progressTopics).map(([key, data]) => {
+    const done = (p[key] || []);
+    const total = data.topics.length;
+    const pct = total ? Math.round(done.length / total * 100) : 0;
+    totalDone += done.length; totalAll += total;
+    return `<div class="progress-subject-card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:0.8rem">
+        <span style="font-size:1.4rem">${data.icon}</span>
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:0.9rem;margin-bottom:2px">${capitalise(key)}</div>
+          <div style="font-size:0.72rem;color:var(--muted)">${done.length} / ${total} topics done</div>
+        </div>
+        <span style="font-size:0.82rem;font-weight:700;color:${data.color}">${pct}%</span>
+      </div>
+      <div class="progress-bar-track" style="margin-bottom:1rem"><div class="progress-bar-fill" style="width:${pct}%;background:${data.color};transition:width 0.8s ease"></div></div>
+      <div class="topic-checkbox-list">
+        ${data.topics.map(t => {
+          const checked = done.includes(t);
+          return `<label class="topic-checkbox-item ${checked?'done':''}">
+            <input type="checkbox" ${checked?'checked':''} onchange="toggleTopic('${key}','${t}')">
+            <span>${t}</span>
+          </label>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('');
+
+  // Update overall bar
+  const pct = totalAll ? Math.round(totalDone / totalAll * 100) : 0;
+  const ob = document.getElementById('overallProgressBar');
+  const op = document.getElementById('overallProgressPct');
+  const os = document.getElementById('overallProgressSub');
+  if (ob) ob.style.width = pct + '%';
+  if (op) op.textContent = pct + '%';
+  if (os) os.textContent = totalDone + ' of ' + totalAll + ' topics completed';
+}
+
+// ── Flashcards ────────────────────────────────────────────────────────────────
+const builtInFlashcards = {
+  maths: [
+    { q:'What is the quadratic formula?', a:'x = (−b ± √(b²−4ac)) / 2a' },
+    { q:'What does SOHCAHTOA stand for?', a:'Sin=Opp/Hyp, Cos=Adj/Hyp, Tan=Opp/Adj' },
+    { q:'Area of a circle?', a:'A = πr²' },
+    { q:'Circumference of a circle?', a:'C = 2πr' },
+    { q:'What is the equation of a straight line?', a:'y = mx + c  (m = gradient, c = y-intercept)' },
+    { q:'Volume of a sphere?', a:'V = (4/3)πr³' },
+    { q:'Pythagoras theorem?', a:'a² + b² = c²  (c is the hypotenuse)' },
+    { q:'What is a prime number?', a:'A number with exactly two factors: 1 and itself' },
+  ],
+  biology: [
+    { q:'What are the 7 life processes?', a:'MRS GREN — Movement, Respiration, Sensitivity, Growth, Reproduction, Excretion, Nutrition' },
+    { q:'What is osmosis?', a:'Movement of water molecules from high to low water potential through a partially permeable membrane' },
+    { q:'What is the function of mitochondria?', a:'Site of aerobic respiration — produces ATP (energy)' },
+    { q:'What is the equation for photosynthesis?', a:'6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂  (using light energy)' },
+    { q:'What is DNA?', a:'Deoxyribonucleic acid — carries genetic information in a double helix structure' },
+    { q:'What is a reflex arc?', a:'Stimulus → receptor → sensory neurone → relay neurone → motor neurone → effector → response' },
+    { q:'What are the four bases in DNA?', a:'Adenine (A), Thymine (T), Cytosine (C), Guanine (G)' },
+    { q:'What is natural selection?', a:'Organisms with advantageous traits survive, reproduce and pass on those traits — driving evolution' },
+  ],
+  chemistry: [
+    { q:'What is the atomic number?', a:'The number of protons in the nucleus of an atom' },
+    { q:'What is an isotope?', a:'Atoms of the same element with the same number of protons but different numbers of neutrons' },
+    { q:'What is the difference between an atom and an ion?', a:'An ion has gained or lost electrons — giving it a positive or negative charge' },
+    { q:'What is exothermic vs endothermic?', a:'Exothermic releases heat (temperature rises). Endothermic absorbs heat (temperature falls).' },
+    { q:'What is a covalent bond?', a:'A shared pair of electrons between two non-metal atoms' },
+    { q:'What happens at electrolysis?', a:'Cathode (−) gains ions (reduction). Anode (+) loses ions (oxidation). OIL RIG.' },
+    { q:'What is the pH scale?', a:'0–14. Below 7 = acidic. 7 = neutral. Above 7 = alkaline.' },
+  ],
+  physics: [
+    { q:'Newton\'s 1st Law?', a:'An object stays at rest or constant velocity unless acted on by a resultant force' },
+    { q:'Newton\'s 2nd Law?', a:'F = ma  (Force = mass × acceleration)' },
+    { q:'Newton\'s 3rd Law?', a:'Every action has an equal and opposite reaction' },
+    { q:'What is the wave equation?', a:'v = fλ  (wave speed = frequency × wavelength)' },
+    { q:'What is Ohm\'s Law?', a:'V = IR  (Voltage = Current × Resistance)' },
+    { q:'What is power?', a:'P = IV  (Power = Current × Voltage)  also P = I²R' },
+    { q:'What is kinetic energy?', a:'KE = ½mv²  (half × mass × velocity squared)' },
+    { q:'What is gravitational potential energy?', a:'GPE = mgh  (mass × gravitational field strength × height)' },
+  ],
+  english: [
+    { q:'What is alliteration?', a:'Repetition of the same consonant sound at the start of nearby words — creates rhythm and emphasis' },
+    { q:'What is a metaphor?', a:'Describing something as if it actually is something else — e.g. "Life is a rollercoaster"' },
+    { q:'What is the PEEL structure?', a:'Point → Evidence → Explain → Link. Used for analytical paragraphs.' },
+    { q:'What is AFOREST?', a:'Alliteration, Facts, Opinions, Rhetorical questions, Emotive language, Statistics, Triples — persuasive techniques' },
+    { q:'What is sibilance?', a:'Repetition of "s" sounds to create a soft, hissing or sinister effect' },
+    { q:'What is personification?', a:'Giving human qualities to non-human things — e.g. "The wind howled in anger"' },
+  ],
+  literature: [
+    { q:'What does Macbeth\'s dagger hallucination represent?', a:'His guilt, ambition and psychological breakdown before murdering Duncan' },
+    { q:'What is the theme of "fair is foul, foul is fair"?', a:'Deception vs reality — nothing is as it seems; evil disguises itself as good' },
+    { q:'Who is the Inspector in An Inspector Calls?', a:'Inspector Goole — possibly supernatural, representing the collective conscience of society' },
+    { q:'What does Scrooge represent in A Christmas Carol?', a:'The selfish Victorian capitalist — his transformation shows Dickens\'s belief in redemption and social responsibility' },
+    { q:'Name 3 themes in Power & Conflict poetry', a:'War, memory, identity, nature, loss, power of humans vs nature' },
+  ],
+  geography: [
+    { q:'What is a constructive plate margin?', a:'Where two plates move apart — magma rises, forming new crust (e.g. Mid-Atlantic Ridge)' },
+    { q:'What is a destructive plate margin?', a:'Where oceanic and continental plates collide — oceanic crust subducts, causing volcanoes and earthquakes' },
+    { q:'What is the demographic transition model?', a:'5-stage model showing how birth rates, death rates and population change as a country develops' },
+    { q:'What is urbanisation?', a:'Increasing proportion of people living in urban areas — driven by rural-urban migration' },
+    { q:'What is a biome?', a:'A large-scale ecosystem defined by its climate and dominant vegetation (e.g. tropical rainforest, hot desert)' },
+  ],
+  history: [
+    { q:'When did World War Two end?', a:'1945 — V-E Day (Victory in Europe) 8 May, V-J Day (Victory over Japan) 15 August' },
+    { q:'What was the Truman Doctrine (1947)?', a:'US policy to contain Soviet communism by supporting free peoples resisting subjugation' },
+    { q:'What was the Berlin Blockade?', a:'1948–49: Soviet Union blockaded West Berlin; USA/allies responded with the Berlin Airlift' },
+    { q:'Who were the key figures of the Cuban Missile Crisis?', a:'Kennedy (USA), Khrushchev (USSR), Castro (Cuba) — 1962' },
+    { q:'What started WWI?', a:'Assassination of Archduke Franz Ferdinand in Sarajevo, 28 June 1914' },
+  ],
+  business: [
+    { q:'What are the 4 Ps of the marketing mix?', a:'Product, Price, Place, Promotion' },
+    { q:'What is a USP?', a:'Unique Selling Point — what makes a product or service stand out from competitors' },
+    { q:'What is cash flow?', a:'The movement of money into and out of a business over a period of time' },
+    { q:'What is break-even?', a:'The point at which total revenue equals total costs — no profit or loss' },
+    { q:'What is market segmentation?', a:'Dividing a market into groups with similar characteristics so businesses can target them effectively' },
+  ],
+  french: [
+    { q:'How do you say "I have been learning French for 3 years"?', a:'J\'apprends le français depuis 3 ans' },
+    { q:'Conjugate "être" in present tense', a:'je suis, tu es, il/elle est, nous sommes, vous êtes, ils/elles sont' },
+    { q:'Conjugate "avoir" in present tense', a:'j\'ai, tu as, il/elle a, nous avons, vous avez, ils/elles ont' },
+    { q:'How do you form the perfect tense?', a:'Subject + avoir/être (present) + past participle. E.g. j\'ai mangé (I ate)' },
+    { q:'What does "il faut" mean?', a:'"It is necessary to" / "One must" — used with infinitive: il faut étudier = one must study' },
+  ],
+};
+
+let fcCards = [], fcIndex = 0, fcRatings = {};
+
+function loadFlashcards() {
+  const subject = document.getElementById('fcSubjectSel') ? document.getElementById('fcSubjectSel').value : 'maths';
+  // Combine built-in with any notes-derived cards
+  const base = [...(builtInFlashcards[subject] || [])];
+  // Also pull from actual notes for this subject
+  const subjectNotes = notes.filter(n => n.subject.toLowerCase() === subject);
+  subjectNotes.forEach(n => {
+    base.push({ q: n.title + ' — key points?', a: n.content.substring(0, 200).replace(/\n/g,' ') });
+  });
+  // Shuffle
+  fcCards = base.sort(() => Math.random() - 0.5);
+  fcIndex = 0;
+  fcRatings = {};
+  if (!fcCards.length) {
+    document.getElementById('fcArea').style.display = 'none';
+    document.getElementById('fcEmpty').style.display = '';
+    return;
+  }
+  document.getElementById('fcArea').style.display = '';
+  document.getElementById('fcEmpty').style.display = 'none';
+  renderFlashcard();
+}
+
+function renderFlashcard() {
+  const card = fcCards[fcIndex];
+  if (!card) return;
+  const fc = document.getElementById('mainFlashcard');
+  if (fc) fc.classList.remove('flipped');
+  document.getElementById('fcQuestion').textContent = card.q;
+  document.getElementById('fcAnswer').textContent = card.a;
+  document.getElementById('fcProgress').textContent = 'Card ' + (fcIndex+1) + ' of ' + fcCards.length;
+}
+
+function fcNext() {
+  if (fcIndex < fcCards.length - 1) { fcIndex++; renderFlashcard(); }
+  else { showToast('🎉 You\'ve gone through all cards! Reshuffling...'); loadFlashcards(); }
+}
+
+function fcPrev() {
+  if (fcIndex > 0) { fcIndex--; renderFlashcard(); }
+}
+
+function markFlashcard(rating) {
+  const card = fcCards[fcIndex];
+  fcRatings[fcIndex] = rating;
+  if (rating === 'hard') {
+    // Push card to end to repeat
+    fcCards.push({...card});
+    showToast('📌 Added to repeat queue');
+  }
+  fcNext();
+}
+
+// ── Study Planner ─────────────────────────────────────────────────────────────
+let plannerWeekOffset = 0;
+let plannerSelectedDate = null;
+let plannerSessions = loadData('reviseup_planner', {});
+
+function getWeekDates(offset) {
+  const now = new Date();
+  const day = now.getDay(); // 0=Sun
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1) + offset * 7);
+  return Array.from({length:7}, (_, i) => {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    return d;
+  });
+}
+
+function initPlanner() {
+  plannerSessions = loadData('reviseup_planner', {});
+  renderPlannerWeek();
+}
+
+function renderPlannerWeek() {
+  const days = getWeekDates(plannerWeekOffset);
+  const today = new Date();
+  const dayLabels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const week = document.getElementById('plannerWeek');
+  const label = document.getElementById('plannerWeekLabel');
+  if (!week) return;
+
+  label.textContent = days[0].toLocaleDateString('en-GB',{day:'numeric',month:'short'}) + ' – ' + days[6].toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+
+  week.innerHTML = days.map((d, i) => {
+    const dateKey = d.toISOString().split('T')[0];
+    const isToday = d.toDateString() === today.toDateString();
+    const sessions = plannerSessions[dateKey] || [];
+    return `<div class="planner-day ${isToday?'today':''}" onclick="selectPlannerDay('${dateKey}', this)">
+      <div class="day-label">${dayLabels[i]}</div>
+      <div class="day-num">${d.getDate()}</div>
+      ${sessions.map(s=>`<div class="planner-session">${s.subject.split(' ')[0]}<br>${s.duration}</div>`).join('')}
+    </div>`;
+  }).join('');
+}
+
+function selectPlannerDay(dateKey, el) {
+  document.querySelectorAll('.planner-day').forEach(d => d.style.borderColor = '');
+  el.style.borderColor = 'rgba(200,240,90,0.7)';
+  plannerSelectedDate = dateKey;
+  const d = new Date(dateKey);
+  document.getElementById('plannerSelectedDay').textContent = d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+}
+
+function addPlannerSession() {
+  if (!plannerSelectedDate) { showToast('⚠️ Click a day first'); return; }
+  const subject = document.getElementById('plannerSubject').value;
+  const duration = document.getElementById('plannerDuration').value;
+  if (!plannerSessions[plannerSelectedDate]) plannerSessions[plannerSelectedDate] = [];
+  plannerSessions[plannerSelectedDate].push({ subject, duration });
+  saveData('reviseup_planner', plannerSessions);
+  renderPlannerWeek();
+  showToast('📅 Session added: ' + subject + ' · ' + duration);
+}
+
+function plannerPrevWeek() { plannerWeekOffset--; renderPlannerWeek(); }
+function plannerNextWeek() { plannerWeekOffset++; renderPlannerWeek(); }
+function plannerGoToday()  { plannerWeekOffset = 0; renderPlannerWeek(); }
+
+// ── Stats & Streak ────────────────────────────────────────────────────────────
+function recordActivity() {
+  const key = 'reviseup_activity';
+  const today = new Date().toISOString().split('T')[0];
+  const activity = loadData(key, []);
+  if (!activity.includes(today)) { activity.push(today); saveData(key, activity); }
+}
+
+function getStreak() {
+  const activity = loadData('reviseup_activity', []);
+  if (!activity.length) return 0;
+  const sorted = [...activity].sort().reverse();
+  let streak = 0;
+  let checkDate = new Date();
+  for (let i = 0; i < 365; i++) {
+    const dateStr = checkDate.toISOString().split('T')[0];
+    if (sorted.includes(dateStr)) { streak++; checkDate.setDate(checkDate.getDate()-1); }
+    else if (i === 0) { checkDate.setDate(checkDate.getDate()-1); } // allow today to be missed
+    else break;
+  }
+  return streak;
+}
+
+function getQuizHistory() { return loadData('reviseup_quiz_history', []); }
+
+function saveQuizResult(subject, topic, score, total) {
+  const history = getQuizHistory();
+  history.unshift({ subject, topic, score, total, date: new Date().toLocaleDateString('en-GB') });
+  if (history.length > 20) history.pop();
+  saveData('reviseup_quiz_history', history);
+}
+
+function renderStats() {
+  const p = loadProgress();
+  const streak = getStreak();
+  const history = getQuizHistory();
+  const activity = loadData('reviseup_activity', []);
+
+  // Count completed topics
+  let totalDone = 0, totalAll = 0;
+  Object.entries(progressTopics).forEach(([key, data]) => {
+    totalDone += (p[key] || []).length;
+    totalAll += data.topics.length;
+  });
+
+  // Avg quiz score
+  const avgScore = history.length
+    ? Math.round(history.reduce((a,h) => a + (h.score/h.total*100), 0) / history.length)
+    : 0;
+
+  // Render stat cards
+  const grid = document.getElementById('statsGrid');
+  if (grid) grid.innerHTML = [
+    { num: streak + ' 🔥',    label: 'Day Streak' },
+    { num: totalDone,          label: 'Topics Completed' },
+    { num: Math.round(totalDone/totalAll*100||0) + '%', label: 'Curriculum Done' },
+    { num: history.length,     label: 'Quizzes Taken' },
+    { num: avgScore + '%',     label: 'Avg Quiz Score' },
+    { num: activity.length,    label: 'Days Active' },
+  ].map(s => `<div class="stat-card"><div class="stat-num">${s.num}</div><div class="stat-label">${s.label}</div></div>`).join('');
+
+  // Streak count
+  const sc = document.getElementById('streakCount');
+  if (sc) sc.textContent = streak + (streak === 1 ? ' day' : ' days');
+
+  // Streak calendar — last 35 days
+  const cal = document.getElementById('streakCalendar');
+  if (cal) {
+    const cells = [];
+    for (let i = 34; i >= 0; i--) {
+      const d = new Date(); d.setDate(d.getDate()-i);
+      const ds = d.toISOString().split('T')[0];
+      const active = activity.includes(ds);
+      cells.push(`<div title="${ds}" style="width:20px;height:20px;border-radius:4px;background:${active?'rgba(200,240,90,0.7)':'var(--bg3)'}"></div>`);
+    }
+    cal.innerHTML = cells.join('');
+  }
+
+  // Quiz history
+  const qhl = document.getElementById('quizHistoryList');
+  if (qhl) {
+    if (!history.length) { qhl.innerHTML = '<p style="color:var(--muted);font-size:0.85rem">No quizzes taken yet. Try a quiz from the Quizzes page!</p>'; }
+    else qhl.innerHTML = history.slice(0,10).map(h => {
+      const pct = Math.round(h.score/h.total*100);
+      const col = pct >= 80 ? 'var(--accent)' : pct >= 60 ? '#f5a623' : '#ff6b8a';
+      return `<div style="display:flex;align-items:center;justify-content:space-between;background:var(--bg3);padding:10px 14px;border-radius:8px;gap:1rem;flex-wrap:wrap">
+        <div>
+          <span style="font-weight:600;font-size:0.88rem">${capitalise(h.subject)} — ${h.topic}</span>
+          <span style="color:var(--muted);font-size:0.75rem;margin-left:8px">${h.date}</span>
+        </div>
+        <span style="font-weight:700;color:${col};font-size:0.9rem">${h.score}/${h.total} (${pct}%)</span>
+      </div>`;
+    }).join('');
+  }
+}
+
+// Record activity when note opened or quiz completed
+const _origIncrementNote = incrementNoteCount;
+function incrementNoteCount() { _origIncrementNote(); recordActivity(); }
+
+const _origShowQuizScore = showQuizScore;
+function showQuizScore() {
+  _origShowQuizScore();
+  saveQuizResult(quizState.subject, quizState.topic, quizState.score, quizState.questions.length);
+  recordActivity();
+}
+
+// ── Show "My Premium" nav link when unlocked ──────────────────────────────────
+// (hub link visibility is handled inside updatePremiumUI directly)
+
+// (end premium hub)
+
 
 </script>
 </body>
