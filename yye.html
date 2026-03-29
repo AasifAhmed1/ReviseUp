@@ -3490,8 +3490,8 @@ function signupUser() {
 function sendVerificationEmail(email, name, code) {
   console.log('Attempting to send email to:', email, 'name:', name, 'code:', code);
   console.log('EmailJS loaded:', typeof emailjs);
-  emailjs.send('service_8rbq0hx', 'template_orupopl', {
-    email:    email,
+  emailjs.send('service_f0j1hkd', 'rpt78u5', {
+    to_email: email,
     to_name:  name,
     code:     code,
   }).then((res) => {
