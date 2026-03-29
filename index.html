@@ -6,6 +6,8 @@
 <title>ReviseUp — GCSE Revision Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,800;1,300&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init({ publicKey: 'cdxLYGty3cGYwDGPj' });</script>
 <style>
   /* ========== CSS VARS ========== */
   :root {
@@ -764,6 +766,7 @@
       </div>
     </span>
     <a href="#" onclick="showPage('premium')">Premium</a>
+    <a href="#" id="navFlashcardsLink" onclick="openFlashcardsPage()" style="">⚡ Flashcards</a>
     <a href="#" id="navPremiumHubLink" onclick="requirePremiumPage('premium-hub')" style="display:none;color:var(--premium);font-weight:700">⭐ My Premium</a>
     <a href="#" onclick="showPage('creators')">About Us</a>
   </div>
@@ -808,10 +811,10 @@
       <p class="section-sub" style="margin-bottom:2rem;">Pick a subject and dive into notes, questions, and resources.</p>
       <div class="subjects-grid">
         <div class="subject-card subj-maths" onclick="showSubject('Maths')" style="--c:#c8f05a">
-          <span class="topic-count">12 topics</span>
+          <span class="topic-count">18 topics</span>
           <span class="subject-icon">📐</span>
           <h3>Maths <span class="subj-dot"></span></h3>
-          <p>Algebra, geometry, stats & more</p>
+          <p>Number, Algebra, Geometry, Statistics & Probability</p>
         </div>
         <div class="subject-card subj-bio" onclick="showSubject('Biology')" style="--c:#5af0a0">
           <span class="topic-count">14 topics</span>
@@ -930,58 +933,58 @@
       </div>
       <div class="subjects-grid" id="subjectsGrid">
         <div class="subject-card" onclick="showSubject('Maths')" data-subject="maths">
-          <span class="topic-count">12 topics</span>
+          <span class="topic-count">18 topics</span>
           <span class="subject-icon">📐</span>
           <h3>Maths</h3>
-          <p>Algebra, Number, Geometry, Statistics, Probability</p>
+          <p>Number, Algebra, Geometry & Measures, Statistics & Probability</p>
         </div>
         <div class="subject-card" onclick="showSubject('Biology')" data-subject="biology">
-          <span class="topic-count">14 topics</span>
+          <span class="topic-count">7 topics</span>
           <span class="subject-icon">🧬</span>
           <h3>Biology</h3>
-          <p>Cells, Genetics, Ecology, Homeostasis, Evolution</p>
+          <p>Cell biology, Organisation, Bioenergetics, Ecology</p>
         </div>
         <div class="subject-card" onclick="showSubject('Chemistry')" data-subject="chemistry">
-          <span class="topic-count">11 topics</span>
+          <span class="topic-count">10 topics</span>
           <span class="subject-icon">⚗️</span>
           <h3>Chemistry</h3>
-          <p>Atomic Structure, Bonding, Organic Chemistry, Rates</p>
+          <p>Atomic structure, Bonding, Quantitative, Organic</p>
         </div>
         <div class="subject-card" onclick="showSubject('Physics')" data-subject="physics">
-          <span class="topic-count">13 topics</span>
+          <span class="topic-count">8 topics</span>
           <span class="subject-icon">⚡</span>
           <h3>Physics</h3>
-          <p>Forces, Energy, Waves, Electricity, Space</p>
+          <p>Energy, Electricity, Forces, Waves, Space</p>
         </div>
         <div class="subject-card" onclick="showSubject('English Language')" data-subject="english language">
-          <span class="topic-count">8 topics</span>
+          <span class="topic-count">5 question types</span>
           <span class="subject-icon">✍️</span>
           <h3>English Language</h3>
-          <p>Reading, Writing, Language Analysis, Structure</p>
+          <p>Q1, Q2, Q3, Q4, Q5 — AQA exam practice</p>
         </div>
         <div class="subject-card" onclick="showSubject('English Literature')" data-subject="english literature">
           <span class="topic-count">10 topics</span>
           <span class="subject-icon">📖</span>
           <h3>English Literature</h3>
-          <p>Texts, Themes, Poem Analysis, Context</p>
+          <p>Lord of the Flies, Romeo & Juliet, Jekyll & Hyde, Poetry</p>
         </div>
         <div class="subject-card" onclick="showSubject('Geography')" data-subject="geography">
           <span class="topic-count">9 topics</span>
           <span class="subject-icon">🌍</span>
           <h3>Geography</h3>
-          <p>Physical, Human, Fieldwork, Sustainability</p>
+          <p>Tectonic hazards, Urbanisation, Rivers, Development</p>
         </div>
         <div class="subject-card" onclick="showSubject('History')" data-subject="history">
-          <span class="topic-count">10 topics</span>
+          <span class="topic-count">17 topics</span>
           <span class="subject-icon">🏛️</span>
           <h3>History</h3>
-          <p>Medicine Through Time, Cold War, Germany 1890–1945</p>
+          <p>Elizabethan England, Cold War, Medicine Through Time</p>
         </div>
         <div class="subject-card" onclick="showSubject('Business')" data-subject="business">
-          <span class="topic-count">8 topics</span>
+          <span class="topic-count">9 topics</span>
           <span class="subject-icon">💼</span>
           <h3>Business</h3>
-          <p>Finance, Marketing, HR, Operations, Entrepreneurs</p>
+          <p>Enterprise, Marketing, Finance, HR, Operations</p>
         </div>
         <div class="subject-card" onclick="showSubject('French')" data-subject="french">
           <span class="topic-count">10 topics</span>
@@ -1424,11 +1427,12 @@
           <option value="Paper 2">Paper 2</option>
         </select>
         <select id="engQTypeFilter" onchange="filterEngQuestions(document.getElementById('engQSearch').value)" style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px 14px;border-radius:10px;font-family:inherit;font-size:0.85rem">
-          <option value="">All Types</option>
-          <option value="Reading">Reading</option>
-          <option value="Writing">Writing</option>
-          <option value="Language">Language</option>
-          <option value="Structure">Structure</option>
+          <option value="">All Questions</option>
+          <option value="Q1">Q1</option>
+          <option value="Q2">Q2</option>
+          <option value="Q3">Q3</option>
+          <option value="Q4">Q4</option>
+          <option value="Q5">Q5</option>
         </select>
       </div>
       <div id="engQCount" style="font-size:0.82rem;color:var(--muted);margin-bottom:1rem"></div>
@@ -1520,6 +1524,111 @@
       <div id="qSavedResponses" style="margin-top:2.5rem;display:none">
         <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:1rem">📚 Your Saved Responses for This Question</div>
         <div id="qSavedList" style="display:flex;flex-direction:column;gap:10px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== FLASHCARDS PAGE (signed-in users, 10-card free limit) ======== -->
+  <div class="page-section" id="page-flashcards">
+    <div class="section">
+      <div class="section-label">Interactive Revision</div>
+      <div class="section-title">Flashcard Mode ⚡</div>
+      <p class="section-sub">Flip through Q&amp;A cards built from your uploaded Anki decks. Signed-in users get 10 cards per deck free — upgrade to go unlimited.</p>
+
+      <!-- Sign-in wall for guests -->
+      <div id="fcSignInWall" style="display:none;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:3rem;text-align:center;max-width:500px;margin:2rem auto">
+        <div style="font-size:2.5rem;margin-bottom:1rem">🔒</div>
+        <h3 style="font-family:Fraunces,serif;font-size:1.5rem;font-weight:800;margin-bottom:0.5rem">Sign in to use Flashcards</h3>
+        <p style="color:var(--muted);font-size:0.88rem;margin-bottom:1.5rem">Create a free account to access 10 cards per deck. Upgrade to Premium for unlimited cards.</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <button onclick="openModal('signupModal')" style="background:var(--accent);color:#0f0f13;font-weight:700;padding:11px 24px;border-radius:9px">Join free</button>
+          <button onclick="openModal('loginModal')" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);font-weight:600;padding:11px 20px;border-radius:9px">Log in</button>
+        </div>
+      </div>
+
+      <!-- Flashcard UI for signed-in users -->
+      <div id="fcSignedInArea" style="display:none">
+        <!-- Free limit banner -->
+        <div id="fcFreeBanner" style="display:none;background:rgba(245,215,110,0.07);border:1px solid rgba(245,215,110,0.2);border-radius:12px;padding:0.9rem 1.4rem;margin-bottom:1.8rem;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+          <span id="fcFreeBannerText" style="font-size:0.85rem;color:var(--muted)">⭐ Free plan: 10 cards per deck. Upgrade for unlimited.</span>
+          <button onclick="openModal('premiumModal')" style="background:linear-gradient(135deg,#f5d76e,#f5a623);color:#1a1000;font-weight:700;font-size:0.78rem;padding:6px 14px;border-radius:7px;white-space:nowrap">Go Premium ⭐</button>
+        </div>
+
+        <!-- Subject + Deck selectors -->
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:2rem;align-items:flex-end">
+          <div>
+            <label style="display:block;font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Subject</label>
+            <select id="fcSubjectSelMain" onchange="loadFCDecks()" style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:9px 14px;border-radius:9px;font-family:inherit;font-size:0.88rem">
+              <option value="maths">Maths</option>
+              <option value="biology">Biology</option>
+              <option value="chemistry">Chemistry</option>
+              <option value="physics">Physics</option>
+              <option value="english">English Language</option>
+              <option value="literature">English Literature</option>
+              <option value="geography">Geography</option>
+              <option value="history">History</option>
+              <option value="business">Business</option>
+              <option value="french">French</option>
+            </select>
+          </div>
+          <div>
+            <label style="display:block;font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Deck</label>
+            <select id="fcDeckSel" style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:9px 14px;border-radius:9px;font-family:inherit;font-size:0.88rem;min-width:200px">
+              <option value="">— choose a deck —</option>
+            </select>
+          </div>
+          <button onclick="startFCDeck()" style="background:var(--accent);color:#0f0f13;font-weight:700;font-size:0.88rem;padding:10px 20px;border-radius:9px">Start →</button>
+        </div>
+
+        <!-- No decks message -->
+        <div id="fcNoDeckMsg" style="display:none;color:var(--muted);font-size:0.88rem;padding:1.5rem 0">No flashcard decks uploaded for this subject yet. Ask your admin to upload some via the Admin Panel.</div>
+
+        <!-- Card area -->
+        <div id="fcMainArea" style="display:none">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;flex-wrap:wrap;gap:8px">
+            <div>
+              <span id="fcMainProgress" style="font-size:0.82rem;color:var(--muted)"></span>
+              <span id="fcLimitBadge" style="font-size:0.72rem;background:rgba(245,215,110,0.12);border:1px solid rgba(245,215,110,0.25);color:var(--premium);padding:3px 9px;border-radius:999px;margin-left:8px;display:none">Free: 10 cards</span>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button onclick="fcMainPrev()" style="background:var(--bg3);border:1px solid var(--border);color:var(--muted);font-size:0.82rem;padding:6px 14px;border-radius:7px">← Prev</button>
+              <button onclick="fcMainNext()" style="background:var(--bg3);border:1px solid var(--border);color:var(--muted);font-size:0.82rem;padding:6px 14px;border-radius:7px">Next →</button>
+            </div>
+          </div>
+          <div class="flashcard-wrap">
+            <div class="flashcard" id="mainFlashcardStandalone" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-front">
+                <div>
+                  <div class="flashcard-hint">Question — click to reveal</div>
+                  <div class="flashcard-text" id="fcMainQuestion"></div>
+                </div>
+              </div>
+              <div class="flashcard-back">
+                <div>
+                  <div class="flashcard-hint" style="color:rgba(245,215,110,0.6)">Answer</div>
+                  <div class="flashcard-answer" id="fcMainAnswer"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;justify-content:center;margin-top:1.5rem">
+            <button onclick="markFCMain('hard')" style="background:rgba(255,107,138,0.1);border:1px solid rgba(255,107,138,0.3);color:#ff6b8a;font-weight:600;font-size:0.88rem;padding:9px 20px;border-radius:9px">😰 Hard</button>
+            <button onclick="markFCMain('ok')" style="background:rgba(245,163,35,0.1);border:1px solid rgba(245,163,35,0.3);color:#f5a623;font-weight:600;font-size:0.88rem;padding:9px 20px;border-radius:9px">🤔 Got it</button>
+            <button onclick="markFCMain('easy')" style="background:rgba(200,240,90,0.1);border:1px solid rgba(200,240,90,0.3);color:var(--accent);font-weight:600;font-size:0.88rem;padding:9px 20px;border-radius:9px">✅ Easy</button>
+          </div>
+          <p style="text-align:center;font-size:0.75rem;color:var(--muted);margin-top:1rem">Hard cards come back sooner · progress saves automatically</p>
+        </div>
+
+        <!-- Premium upsell wall (shown after 10 cards) -->
+        <div id="fcPremiumWall" style="display:none;background:linear-gradient(135deg,#1a1520,#1e1628);border:1px solid rgba(245,215,110,0.25);border-radius:var(--radius);padding:3rem;text-align:center;max-width:520px;margin:2rem auto">
+          <div style="font-size:2.5rem;margin-bottom:1rem">⭐</div>
+          <h3 style="font-family:Fraunces,serif;font-size:1.6rem;font-weight:800;margin-bottom:0.5rem">You've used your 10 free cards!</h3>
+          <p style="color:var(--muted);font-size:0.88rem;margin-bottom:1.5rem">This deck has <span id="fcRemainingCount"></span> more cards. Upgrade to Premium to go through all of them — plus every other deck.</p>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <button onclick="openModal('premiumModal')" style="background:linear-gradient(135deg,#f5d76e,#f5a623);color:#1a1000;font-weight:700;padding:12px 28px;border-radius:9px;font-size:0.95rem">⭐ Go Premium</button>
+            <button onclick="startFCDeck()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);font-weight:600;padding:12px 20px;border-radius:9px">Restart (10 cards)</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1934,6 +2043,56 @@
         <div id="adminDecksList" style="display:flex;flex-direction:column;gap:8px;"></div>
       </div>
 
+      <!-- IMPORT FLASHCARD DECK (from CSV/JSON exported from Anki) -->
+      <div class="admin-panel" style="border-color:rgba(200,240,90,0.3)">
+        <div class="admin-panel-header">
+          <span class="admin-badge" style="background:rgba(200,240,90,0.12);border-color:rgba(200,240,90,0.3);color:var(--accent)">⚡</span>
+          <h3>Import Flashcard Deck</h3>
+        </div>
+        <div class="admin-form">
+          <p style="color:var(--muted);font-size:0.83rem;margin-bottom:1rem">Upload your Anki deck cards as a CSV file (exported from Anki: File → Export → "Notes in Plain Text" or "Cards in Plain Text"). The file should have two columns: <strong style="color:var(--text)">Front</strong> and <strong style="color:var(--text)">Back</strong> (tab-separated or comma-separated). Decks with 200–6000 cards are fully supported.</p>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Deck Name</label>
+              <input type="text" id="fcImportName" placeholder="e.g. Biology Complete Deck">
+            </div>
+            <div class="form-group">
+              <label>Subject</label>
+              <select id="fcImportSubject">
+                <option value="maths">Maths</option><option value="biology">Biology</option><option value="chemistry">Chemistry</option>
+                <option value="physics">Physics</option><option value="english">English Language</option><option value="literature">English Literature</option>
+                <option value="geography">Geography</option><option value="history">History</option><option value="business">Business</option><option value="french">French</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>CSV File (Anki export — tab or comma separated, Front/Back columns)</label>
+            <div onclick="document.getElementById('fcImportFile').click()"
+              id="fcImportDropZone"
+              style="border:2px dashed rgba(200,240,90,0.3);border-radius:10px;padding:1.5rem;text-align:center;cursor:pointer;transition:border-color 0.2s"
+              onmouseover="this.style.borderColor='rgba(200,240,90,0.6)'" onmouseout="this.style.borderColor='rgba(200,240,90,0.3)'">
+              <div style="font-size:1.8rem;margin-bottom:6px">📋</div>
+              <p style="color:var(--muted);font-size:0.82rem" id="fcImportFileLabel">Click to choose a .csv or .txt file</p>
+            </div>
+            <input type="file" id="fcImportFile" accept=".csv,.txt" style="display:none" onchange="handleFCImportFile(this)">
+          </div>
+          <div id="fcImportPreview" style="display:none;background:var(--bg3);border-radius:10px;padding:1rem;margin-top:0.5rem;font-size:0.82rem;color:var(--muted)"></div>
+          <div style="display:flex;align-items:center;gap:12px;margin-top:0.8rem">
+            <button class="btn-admin" onclick="confirmFCImport()" style="background:rgba(200,240,90,0.15);border-color:rgba(200,240,90,0.4);color:var(--accent)">⚡ Import Deck</button>
+            <span id="fcImportStatus" style="font-size:0.82rem;color:var(--muted)"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MANAGE FLASHCARD DECKS -->
+      <div class="admin-panel" style="border-color:rgba(200,240,90,0.2)">
+        <div class="admin-panel-header">
+          <span class="admin-badge" style="background:rgba(200,240,90,0.1);border-color:rgba(200,240,90,0.2);color:var(--accent)">🗂️</span>
+          <h3>Imported Flashcard Decks</h3>
+        </div>
+        <div id="adminFCDecksList" style="display:flex;flex-direction:column;gap:8px;"></div>
+      </div>
+
       <!-- ADD TOPIC TEST -->
       <div class="admin-panel">
         <div class="admin-panel-header">
@@ -2081,10 +2240,11 @@
             <div class="form-group">
               <label>Question Type</label>
               <select id="engQAdminType">
-                <option value="Reading">Reading</option>
-                <option value="Writing">Writing</option>
-                <option value="Language">Language</option>
-                <option value="Structure">Structure</option>
+                <option value="Q1">Q1</option>
+                <option value="Q2">Q2</option>
+                <option value="Q3">Q3</option>
+                <option value="Q4">Q4</option>
+                <option value="Q5">Q5</option>
               </select>
             </div>
           </div>
@@ -2340,8 +2500,27 @@
   </div>
 </div>
 
-<!-- PREMIUM -->
-<div class="modal-overlay" id="premiumModal">
+<!-- EMAIL VERIFICATION (LOGIN 2FA) -->
+<div class="modal-overlay" id="loginVerifyModal">
+  <div class="modal" style="text-align:center">
+    <button class="modal-close" onclick="closeModal('loginVerifyModal')">✕</button>
+    <div style="font-size:2.5rem;margin-bottom:1rem">🔐</div>
+    <h2>Two-Factor Verification</h2>
+    <p style="color:var(--muted);margin-bottom:0.5rem">We sent a 6-digit code to:</p>
+    <p style="font-weight:700;color:var(--accent);margin-bottom:1.5rem" id="loginVerifyEmailDisplay"></p>
+    <div class="form-group" style="text-align:left">
+      <label>Verification Code</label>
+      <input type="text" id="loginVerifyCodeInput" placeholder="Enter 6-digit code" maxlength="6"
+        style="font-size:1.4rem;letter-spacing:0.3em;text-align:center;width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:12px;border-radius:10px;font-family:inherit"
+        onkeydown="if(event.key==='Enter')verifyLoginCode()">
+    </div>
+    <div id="loginVerifyError" style="display:none;color:#ff6b8a;font-size:0.82rem;margin-bottom:10px"></div>
+    <button class="btn-join btn-full" onclick="verifyLoginCode()">✅ Verify & Log In</button>
+    <p style="margin-top:1rem;font-size:0.78rem;color:var(--muted)">Didn't get it? <a href="#" onclick="resendLoginCode()" style="color:var(--accent)">Resend code</a></p>
+  </div>
+</div>
+
+
   <div class="modal" style="max-width:520px">
     <button class="modal-close" onclick="closeModal('premiumModal')">✕</button>
     <h2>⭐ Go Premium</h2>
@@ -2578,16 +2757,16 @@ let decks = loadData('reviseup_decks', defaultDecks);
 // TOPIC MAP (admin dropdown)
 // ============================
 const topicMap = {
-  maths:      ['Algebra','Number','Geometry','Statistics','Probability','Ratio & Proportion','Trigonometry','Vectors'],
-  biology:    ['Cells','Genetics','Ecology','Homeostasis','Evolution','Infection & Response','Bioenergetics','Organisation'],
-  chemistry:  ['Atomic Structure','Bonding','Quantitative Chemistry','Chemical Changes','Energy Changes','Organic Chemistry','Rates of Reaction'],
-  physics:    ['Forces','Energy','Waves','Electricity','Magnetism','Particle Model','Atomic Structure','Space'],
-  english:    ['Reading','Writing','Language Analysis','Structure','Creative Writing','Spoken Language'],
-  literature: ['Macbeth','An Inspector Calls','A Christmas Carol','Romeo & Juliet','Poetry Anthology','Unseen Poetry','Themes & Context'],
-  geography:  ['Natural Hazards','Living World','Physical Landscapes','Urban Issues','Changing Economic World','Resource Management','Fieldwork'],
-  history:    ['Elizabethan England','Cold War','USA Home & Abroad','Medicine Through Time','Germany 1890–1945','Weimar & Nazi Germany'],
-  business:   ['Enterprise','Marketing','Finance','Human Resources','Operations','Business Growth','Globalisation'],
-  french:     ['Identity & Culture','Family & Relationships','School & Education','Free Time','Travel & Tourism','Work & Future Plans','Environment','Grammar'],
+  maths:      ['Fractions, decimals & percentages','Ratio & proportion','Standard form','Surds & indices','Expressions & equations','Inequalities','Sequences','Graphs (linear, quadratic, cubic)','Simultaneous equations','Angles & shapes','Pythagoras & trigonometry','Circle theorems','Transformations','Vectors','Averages & spread','Histograms','Cumulative frequency','Probability rules & tree diagrams'],
+  biology:    ['Cell biology','Organisation','Infection & response','Bioenergetics','Homeostasis & response','Inheritance, variation & evolution','Ecology'],
+  chemistry:  ['Atomic structure & periodic table','Bonding, structure & properties','Quantitative chemistry','Chemical changes','Energy changes','Rates of reaction','Organic chemistry','Chemical analysis','Chemistry of the atmosphere','Using resources'],
+  physics:    ['Energy','Electricity','Particle model of matter','Atomic structure','Forces','Waves','Magnetism & electromagnetism','Space physics'],
+  english:    ['Q1','Q2','Q3','Q4','Q5'],
+  literature: ['Lord of the Flies','Romeo and Juliet','Dr Jekyll and Mr Hyde','Themes','Characters','Context','Key quotes','Language & structure analysis','Power & Conflict Poetry','Unseen Poetry'],
+  geography:  ['Tectonic hazards','Weather hazards & climate change','Ecosystems','Rivers & coasts','Urbanisation','Migration','Global development','Resource management','Fieldwork & data collection'],
+  history:    ["Elizabeth I's challenges",'Religion settlement','Mary Queen of Scots','Spanish Armada','Society & exploration','Economy & boom','Great Depression','Civil rights','Social change','Causes of WW1/WW2','Cold War & superpower relations','Cuba Missile Crisis','Vietnam War','Medieval medicine','Renaissance developments','Industrial period','Modern medicine'],
+  business:   ['Enterprise & entrepreneurship','Spotting a business opportunity','Putting a business idea into practice','Making the business effective','Growing the business','Making marketing decisions','Making operational decisions','Making financial decisions','Making human resource decisions'],
+  french:     ['Identity & Culture','Local Area','School','Future Aspirations','International World','Grammar'],
 };
 
 function updateNoteTopics() {
@@ -2607,11 +2786,12 @@ function showPage(page) {
   window.scrollTo(0, 0);
   if (page === 'papers') renderPapers('Maths');
   if (page === 'topic-tests') renderTopicTests('Maths', '');
+  if (page === 'flashcards') { renderFCPage(); }
   if (page === 'premium-hub') {
     if (!isPremium && !isAdmin) { showPage('premium'); return; }
     renderPHAnki();
   }
-  if (page === 'admin') { renderAdminNotes(); renderAdminPapers(); renderAdminDecks(); renderAdminTopicTests(); updateTopicTestTopics(); updateQuizAdminTopics(); renderAdminEngQList(); renderAdminLitQList(); renderAdminHistQList(); updateLitTextFilter(); }
+  if (page === 'admin') { renderAdminNotes(); renderAdminPapers(); renderAdminDecks(); renderAdminTopicTests(); updateTopicTestTopics(); updateQuizAdminTopics(); renderAdminEngQList(); renderAdminLitQList(); renderAdminHistQList(); updateLitTextFilter(); renderAdminFCDecksList(); }
   if (page === 'eng-questions') { renderEngQuestions(); }
   if (page === 'lit-questions') { renderLitQuestions(); updateLitTextFilter(); }
   if (page === 'hist-questions') { renderHistQuestions(); }
@@ -3216,6 +3396,9 @@ function renderSubjectDecks(subjectName) {
     : '<div class="deck-card"><h4>Coming Soon</h4><p>Deck for this subject is being prepared</p></div>';
   grid.innerHTML = deckHTML;
 }
+// ── Login with 2FA ────────────────────────────────────────────────────────────
+let pendingLogin = null;
+
 function loginUser() {
   const emailInput = document.getElementById('loginEmail');
   const passInput  = document.getElementById('loginPass');
@@ -3225,26 +3408,57 @@ function loginUser() {
   const users = JSON.parse(localStorage.getItem('reviseup_users') || '[]');
   const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.pass === pass);
   if (!user) { showToast('❌ Incorrect email or password'); return; }
+  // Generate 2FA code and send
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  pendingLogin = { user, code };
+  sendVerificationEmail(email, user.name || 'there', code);
+  closeModal('loginModal');
+  openModal('loginVerifyModal');
+  document.getElementById('loginVerifyEmailDisplay').textContent = email;
+  document.getElementById('loginVerifyCodeInput').value = '';
+  document.getElementById('loginVerifyError').style.display = 'none';
+  showToast('📧 Verification code sent to ' + email);
+}
+
+function verifyLoginCode() {
+  const entered = document.getElementById('loginVerifyCodeInput').value.trim();
+  const err = document.getElementById('loginVerifyError');
+  if (!pendingLogin) { closeModal('loginVerifyModal'); return; }
+  if (entered !== pendingLogin.code) {
+    err.style.display = 'block';
+    err.textContent = '❌ Incorrect code. Please try again.';
+    return;
+  }
+  // Code correct — complete login
+  const user = pendingLogin.user;
   // Auto-grant premium for owner account
-  if (email.toLowerCase() === 'ahmem4648@gmail.com' && !user.premium) {
+  if (user.email.toLowerCase() === 'ahmem4648@gmail.com' && !user.premium) {
     user.premium = true;
     const allUsers = JSON.parse(localStorage.getItem('reviseup_users') || '[]');
-    const idx = allUsers.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
+    const idx = allUsers.findIndex(u => u.email.toLowerCase() === user.email.toLowerCase());
     if (idx !== -1) { allUsers[idx].premium = true; localStorage.setItem('reviseup_users', JSON.stringify(allUsers)); }
   }
   isLoggedIn = true;
   currentUser = user;
   isPremium = user.premium || false;
   localStorage.setItem('reviseup_session', JSON.stringify({ email: user.email, premium: user.premium || false }));
-  closeModal('loginModal');
+  pendingLogin = null;
+  closeModal('loginVerifyModal');
   updateNavForAuth();
   updateNotesBanner();
   updatePremiumUI();
   showToast('👋 Welcome back, ' + (user.name || 'there') + '!');
 }
 
-// Email verification pending state
-let pendingSignup = null;
+function resendLoginCode() {
+  if (!pendingLogin) return;
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  pendingLogin.code = code;
+  sendVerificationEmail(pendingLogin.user.email, pendingLogin.user.name || 'there', code);
+  showToast('📧 New code sent!');
+}
+
+
 
 function signupUser() {
   const nameInput  = document.getElementById('signupName');
@@ -3274,19 +3488,18 @@ function signupUser() {
 }
 
 function sendVerificationEmail(email, name, code) {
-  // Uses EmailJS public API — requires emailjs init with your keys
-  // If EmailJS not configured, code is shown in a toast for testing
-  if (typeof emailjs !== 'undefined') {
-    emailjs.send('service_reviseup', 'template_verify', {
-      to_email: email,
-      to_name: name,
-      code: code,
-    }).catch(() => {});
-  } else {
-    // Fallback: show code in console/toast for dev testing
-    console.log('Verification code for ' + email + ': ' + code);
-    showToast('🔑 Dev mode — code: ' + code);
-  }
+  console.log('Attempting to send email to:', email, 'name:', name, 'code:', code);
+  console.log('EmailJS loaded:', typeof emailjs);
+  emailjs.send('service_f0j1hkd', 'rpt78u5', {
+    to_email: email,
+    to_name:  name,
+    code:     code,
+  }).then((res) => {
+    console.log('Email sent successfully:', res);
+  }).catch(err => {
+    console.error('EmailJS full error:', JSON.stringify(err));
+    showToast('⚠️ Email error: ' + (err.text || err.message || JSON.stringify(err)));
+  });
 }
 
 function verifySignupCode() {
@@ -3386,6 +3599,8 @@ document.addEventListener('DOMContentLoaded', () => {
   renderLitQuestions();
   renderHistQuestions();
   updateLitTextFilter();
+  // Init flashcard admin list
+  renderAdminFCDecksList();
 });
 
 // ============================
@@ -3428,6 +3643,9 @@ function updatePremiumUI() {
   if (document.getElementById('papersList')) renderPapers(currentPapersSubject);
   if (document.getElementById('topicTestsList')) renderTopicTests(currentTopicTestSubject, '');
   updateNotesBanner();
+  // Update flashcard free banner
+  const fcFreeBanner = document.getElementById('fcFreeBanner');
+  if (fcFreeBanner) fcFreeBanner.style.display = (isPremium || isAdmin) ? 'none' : (isLoggedIn ? '' : 'none');
 }
 
 // ── Admin Premium Preview Toggle ──────────────────────────────────────────────
@@ -4358,15 +4576,15 @@ function openAnkiSubject(key) {
 
 // ── Progress Tracking ─────────────────────────────────────────────────────────
 const progressTopics = {
-  maths:      { icon:'📐', color:'#c8f05a', topics:['Algebra','Number','Ratio & Proportion','Geometry','Trigonometry','Statistics','Probability','Vectors'] },
-  biology:    { icon:'🧬', color:'#5af0a0', topics:['Cell Biology','Organisation','Infection & Response','Bioenergetics','Homeostasis','Inheritance','Evolution','Ecology'] },
-  chemistry:  { icon:'⚗️', color:'#5ab4f0', topics:['Atomic Structure','Bonding','Quantitative Chemistry','Chemical Changes','Energy Changes','Rates of Reaction','Organic Chemistry','Chemical Analysis'] },
-  physics:    { icon:'⚡', color:'#f05a9e', topics:['Forces','Energy','Waves','Electricity','Magnetism','Particle Model','Atomic Structure','Space'] },
-  english:    { icon:'✍️', color:'#f0b95a', topics:['Reading — Information','Reading — Language','Reading — Structure','Writing to Inform','Writing to Persuade','Writing to Describe','Spoken Language'] },
-  literature: { icon:'📖', color:'#c55af0', topics:['Macbeth','An Inspector Calls','A Christmas Carol','Romeo & Juliet','Power & Conflict Poetry','Unseen Poetry'] },
-  geography:  { icon:'🌍', color:'#5af0d8', topics:['Natural Hazards','Living World','Physical Landscapes UK','Urban Issues','Changing Economic World','Resource Management','Fieldwork'] },
-  history:    { icon:'🏛️', color:'#f07e5a', topics:['Elizabethan England','Cold War','USA 1954–75','Medicine Through Time','Germany 1890–1945'] },
-  business:   { icon:'💼', color:'#f5d76e', topics:['Enterprise','Marketing','Finance','Human Resources','Operations','Influences on Business','The Wider World'] },
+  maths:      { icon:'📐', color:'#c8f05a', topics:['Fractions, decimals & percentages','Ratio & proportion','Standard form','Surds & indices','Expressions & equations','Inequalities','Sequences','Graphs (linear, quadratic, cubic)','Simultaneous equations','Angles & shapes','Pythagoras & trigonometry','Circle theorems','Transformations','Vectors','Averages & spread','Histograms','Cumulative frequency','Probability rules & tree diagrams'] },
+  biology:    { icon:'🧬', color:'#5af0a0', topics:['Cell biology','Organisation','Infection & response','Bioenergetics','Homeostasis & response','Inheritance, variation & evolution','Ecology'] },
+  chemistry:  { icon:'⚗️', color:'#5ab4f0', topics:['Atomic structure & periodic table','Bonding, structure & properties','Quantitative chemistry','Chemical changes','Energy changes','Rates of reaction','Organic chemistry','Chemical analysis','Chemistry of the atmosphere','Using resources'] },
+  physics:    { icon:'⚡', color:'#f05a9e', topics:['Energy','Electricity','Particle model of matter','Atomic structure','Forces','Waves','Magnetism & electromagnetism','Space physics'] },
+  english:    { icon:'✍️', color:'#f0b95a', topics:['Q1','Q2','Q3','Q4','Q5'] },
+  literature: { icon:'📖', color:'#c55af0', topics:['Lord of the Flies','Romeo and Juliet','Dr Jekyll and Mr Hyde','Themes','Characters','Context','Key quotes','Language & structure analysis','Power & Conflict Poetry','Unseen Poetry'] },
+  geography:  { icon:'🌍', color:'#5af0d8', topics:['Tectonic hazards','Weather hazards & climate change','Ecosystems','Rivers & coasts','Urbanisation','Migration','Global development','Resource management','Fieldwork & data collection'] },
+  history:    { icon:'🏛️', color:'#f07e5a', topics:["Elizabeth I's challenges",'Religion settlement','Mary Queen of Scots','Spanish Armada','Society & exploration','Economy & boom','Great Depression','Civil rights','Social change','Causes of WW1/WW2','Cold War & superpower relations','Cuba Missile Crisis','Vietnam War','Medieval medicine','Renaissance developments','Industrial period','Modern medicine'] },
+  business:   { icon:'💼', color:'#f5d76e', topics:['Enterprise & entrepreneurship','Spotting a business opportunity','Putting a business idea into practice','Making the business effective','Growing the business','Making marketing decisions','Making operational decisions','Making financial decisions','Making human resource decisions'] },
   french:     { icon:'🇫🇷', color:'#5ae0f5', topics:['Identity & Culture','Local Area','School','Future Aspirations','International World','Grammar'] },
 };
 
@@ -4433,6 +4651,210 @@ function renderProgress() {
   if (ob) ob.style.width = pct + '%';
   if (op) op.textContent = pct + '%';
   if (os) os.textContent = totalDone + ' of ' + totalAll + ' topics completed';
+}
+
+// ── Standalone Flashcards Page ────────────────────────────────────────────────
+const FC_FREE_LIMIT = 10;
+let fcImportedDecks = loadData('reviseup_fc_decks', []); // [{id, name, subject, cards:[{q,a}]}]
+let fcMainCards = [], fcMainIndex = 0, fcMainRatings = {}, fcMainDeckId = null;
+let _fcImportParsed = null; // temp store for parsed CSV
+
+function openFlashcardsPage() {
+  showPage('flashcards');
+  renderFCPage();
+}
+
+function renderFCPage() {
+  const signInWall = document.getElementById('fcSignInWall');
+  const signedInArea = document.getElementById('fcSignedInArea');
+  if (!signInWall || !signedInArea) return;
+  if (!isLoggedIn) {
+    signInWall.style.display = '';
+    signedInArea.style.display = 'none';
+    return;
+  }
+  signInWall.style.display = 'none';
+  signedInArea.style.display = '';
+  // Show free banner if not premium
+  const freeBanner = document.getElementById('fcFreeBanner');
+  if (freeBanner) freeBanner.style.display = (isPremium || isAdmin) ? 'none' : '';
+  loadFCDecks();
+}
+
+function loadFCDecks() {
+  const subject = document.getElementById('fcSubjectSelMain') ? document.getElementById('fcSubjectSelMain').value : 'maths';
+  const decksForSubject = fcImportedDecks.filter(d => d.subject === subject);
+  const sel = document.getElementById('fcDeckSel');
+  if (!sel) return;
+  const noDeckMsg = document.getElementById('fcNoDeckMsg');
+  const fcMainArea = document.getElementById('fcMainArea');
+  const fcPremiumWall = document.getElementById('fcPremiumWall');
+  if (decksForSubject.length === 0) {
+    sel.innerHTML = '<option value="">— no decks uploaded yet —</option>';
+    if (noDeckMsg) noDeckMsg.style.display = '';
+    if (fcMainArea) fcMainArea.style.display = 'none';
+    if (fcPremiumWall) fcPremiumWall.style.display = 'none';
+    return;
+  }
+  if (noDeckMsg) noDeckMsg.style.display = 'none';
+  sel.innerHTML = '<option value="">— choose a deck —</option>' + decksForSubject.map(d => `<option value="${d.id}">${d.name} (${d.cards.length} cards)</option>`).join('');
+}
+
+function startFCDeck() {
+  const sel = document.getElementById('fcDeckSel');
+  if (!sel || !sel.value) { showToast('⚠️ Please choose a deck first'); return; }
+  const deck = fcImportedDecks.find(d => d.id === sel.value);
+  if (!deck) return;
+  fcMainDeckId = deck.id;
+  // Shuffle cards
+  fcMainCards = [...deck.cards].sort(() => Math.random() - 0.5);
+  const limit = (isPremium || isAdmin) ? fcMainCards.length : Math.min(FC_FREE_LIMIT, fcMainCards.length);
+  fcMainCards = fcMainCards.slice(0, limit);
+  fcMainIndex = 0;
+  fcMainRatings = {};
+  const fcPremiumWall = document.getElementById('fcPremiumWall');
+  const fcMainArea = document.getElementById('fcMainArea');
+  if (fcPremiumWall) fcPremiumWall.style.display = 'none';
+  if (fcMainArea) fcMainArea.style.display = '';
+  // Show limit badge if free
+  const badge = document.getElementById('fcLimitBadge');
+  if (badge) badge.style.display = (isPremium || isAdmin) ? 'none' : '';
+  renderFCMainCard();
+  recordActivity();
+}
+
+function renderFCMainCard() {
+  const card = fcMainCards[fcMainIndex];
+  if (!card) return;
+  const fc = document.getElementById('mainFlashcardStandalone');
+  if (fc) fc.classList.remove('flipped');
+  document.getElementById('fcMainQuestion').textContent = card.q || card.front || '';
+  document.getElementById('fcMainAnswer').textContent = card.a || card.back || '';
+  document.getElementById('fcMainProgress').textContent = 'Card ' + (fcMainIndex + 1) + ' of ' + fcMainCards.length;
+}
+
+function fcMainNext() {
+  if (fcMainIndex < fcMainCards.length - 1) {
+    fcMainIndex++;
+    renderFCMainCard();
+  } else {
+    // Check if there are more cards in the full deck that are locked
+    const sel = document.getElementById('fcDeckSel');
+    const deck = sel && sel.value ? fcImportedDecks.find(d => d.id === sel.value) : null;
+    const totalCards = deck ? deck.cards.length : fcMainCards.length;
+    if (!isPremium && !isAdmin && totalCards > FC_FREE_LIMIT) {
+      // Show premium wall
+      document.getElementById('fcMainArea').style.display = 'none';
+      const wall = document.getElementById('fcPremiumWall');
+      const rem = document.getElementById('fcRemainingCount');
+      if (rem) rem.textContent = (totalCards - FC_FREE_LIMIT) + '';
+      if (wall) wall.style.display = '';
+    } else {
+      showToast('🎉 Deck complete! Reshuffling...');
+      startFCDeck();
+    }
+  }
+}
+
+function fcMainPrev() {
+  if (fcMainIndex > 0) { fcMainIndex--; renderFCMainCard(); }
+}
+
+function markFCMain(rating) {
+  const card = fcMainCards[fcMainIndex];
+  fcMainRatings[fcMainIndex] = rating;
+  if (rating === 'hard') {
+    fcMainCards.push({...card});
+    showToast('📌 Added to repeat queue');
+  }
+  fcMainNext();
+}
+
+// ── Admin: Import Flashcard Decks ─────────────────────────────────────────────
+function handleFCImportFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const label = document.getElementById('fcImportFileLabel');
+  if (label) label.textContent = file.name + ' — reading...';
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const text = e.target.result;
+    const parsed = parseFCCSV(text);
+    _fcImportParsed = parsed;
+    const preview = document.getElementById('fcImportPreview');
+    const status = document.getElementById('fcImportStatus');
+    if (preview) {
+      preview.style.display = '';
+      if (!parsed.length) {
+        preview.innerHTML = '<span style="color:#ff6b8a">⚠️ No cards found. Make sure the file has two columns (Front/Back) separated by tab or comma.</span>';
+        _fcImportParsed = null;
+      } else {
+        preview.innerHTML = `<strong style="color:var(--accent)">✅ ${parsed.length} cards detected.</strong> Preview of first 3:<br><br>` +
+          parsed.slice(0,3).map((c,i)=>`<div style="margin-bottom:6px"><strong style="color:var(--text)">Q${i+1}:</strong> ${(c.q||'').substring(0,80)}...<br><span style="color:var(--muted)">A: ${(c.a||'').substring(0,80)}...</span></div>`).join('');
+        if (label) label.textContent = file.name + ' — ' + parsed.length + ' cards ready';
+      }
+    }
+    if (status) status.textContent = '';
+  };
+  reader.readAsText(file);
+}
+
+function parseFCCSV(text) {
+  const lines = text.split('\n').filter(l => l.trim());
+  const cards = [];
+  for (let line of lines) {
+    // Try tab first, then comma
+    let parts = line.split('\t');
+    if (parts.length < 2) parts = line.split(',');
+    if (parts.length >= 2) {
+      const q = parts[0].replace(/^["']|["']$/g,'').trim();
+      const a = parts.slice(1).join(',').replace(/^["']|["']$/g,'').trim();
+      if (q && a) cards.push({ q, a });
+    }
+  }
+  return cards;
+}
+
+function confirmFCImport() {
+  const name = document.getElementById('fcImportName').value.trim();
+  const subject = document.getElementById('fcImportSubject').value;
+  const status = document.getElementById('fcImportStatus');
+  if (!name) { showToast('⚠️ Enter a deck name'); return; }
+  if (!_fcImportParsed || !_fcImportParsed.length) { showToast('⚠️ No cards parsed — check your CSV file'); return; }
+  const deck = { id: 'fcd_' + Date.now(), name, subject, cards: _fcImportParsed, addedAt: new Date().toLocaleDateString('en-GB') };
+  fcImportedDecks.unshift(deck);
+  saveData('reviseup_fc_decks', fcImportedDecks);
+  if (status) status.textContent = '✅ ' + _fcImportParsed.length + ' cards imported!';
+  _fcImportParsed = null;
+  document.getElementById('fcImportName').value = '';
+  document.getElementById('fcImportFile').value = '';
+  document.getElementById('fcImportFileLabel').textContent = 'Click to choose a .csv or .txt file';
+  document.getElementById('fcImportPreview').style.display = 'none';
+  showToast('✅ Flashcard deck imported: ' + name + ' (' + deck.cards.length + ' cards)');
+  renderAdminFCDecksList();
+}
+
+function renderAdminFCDecksList() {
+  const list = document.getElementById('adminFCDecksList');
+  if (!list) return;
+  if (!fcImportedDecks.length) { list.innerHTML = '<p style="color:var(--muted);font-size:0.82rem">No flashcard decks imported yet.</p>'; return; }
+  list.innerHTML = fcImportedDecks.map(d => `
+    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--bg3);padding:10px 14px;border-radius:8px;gap:12px;flex-wrap:wrap">
+      <div>
+        <span style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em">${d.subject}</span>
+        <span style="font-weight:600;font-size:0.88rem;margin-left:8px">${d.name}</span>
+        <span style="color:var(--muted);font-size:0.75rem;margin-left:8px">${d.cards.length} cards · added ${d.addedAt||''}</span>
+      </div>
+      <button class="btn-admin" style="padding:5px 10px;font-size:0.72rem;flex-shrink:0" onclick="deleteFCDeck('${d.id}')">🗑</button>
+    </div>`).join('');
+}
+
+function deleteFCDeck(id) {
+  if (!confirm('Delete this flashcard deck?')) return;
+  fcImportedDecks = fcImportedDecks.filter(d => d.id !== id);
+  saveData('reviseup_fc_decks', fcImportedDecks);
+  renderAdminFCDecksList();
+  showToast('🗑 Deck deleted');
 }
 
 // ── Flashcards ────────────────────────────────────────────────────────────────
