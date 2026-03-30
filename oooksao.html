@@ -3469,20 +3469,8 @@ function handlePaperFile(input) {
   reader.readAsDataURL(file);
 }
 
-// ── Convert any Google Drive share URL to a direct-access URL ─────────────────
-function normaliseDriveLink(url) {
-  if (!url || url === '#') return url;
-  // Match https://drive.google.com/file/d/FILE_ID/... patterns
-  const match = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
-  if (match) {
-    return 'https://drive.google.com/uc?export=download&id=' + match[1];
-  }
-  // Already a direct uc link or non-Drive URL — leave as-is
-  return url;
-}
-
 // ── Add Paper ─────────────────────────────────────────────────────────────────
-async function addPaper() {
+function addPaper() {
   const title   = document.getElementById('paperTitle').value.trim();
   const subject = document.getElementById('paperSubject').value;
   const board   = document.getElementById('paperBoard').value;
@@ -3491,42 +3479,26 @@ async function addPaper() {
   if (!title) { showToast('⚠️ Please enter a paper title'); return; }
   let link = '#';
   const paperId = Date.now();
-  const markscheme = (document.getElementById('paperMarkscheme') && document.getElementById('paperMarkscheme').value.trim()) || '#';
-
   if (paperMethod === 'upload') {
     if (!paperFileData) { showToast('⚠️ Please select a PDF file to upload'); return; }
-
-    // Check Storage uploader is ready (Firebase module may still be loading)
-    if (typeof window._uploadPdfToStorage !== 'function') {
-      showToast('⚠️ Storage not ready yet — please try again in a moment'); return;
-    }
-
-    // Show a progress indicator
-    showToast('⏫ Uploading PDF to cloud…');
-    try {
-      link = await window._uploadPdfToStorage(paperId, paperFileData);
-    } catch(e) {
-      console.error('Storage upload error:', e);
-      showToast('❌ Upload failed: ' + (e.message || e)); return;
-    }
+    // Store PDF binary in memory (not localStorage — avoids quota errors)
+    paperFileStore[paperId] = paperFileData;
+    link = 'memory:' + paperId;
   } else {
-    const raw = (document.getElementById('paperLink') && document.getElementById('paperLink').value.trim()) || '#';
-    link = normaliseDriveLink(raw);
+    link = (document.getElementById('paperLink') && document.getElementById('paperLink').value.trim()) || '#';
   }
-
+  const markscheme = (document.getElementById('paperMarkscheme') && document.getElementById('paperMarkscheme').value.trim()) || '#';
   const paperData = { id: paperId, title, subject, board, year, link, premium, markscheme };
   papers.unshift(paperData);
-
-  // Save metadata to localStorage (link is now always a real URL, never memory:)
-  saveData('reviseup_papers', papers);
-
-  // Always save to Firebase (both upload and link methods now produce a real URL)
-  if (typeof window._addPaperToFirebase === 'function') {
-    window._addPaperToFirebase(paperData);
+  // Save only metadata (no base64) to localStorage
+  const metaOnly = papers.map(p => ({ ...p, link: p.link.startsWith('data:') ? 'memory:' + p.id : p.link }));
+  saveData('reviseup_papers', metaOnly);
+  // Save to Firebase if using a link (not binary upload)
+  if (paperMethod === 'link' && typeof window._addPaperToFirebase === 'function') {
+    window._addPaperToFirebase({ id: paperId, title, subject, board, year, link, premium, markscheme });
   } else {
     showToast('✅ Paper added!');
   }
-
   document.getElementById('paperTitle').value = '';
   if (document.getElementById('paperMarkscheme')) document.getElementById('paperMarkscheme').value = '';
   paperFileData = null;
@@ -3625,7 +3597,7 @@ function openAdminMsModal(paperId) {
 function saveAdminMs(paperId) {
   const input = document.getElementById('msInput_' + paperId);
   if (!input) return;
-  const url = normaliseDriveLink(input.value.trim());
+  const url = input.value.trim();
   if (!url) { showToast('⚠️ Please enter a URL'); return; }
   const idx = papers.findIndex(p => String(p.id) === String(paperId));
   if (idx === -1) return;
@@ -3678,18 +3650,8 @@ function deletePaper(id) {
   papers = papers.filter(p => p.id != id);
   saveData('reviseup_papers', papers);
   showToast('🗑 Paper deleted');
-  if (paper) {
-    // Remove from Firestore
-    if (paper._fbId && typeof window._deletePaperFromFirebase === 'function') {
-      window._deletePaperFromFirebase(paper._fbId);
-    }
-    // Remove PDF from Firebase Storage (if it was an uploaded file)
-    if (paper.link && !paper.link.startsWith('http') === false && typeof window._deletePdfFromStorage === 'function') {
-      // Only attempt storage delete for non-Drive links (Storage URLs contain firebasestorage)
-      if (paper.link.includes('firebasestorage')) {
-        window._deletePdfFromStorage(paper.id);
-      }
-    }
+  if (paper && paper._fbId && typeof window._deletePaperFromFirebase === 'function') {
+    window._deletePaperFromFirebase(paper._fbId);
   }
   renderAdminPapers();
 }
@@ -4554,19 +4516,17 @@ function updateTopicTestTopics() {
 }
 
 function addTopicTest() {
-  const title      = document.getElementById('topicTestTitle').value.trim();
-  const subject    = document.getElementById('topicTestSubject').value;
-  const topic      = document.getElementById('topicTestTopic').value;
-  const board      = document.getElementById('topicTestBoard').value;
-  const link       = normaliseDriveLink(document.getElementById('topicTestLink').value.trim() || '#');
-  const markscheme = normaliseDriveLink(document.getElementById('topicTestMarkscheme').value.trim() || '#');
-  const premium    = document.getElementById('topicTestPremium').checked;
-  if (!title) { showToast('\u26a0\ufe0f Please enter a test title'); return; }
-  const testData = { id: Date.now(), title, subject, topic, board, link, markscheme, premium };
-  topicTests.unshift(testData);
+  const title    = document.getElementById('topicTestTitle').value.trim();
+  const subject  = document.getElementById('topicTestSubject').value;
+  const topic    = document.getElementById('topicTestTopic').value;
+  const board    = document.getElementById('topicTestBoard').value;
+  const link     = document.getElementById('topicTestLink').value.trim() || '#';
+  const markscheme = document.getElementById('topicTestMarkscheme').value.trim() || '#';
+  const premium  = document.getElementById('topicTestPremium').checked;
+  if (!title) { showToast('⚠️ Please enter a test title'); return; }
+  topicTests.unshift({ id: Date.now(), title, subject, topic, board, link, markscheme, premium });
   saveData('reviseup_topic_tests', topicTests);
-  if (typeof window._addTopicTestToFirebase === 'function') window._addTopicTestToFirebase(testData);
-  else showToast('\u2705 Topic test added!');
+  showToast('✅ Topic test added!');
   document.getElementById('topicTestTitle').value = '';
   document.getElementById('topicTestLink').value = '';
   document.getElementById('topicTestMarkscheme').value = '';
@@ -5992,8 +5952,6 @@ function renderScoreGraph(scores, subjectFilter) {
   import { initializeApp }                        from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
   import { getFirestore, collection, doc, getDocs, addDoc, deleteDoc, setDoc, onSnapshot, query, orderBy }
                                                   from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
-  import { getStorage, ref as storageRef, uploadString, getDownloadURL, deleteObject }
-                                                  from "https://www.gstatic.com/firebasejs/12.11.0/firebase-storage.js";
 
   const firebaseConfig = {
     apiKey:            "AIzaSyDbW1g5udrEjFX3p0Egt4cGO-kLWqCjR64",
@@ -6004,9 +5962,8 @@ function renderScoreGraph(scores, subjectFilter) {
     appId:             "1:40786804893:web:929c5bf81c351828739474"
   };
 
-  const app     = initializeApp(firebaseConfig);
-  const db      = getFirestore(app);
-  const storage = getStorage(app);
+  const app = initializeApp(firebaseConfig);
+  const db  = getFirestore(app);
 
   // ── Helpers ──────────────────────────────────────────────────────────────────
   async function fbGetAll(col) {
@@ -6023,25 +5980,6 @@ function renderScoreGraph(scores, subjectFilter) {
   async function fbSet(col, id, data) {
     await setDoc(doc(db, col, id), data, { merge: true });
   }
-
-  // ── Firebase Storage: upload a base64 PDF and return its public download URL ──
-  window._uploadPdfToStorage = async function(paperId, base64DataUrl) {
-    // base64DataUrl is the full data:application/pdf;base64,.... string
-    const fileRef = storageRef(storage, 'papers/' + paperId + '.pdf');
-    await uploadString(fileRef, base64DataUrl, 'data_url');
-    const url = await getDownloadURL(fileRef);
-    return url;
-  };
-
-  // ── Firebase Storage: delete a stored PDF by paperId ──────────────────────────
-  window._deletePdfFromStorage = async function(paperId) {
-    try {
-      const fileRef = storageRef(storage, 'papers/' + paperId + '.pdf');
-      await deleteObject(fileRef);
-    } catch(e) {
-      // File may not exist in storage (e.g. was a Drive link) — ignore
-    }
-  };
 
   // ── Show loading spinner while data fetches ───────────────────────────────────
   function showLoader(msg) {
@@ -6072,35 +6010,18 @@ function renderScoreGraph(scores, subjectFilter) {
   async function bootstrap() {
     showLoader('Loading ReviseUp…');
     try {
-      const [fbNotes, fbPapers, fbDecks, fbUsers, fbAnkiLinks, fbTopicTests] = await Promise.all([
+      const [fbNotes, fbPapers, fbDecks, fbUsers, fbAnkiLinks] = await Promise.all([
         fbGetAll('notes'),
         fbGetAll('papers'),
         fbGetAll('decks'),
         fbGetAll('users'),
         fbGetAll('ankiLinks'),
-        fbGetAll('topicTests'),
       ]);
 
       // Merge with defaults — Firestore wins over hardcoded defaults
-      if (fbNotes.length)  window.notes  = fbNotes;
-      if (fbPapers.length) {
-        // Fix any old-format Drive share links saved before the normaliser was added
-        window.papers = fbPapers.map(p => ({
-          ...p,
-          link:       (typeof normaliseDriveLink === 'function' && p.link)       ? normaliseDriveLink(p.link)       : p.link,
-          markscheme: (typeof normaliseDriveLink === 'function' && p.markscheme) ? normaliseDriveLink(p.markscheme) : p.markscheme,
-        }));
-      }
-      if (fbDecks.length)  window.decks  = fbDecks;
-      if (fbTopicTests.length) {
-        window.topicTests = fbTopicTests.map(t => ({
-          ...t,
-          link:       (typeof normaliseDriveLink === 'function' && t.link)       ? normaliseDriveLink(t.link)       : t.link,
-          markscheme: (typeof normaliseDriveLink === 'function' && t.markscheme) ? normaliseDriveLink(t.markscheme) : t.markscheme,
-        }));
-        // Also sync the local variable so renderTopicTests picks it up immediately
-        if (typeof topicTests !== 'undefined') topicTests = window.topicTests;
-      }
+      if (fbNotes.length)     window.notes  = fbNotes;
+      if (fbPapers.length)    window.papers = fbPapers;
+      if (fbDecks.length)     window.decks  = fbDecks;
 
       // Rebuild ankiLinks store from Firestore docs (each doc: { subject, deckTitle, url })
       if (fbAnkiLinks.length) {
@@ -6134,7 +6055,6 @@ function renderScoreGraph(scores, subjectFilter) {
       // Re-render everything now data is live
       if (typeof renderNotes === 'function')    renderNotes(window.notes);
       if (typeof renderPapers === 'function')   renderPapers(window.currentPapersSubject || 'Maths');
-      if (typeof renderTopicTests === 'function') renderTopicTests(window.currentTopicTestSubject || 'Maths', '');
       if (typeof updateNavForAuth === 'function') updateNavForAuth();
       if (typeof updatePremiumUI  === 'function') updatePremiumUI();
       if (typeof updateNotesBanner === 'function') updateNotesBanner();
@@ -6151,22 +6071,6 @@ function renderScoreGraph(scores, subjectFilter) {
     hideLoader();
   }
   bootstrap();
-
-  // ── Override addTopicTest to write to Firestore ─────────────────────────────
-  window._addTopicTestToFirebase = async function(testData) {
-    try {
-      const fbId = await fbAdd('topicTests', testData);
-      testData._fbId = fbId;
-      showToast('\u2705 Topic test saved to cloud!');
-    } catch(e) { console.error('addTopicTest firebase error:', e); showToast('\u26a0\ufe0f Saved locally only'); }
-  };
-
-  // ── Override deleteTopicTest to remove from Firestore ────────────────────────
-  window._deleteTopicTestFromFirebase = async function(fbId) {
-    if (!fbId) return;
-    try { await fbDelete('topicTests', fbId); }
-    catch(e) { console.error('deleteTopicTest firebase error:', e); }
-  };
 
   // ── Override addNote to write to Firestore ────────────────────────────────────
   window._addNoteToFirebase = async function(noteData) {
