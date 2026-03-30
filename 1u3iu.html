@@ -2332,23 +2332,6 @@
         </div>
       </div>
 
-      <!-- PUBLISH TO CLOUD (one-time migration) -->
-      <div class="admin-panel" style="border-color:rgba(200,240,90,0.4);background:rgba(200,240,90,0.04)">
-        <div class="admin-panel-header">
-          <span class="admin-badge" style="background:rgba(200,240,90,0.15);border-color:rgba(200,240,90,0.4);color:#c8f05a">☁️</span>
-          <h3>Publish Questions to Cloud</h3>
-        </div>
-        <div class="admin-form">
-          <p style="color:var(--muted);font-size:0.83rem;margin-bottom:1rem">
-            If you added questions on this device before the cloud sync was set up, click below to publish them all to Firestore so every visitor can see them. <strong style="color:var(--text)">Only needs to be done once from this browser.</strong>
-          </p>
-          <button id="publishQBtn" class="btn-admin" style="background:rgba(200,240,90,0.15);border-color:rgba(200,240,90,0.5);color:#c8f05a;font-size:0.95rem;padding:12px 24px" onclick="if(typeof publishQuestionsToCloud==='function')publishQuestionsToCloud();else showToast('⚠️ Firebase not ready yet, try again in a moment')">
-            ☁️ Publish All Local Questions to Cloud
-          </button>
-          <p style="color:var(--muted);font-size:0.75rem;margin-top:0.8rem">This is safe to click multiple times — it won't create duplicates.</p>
-        </div>
-      </div>
-
       <!-- ADD ENGLISH LANGUAGE QUESTION (Admin) -->
       <div class="admin-panel" style="border-color:rgba(240,185,90,0.3)">
         <div class="admin-panel-header">
@@ -4729,10 +4712,8 @@ function addEngQuestion() {
   const year    = document.getElementById('engQAdminYear').value.trim();
   const text    = document.getElementById('engQAdminText').value.trim();
   if (!text) { showToast('⚠️ Please enter the question text'); return; }
-  const newEngQ = { id: Date.now(), paper, type, marks: marks || '', year: year || '', text };
-  engQuestions.unshift(newEngQ);
+  engQuestions.unshift({ id: Date.now(), paper, type, marks: marks || '', year: year || '', text });
   saveData('reviseup_eng_questions', engQuestions);
-  if (typeof window._addEngQToFirebase === 'function') window._addEngQToFirebase(newEngQ);
   showToast('✅ English Language question added!');
   document.getElementById('engQAdminText').value = '';
   document.getElementById('engQAdminMarks').value = '';
@@ -4758,10 +4739,8 @@ function renderAdminEngQList() {
 }
 
 function deleteEngQuestion(id) {
-  const q = engQuestions.find(q => q.id === id);
   engQuestions = engQuestions.filter(q => q.id !== id);
   saveData('reviseup_eng_questions', engQuestions);
-  if (q && q._fbId && typeof window._deleteEngQFromFirebase === 'function') window._deleteEngQFromFirebase(q._fbId);
   showToast('🗑 Question deleted');
   renderAdminEngQList();
   renderEngQuestions();
@@ -4812,10 +4791,8 @@ function addLitQuestion() {
   const year     = document.getElementById('litQAdminYear').value.trim();
   const question = document.getElementById('litQAdminQuestion').value.trim();
   if (!question) { showToast('⚠️ Please enter the question text'); return; }
-  const newLitQ = { id: Date.now(), textName: textName || type, type, marks: marks || '', year: year || '', question };
-  litQuestions.unshift(newLitQ);
+  litQuestions.unshift({ id: Date.now(), textName: textName || type, type, marks: marks || '', year: year || '', question });
   saveData('reviseup_lit_questions', litQuestions);
-  if (typeof window._addLitQToFirebase === 'function') window._addLitQToFirebase(newLitQ);
   showToast('✅ English Literature question added!');
   document.getElementById('litQAdminText').value = '';
   document.getElementById('litQAdminMarks').value = '';
@@ -4843,10 +4820,8 @@ function renderAdminLitQList() {
 }
 
 function deleteLitQuestion(id) {
-  const q = litQuestions.find(q => q.id === id);
   litQuestions = litQuestions.filter(q => q.id !== id);
   saveData('reviseup_lit_questions', litQuestions);
-  if (q && q._fbId && typeof window._deleteLitQFromFirebase === 'function') window._deleteLitQFromFirebase(q._fbId);
   showToast('🗑 Question deleted');
   renderAdminLitQList();
   renderLitQuestions();
@@ -4905,10 +4880,8 @@ function addHistQuestion() {
   const board   = document.getElementById('histQAdminBoard').value;
   const text    = document.getElementById('histQAdminText').value.trim();
   if (!text) { showToast('⚠️ Please enter the question text'); return; }
-  const newHistQ = { id: Date.now(), topic, marks, year: year || '', board, text };
-  histQuestions.unshift(newHistQ);
+  histQuestions.unshift({ id: Date.now(), topic, marks, year: year || '', board, text });
   saveData('reviseup_hist_questions', histQuestions);
-  if (typeof window._addHistQToFirebase === 'function') window._addHistQToFirebase(newHistQ);
   showToast('✅ History question added!');
   document.getElementById('histQAdminText').value = '';
   document.getElementById('histQAdminYear').value = '';
@@ -4933,10 +4906,8 @@ function renderAdminHistQList() {
 }
 
 function deleteHistQuestion(id) {
-  const q = histQuestions.find(q => q.id === id);
   histQuestions = histQuestions.filter(q => q.id !== id);
   saveData('reviseup_hist_questions', histQuestions);
-  if (q && q._fbId && typeof window._deleteHistQFromFirebase === 'function') window._deleteHistQFromFirebase(q._fbId);
   showToast('🗑 Question deleted');
   renderAdminHistQList();
   renderHistQuestions();
@@ -6157,16 +6128,13 @@ function renderScoreGraph(scores, subjectFilter) {
   async function bootstrap() {
     showLoader('Loading ReviseUp…');
     try {
-      const [fbNotes, fbPapers, fbDecks, fbUsers, fbAnkiLinks, fbTopicTests, fbEngQ, fbLitQ, fbHistQ] = await Promise.all([
+      const [fbNotes, fbPapers, fbDecks, fbUsers, fbAnkiLinks, fbTopicTests] = await Promise.all([
         fbGetAll('notes'),
         fbGetAll('papers'),
         fbGetAll('decks'),
         fbGetAll('users'),
         fbGetAll('ankiLinks'),
         fbGetAll('topicTests'),
-        fbGetAll('engQuestions'),
-        fbGetAll('litQuestions'),
-        fbGetAll('histQuestions'),
       ]);
 
       // Merge with defaults — Firestore wins over hardcoded defaults
@@ -6191,9 +6159,6 @@ function renderScoreGraph(scores, subjectFilter) {
         // Also sync the local variable so renderTopicTests picks it up immediately
         if (typeof topicTests !== 'undefined') topicTests = window.topicTests;
       }
-      if (fbEngQ.length)  { window.engQuestions  = fbEngQ;  if (typeof engQuestions  !== 'undefined') engQuestions  = fbEngQ; }
-      if (fbLitQ.length)  { window.litQuestions  = fbLitQ;  if (typeof litQuestions  !== 'undefined') litQuestions  = fbLitQ; }
-      if (fbHistQ.length) { window.histQuestions = fbHistQ; if (typeof histQuestions !== 'undefined') histQuestions = fbHistQ; }
 
       // Rebuild ankiLinks store from Firestore docs (each doc: { subject, deckTitle, url })
       if (fbAnkiLinks.length) {
@@ -6232,13 +6197,6 @@ function renderScoreGraph(scores, subjectFilter) {
       }
       if (typeof renderPapers === 'function')   renderPapers(window.currentPapersSubject || 'Maths');
       if (typeof renderTopicTests === 'function') renderTopicTests(window.currentTopicTestSubject || 'Maths', '');
-      // Re-render question banks now loaded from Firestore
-      if (typeof renderEngQuestions  === 'function') renderEngQuestions();
-      if (typeof renderLitQuestions  === 'function') renderLitQuestions();
-      if (typeof renderHistQuestions === 'function') renderHistQuestions();
-      if (typeof renderAdminEngQList  === 'function') renderAdminEngQList();
-      if (typeof renderAdminLitQList  === 'function') renderAdminLitQList();
-      if (typeof renderAdminHistQList === 'function') renderAdminHistQList();
       // Re-render Anki deck view if currently open (ankiLinks now loaded from Firestore)
       const phAnkiDeckViewEl = document.getElementById('phAnkiDeckView');
       if (phAnkiDeckViewEl && phAnkiDeckViewEl.style.display !== 'none' && typeof openAnkiSubject === 'function' && window._lastAnkiSubjectKey) {
@@ -6362,79 +6320,7 @@ function renderScoreGraph(scores, subjectFilter) {
     } catch(e) { console.error('updateUserPremium firebase error:', e); }
   };
 
-  // ── Question bank Firebase helpers ───────────────────────────────────────────
-  window._addEngQToFirebase = async function(q) {
-    try { const id = await fbAdd('engQuestions', q); q._fbId = id; }
-    catch(e) { console.error('addEngQ firebase error:', e); }
-  };
-  window._deleteEngQFromFirebase = async function(fbId) {
-    if (!fbId) return;
-    try { await fbDelete('engQuestions', fbId); }
-    catch(e) { console.error('deleteEngQ firebase error:', e); }
-  };
-  window._addLitQToFirebase = async function(q) {
-    try { const id = await fbAdd('litQuestions', q); q._fbId = id; }
-    catch(e) { console.error('addLitQ firebase error:', e); }
-  };
-  window._deleteLitQFromFirebase = async function(fbId) {
-    if (!fbId) return;
-    try { await fbDelete('litQuestions', fbId); }
-    catch(e) { console.error('deleteLitQ firebase error:', e); }
-  };
-  window._addHistQToFirebase = async function(q) {
-    try { const id = await fbAdd('histQuestions', q); q._fbId = id; }
-    catch(e) { console.error('addHistQ firebase error:', e); }
-  };
-  window._deleteHistQFromFirebase = async function(fbId) {
-    if (!fbId) return;
-    try { await fbDelete('histQuestions', fbId); }
-    catch(e) { console.error('deleteHistQ firebase error:', e); }
-  };
-
-  // ── One-time migration: publish all localStorage questions to Firestore ───────
-  window.publishQuestionsToCloud = async function() {
-    const btn = document.getElementById('publishQBtn');
-    if (btn) { btn.disabled = true; btn.textContent = 'Publishing…'; }
-    let total = 0;
-    try {
-      // Read from localStorage (the questions you typed before)
-      const localEng  = JSON.parse(localStorage.getItem('reviseup_eng_questions')  || '[]');
-      const localLit  = JSON.parse(localStorage.getItem('reviseup_lit_questions')  || '[]');
-      const localHist = JSON.parse(localStorage.getItem('reviseup_hist_questions') || '[]');
-
-      // Only upload ones not already in Firestore (match by id)
-      const existingEngIds  = (window.engQuestions  || []).map(q => q.id);
-      const existingLitIds  = (window.litQuestions  || []).map(q => q.id);
-      const existingHistIds = (window.histQuestions || []).map(q => q.id);
-
-      for (const q of localEng)  { if (!existingEngIds.includes(q.id))  { await fbAdd('engQuestions',  q); total++; } }
-      for (const q of localLit)  { if (!existingLitIds.includes(q.id))  { await fbAdd('litQuestions',  q); total++; } }
-      for (const q of localHist) { if (!existingHistIds.includes(q.id)) { await fbAdd('histQuestions', q); total++; } }
-
-      showToast('☁️ ' + total + ' question' + (total!==1?'s':'') + ' published to cloud!');
-      if (btn) { btn.textContent = '✅ Published ' + total + ' questions!'; }
-
-      // Reload from Firestore so the page reflects the new data
-      const [newEng, newLit, newHist] = await Promise.all([
-        fbGetAll('engQuestions'), fbGetAll('litQuestions'), fbGetAll('histQuestions')
-      ]);
-      if (newEng.length)  { engQuestions  = newEng;  window.engQuestions  = newEng; }
-      if (newLit.length)  { litQuestions  = newLit;  window.litQuestions  = newLit; }
-      if (newHist.length) { histQuestions = newHist; window.histQuestions = newHist; }
-      if (typeof renderEngQuestions  === 'function') renderEngQuestions();
-      if (typeof renderLitQuestions  === 'function') renderLitQuestions();
-      if (typeof renderHistQuestions === 'function') renderHistQuestions();
-      if (typeof renderAdminEngQList  === 'function') renderAdminEngQList();
-      if (typeof renderAdminLitQList  === 'function') renderAdminLitQList();
-      if (typeof renderAdminHistQList === 'function') renderAdminHistQList();
-    } catch(e) {
-      console.error('publishQuestionsToCloud error:', e);
-      showToast('⚠️ Some questions failed to publish — check console');
-      if (btn) { btn.disabled = false; btn.textContent = '☁️ Publish Questions to Cloud'; }
-    }
-  };
-
-
+  // ── Update just the markscheme field on a paper in Firestore ──────────────────
   window._fbUpdatePaperMs = async function(fbId, markschemeUrl) {
     if (!fbId) return;
     try {
