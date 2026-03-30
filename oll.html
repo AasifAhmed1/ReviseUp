@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,800;1,300&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>emailjs.init({ publicKey: 'cdxLYGty3cGYwDGPj' });</script>
 <style>
   /* ========== CSS VARS ========== */
@@ -71,8 +70,8 @@
   }
   .nav-logo span { color: var(--accent); }
   .nav-logo .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; display: inline-block; }
-  .nav-links { display: flex; align-items: center; gap: 1.4rem; }
-  .nav-links a { color: var(--muted); font-size: 0.83rem; font-weight: 500; transition: color 0.2s; white-space: nowrap; }
+  .nav-links { display: flex; align-items: center; gap: 2rem; }
+  .nav-links a { color: var(--muted); font-size: 0.88rem; font-weight: 500; transition: color 0.2s; }
   .nav-links a:hover { color: var(--text); }
   .nav-right { display: flex; align-items: center; gap: 12px; }
   .btn-login { background: transparent; color: var(--muted); font-size: 0.88rem; padding: 8px 16px; border-radius: 8px; transition: color 0.2s; }
@@ -767,13 +766,13 @@
       </div>
     </span>
     <a href="#" onclick="showPage('premium')">Premium</a>
-    <a href="#" id="navFlashcardsLink" onclick="openFlashcardsPage()">⚡ Flashcards</a>
+    <a href="#" id="navFlashcardsLink" onclick="openFlashcardsPage()" style="">⚡ Flashcards</a>
     <a href="#" id="navPremiumHubLink" onclick="requirePremiumPage('premium-hub')" style="display:none;color:var(--premium);font-weight:700">⭐ My Premium</a>
+    <a href="#" onclick="showPage('creators')">About Us</a>
   </div>
   <div class="nav-right">
     <button id="navPremiumBtn" class="btn-premium-nav" onclick="openModal('premiumModal')">⭐ Go Premium</button>
     <span id="navUserInfo" style="display:none;align-items:center;gap:6px;font-size:0.85rem;color:var(--accent);font-weight:600;padding:6px 12px;background:rgba(200,240,90,0.1);border-radius:8px;border:1px solid rgba(200,240,90,0.2)"></span>
-    <span id="navTrialBadge" style="display:none;align-items:center;gap:5px;font-size:0.78rem;color:#0f0f13;font-weight:700;padding:5px 11px;background:linear-gradient(135deg,#c8f05a,#a8d040);border-radius:8px">🎁 Trial: <span id="navTrialDays"></span> days left</span>
     <button id="navLoginBtn" class="btn-login" onclick="openModal('loginModal')">Log in</button>
     <button id="navJoinBtn" class="btn-join" onclick="openModal('signupModal')">Join free</button>
     <button id="navLogoutBtn" style="display:none;background:transparent;color:var(--muted);font-size:0.88rem;padding:8px 16px;border-radius:8px;border:1px solid var(--border);transition:color 0.2s" onclick="logoutUser()">Log out</button>
@@ -871,86 +870,6 @@
           <h3>French <span class="subj-dot" style="background:#5ae0f5"></span></h3>
           <p>Vocabulary, grammar, speaking & writing</p>
         </div>
-      </div>
-    </div>
-
-    <!-- PREMIUM HUB PREVIEW (home page — shown to non-premium users) -->
-    <div id="homePremiumHubPreview" style="max-width:1200px;margin:0 auto;padding:0 2rem 5rem;">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.8rem">
-        <div>
-          <div class="section-label" style="color:var(--premium)">⭐ Premium Hub</div>
-          <div class="section-title">Your Premium <em style="font-style:italic;color:var(--premium)">Hub</em></div>
-          <p class="section-sub" style="margin-bottom:0">Anki decks, paper score tracking, study planner & more — all in one place.</p>
-        </div>
-        <button onclick="openModal('premiumModal')" style="background:linear-gradient(135deg,#f5d76e,#f5a623);color:#1a1000;font-weight:700;font-size:0.9rem;padding:11px 24px;border-radius:10px;white-space:nowrap;flex-shrink:0">🎁 Try Free for 7 Days</button>
-      </div>
-      <!-- Locked cards grid -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;position:relative">
-        <!-- Card 1: Anki Decks -->
-        <div style="background:var(--card);border:1px solid rgba(245,215,110,0.2);border-radius:var(--radius);padding:1.6rem;position:relative;overflow:hidden;opacity:0.75;filter:blur(0.3px)">
-          <div style="position:absolute;top:12px;right:12px;font-size:1.1rem">🔒</div>
-          <div style="font-size:1.6rem;margin-bottom:0.7rem">🃏</div>
-          <h3 style="font-weight:700;margin-bottom:6px;font-size:0.95rem">Revision Anki Decks</h3>
-          <p style="color:var(--muted);font-size:0.82rem;line-height:1.6">Pre-made Anki decks for every subject — import and start learning in seconds.</p>
-          <div style="margin-top:1rem;display:flex;gap:6px;flex-wrap:wrap">
-            <span style="background:rgba(245,215,110,0.1);color:var(--premium);font-size:0.7rem;font-weight:700;padding:3px 9px;border-radius:999px">History</span>
-            <span style="background:rgba(245,215,110,0.1);color:var(--premium);font-size:0.7rem;font-weight:700;padding:3px 9px;border-radius:999px">Geography</span>
-            <span style="background:rgba(245,215,110,0.1);color:var(--premium);font-size:0.7rem;font-weight:700;padding:3px 9px;border-radius:999px">+8 more</span>
-          </div>
-        </div>
-        <!-- Card 2: Paper Score Tracker -->
-        <div style="background:var(--card);border:1px solid rgba(245,215,110,0.2);border-radius:var(--radius);padding:1.6rem;position:relative;overflow:hidden;opacity:0.75;filter:blur(0.3px)">
-          <div style="position:absolute;top:12px;right:12px;font-size:1.1rem">🔒</div>
-          <div style="font-size:1.6rem;margin-bottom:0.7rem">📈</div>
-          <h3 style="font-weight:700;margin-bottom:6px;font-size:0.95rem">Paper Score Tracker</h3>
-          <p style="color:var(--muted);font-size:0.82rem;line-height:1.6">Log your past paper scores, track your progress over time and visualise improvement with graphs.</p>
-          <div style="margin-top:1rem;height:36px;background:var(--bg3);border-radius:8px;overflow:hidden;display:flex;align-items:flex-end;padding:4px 6px;gap:4px">
-            <div style="flex:1;background:rgba(200,240,90,0.35);border-radius:3px 3px 0 0;height:40%"></div>
-            <div style="flex:1;background:rgba(200,240,90,0.45);border-radius:3px 3px 0 0;height:55%"></div>
-            <div style="flex:1;background:rgba(200,240,90,0.55);border-radius:3px 3px 0 0;height:65%"></div>
-            <div style="flex:1;background:rgba(200,240,90,0.65);border-radius:3px 3px 0 0;height:75%"></div>
-            <div style="flex:1;background:rgba(200,240,90,0.8);border-radius:3px 3px 0 0;height:90%"></div>
-          </div>
-        </div>
-        <!-- Card 3: Progress Tracking -->
-        <div style="background:var(--card);border:1px solid rgba(245,215,110,0.2);border-radius:var(--radius);padding:1.6rem;position:relative;overflow:hidden;opacity:0.75;filter:blur(0.3px)">
-          <div style="position:absolute;top:12px;right:12px;font-size:1.1rem">🔒</div>
-          <div style="font-size:1.6rem;margin-bottom:0.7rem">📊</div>
-          <h3 style="font-weight:700;margin-bottom:6px;font-size:0.95rem">Progress Tracking</h3>
-          <p style="color:var(--muted);font-size:0.82rem;line-height:1.6">Tick off topics as you revise them and see exactly where to focus next.</p>
-          <div style="margin-top:1rem;display:flex;flex-direction:column;gap:5px">
-            <div style="display:flex;align-items:center;gap:8px;font-size:0.75rem;color:var(--muted)"><div style="flex:1;height:5px;background:var(--bg3);border-radius:999px;overflow:hidden"><div style="height:100%;width:72%;background:var(--accent);border-radius:999px"></div></div><span>72%</span></div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:0.75rem;color:var(--muted)"><div style="flex:1;height:5px;background:var(--bg3);border-radius:999px;overflow:hidden"><div style="height:100%;width:45%;background:var(--accent);border-radius:999px"></div></div><span>45%</span></div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:0.75rem;color:var(--muted)"><div style="flex:1;height:5px;background:var(--bg3);border-radius:999px;overflow:hidden"><div style="height:100%;width:60%;background:var(--accent);border-radius:999px"></div></div><span>60%</span></div>
-          </div>
-        </div>
-        <!-- Card 4: Study Planner -->
-        <div style="background:var(--card);border:1px solid rgba(245,215,110,0.2);border-radius:var(--radius);padding:1.6rem;position:relative;overflow:hidden;opacity:0.75;filter:blur(0.3px)">
-          <div style="position:absolute;top:12px;right:12px;font-size:1.1rem">🔒</div>
-          <div style="font-size:1.6rem;margin-bottom:0.7rem">📅</div>
-          <h3 style="font-weight:700;margin-bottom:6px;font-size:0.95rem">Study Planner</h3>
-          <p style="color:var(--muted);font-size:0.82rem;line-height:1.6">Plan your revision week by week. Click a day to add a study session for any subject.</p>
-          <div style="margin-top:1rem;display:flex;gap:4px">
-            <div style="flex:1;background:rgba(200,240,90,0.12);border:1px solid rgba(200,240,90,0.2);border-radius:6px;padding:4px;text-align:center;font-size:0.65rem;color:var(--accent);font-weight:600">M</div>
-            <div style="flex:1;background:rgba(200,240,90,0.12);border:1px solid rgba(200,240,90,0.2);border-radius:6px;padding:4px;text-align:center;font-size:0.65rem;color:var(--accent);font-weight:600">T</div>
-            <div style="flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px;text-align:center;font-size:0.65rem;color:var(--muted)">W</div>
-            <div style="flex:1;background:rgba(200,240,90,0.12);border:1px solid rgba(200,240,90,0.2);border-radius:6px;padding:4px;text-align:center;font-size:0.65rem;color:var(--accent);font-weight:600">T</div>
-            <div style="flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px;text-align:center;font-size:0.65rem;color:var(--muted)">F</div>
-            <div style="flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px;text-align:center;font-size:0.65rem;color:var(--muted)">S</div>
-            <div style="flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px;text-align:center;font-size:0.65rem;color:var(--muted)">S</div>
-          </div>
-        </div>
-      </div>
-      <!-- Go Premium CTA banner -->
-      <div style="margin-top:1.4rem;background:linear-gradient(135deg,#1a1520,#1e1628);border:1px solid rgba(245,215,110,0.2);border-radius:var(--radius);padding:1.4rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap">
-        <div style="display:flex;align-items:center;gap:12px">
-          <span style="font-size:1.5rem">🎁</span>
-          <div>
-            <div style="font-weight:700;font-size:0.95rem">Unlock your Premium Hub</div>
-            <div style="color:var(--muted);font-size:0.82rem">Start free for 7 days — no payment details needed. Then £6.99/month.</div>
-          </div>
-        </div>
-        <button onclick="openModal('premiumModal')" style="background:linear-gradient(135deg,#f5d76e,#f5a623);color:#1a1000;font-weight:700;font-size:0.88rem;padding:10px 22px;border-radius:9px;white-space:nowrap">🎁 Try Free for 7 Days</button>
       </div>
     </div>
 
@@ -1273,18 +1192,7 @@
             <button class="btn-plan btn-plan-pro" style="background:linear-gradient(135deg,#7c6af5,#c55af0)" onclick="openModal('premiumModal')">Go Annual ⭐</button>
           </div>
         </div>
-        <!-- Free Trial CTA -->
-        <div id="premiumPageTrialBanner" style="margin-top:1.8rem;background:linear-gradient(135deg,rgba(200,240,90,0.08),rgba(124,106,245,0.06));border:1px solid rgba(200,240,90,0.25);border-radius:16px;padding:1.4rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap">
-          <div style="display:flex;align-items:center;gap:14px">
-            <span style="font-size:2rem">🎁</span>
-            <div>
-              <div style="font-weight:700;font-size:1rem;color:var(--accent)">Not ready to pay? Start a 7-day free trial</div>
-              <div style="color:var(--muted);font-size:0.83rem;margin-top:3px">Full Premium access, zero payment details needed. Cancel anytime.</div>
-            </div>
-          </div>
-          <button onclick="openModal('premiumModal')" style="background:var(--accent);color:#0f0f13;font-weight:700;font-size:0.9rem;padding:11px 26px;border-radius:10px;white-space:nowrap;flex-shrink:0">Start Free Trial →</button>
-        </div>
-        <p style="color:var(--muted);font-size:0.78rem;margin-top:1rem">Paid plans: secure checkout via Stripe.</p>
+        <p style="color:var(--muted);font-size:0.78rem">Secure checkout via Stripe.</p>
       </div>
 
       <!-- ANKI SECTION -->
@@ -1737,7 +1645,6 @@
       <div class="ph-tabs">
         <button class="ph-tab active" onclick="switchPHTab(this,'ph-anki')">🃏 Anki Decks</button>
         <button class="ph-tab" onclick="switchPHTab(this,'ph-progress')">📊 Progress</button>
-        <button class="ph-tab" onclick="switchPHTab(this,'ph-scores')">📈 Paper Scores</button>
         <button class="ph-tab" onclick="switchPHTab(this,'ph-planner')">📅 Study Planner</button>
         <button class="ph-tab" onclick="switchPHTab(this,'ph-stats')">🏆 My Stats</button>
       </div>
@@ -1792,42 +1699,6 @@
         </div>
 
         <div id="progressSubjectGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px"></div>
-      </div>
-
-      <!-- ===== PAPER SCORES PANEL ===== -->
-      <div class="ph-panel" id="ph-scores">
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:0.5rem">
-          <div>
-            <div class="section-label">Premium Feature</div>
-            <div class="section-title" style="margin-bottom:0">Paper Score Tracker</div>
-          </div>
-          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-            <select id="scoreSubjectFilter" onchange="renderScoreTracker()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:8px;font-family:inherit;font-size:0.82rem">
-              <option value="all">All Subjects</option>
-              <option value="Maths">Maths</option>
-              <option value="Biology">Biology</option>
-              <option value="Chemistry">Chemistry</option>
-              <option value="Physics">Physics</option>
-              <option value="English">English</option>
-              <option value="Geography">Geography</option>
-              <option value="History">History</option>
-              <option value="Business">Business</option>
-              <option value="French">French</option>
-            </select>
-            <button onclick="clearAllScores()" style="background:rgba(255,107,138,0.1);border:1px solid rgba(255,107,138,0.25);color:#ff6b8a;font-size:0.78rem;font-weight:600;padding:7px 14px;border-radius:8px">Clear All</button>
-          </div>
-        </div>
-        <p class="section-sub">Log your scores for each past paper. Your results are saved automatically and shown in the graph below.</p>
-
-        <!-- Score Graph -->
-        <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.6rem;margin-bottom:2rem">
-          <div style="font-weight:700;font-size:0.92rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:8px">📈 Score Progress <span id="scoreGraphSubjectLabel" style="color:var(--muted);font-weight:400;font-size:0.8rem"></span></div>
-          <canvas id="scoreProgressChart" height="200" style="width:100%;max-height:220px"></canvas>
-          <div id="scoreGraphEmpty" style="display:none;text-align:center;color:var(--muted);font-size:0.85rem;padding:2rem 0">No scores logged yet — add your first result below ↓</div>
-        </div>
-
-        <!-- Papers list with score entry -->
-        <div id="scoreTrackerList" style="display:flex;flex-direction:column;gap:10px"></div>
       </div>
 
       <!-- ===== STUDY PLANNER PANEL ===== -->
@@ -2638,30 +2509,11 @@
     <button class="modal-close" onclick="closeModal('premiumModal')">✕</button>
     <h2>⭐ Go Premium</h2>
     <p>Unlock everything ReviseUp has to offer.</p>
-
-    <!-- 7-day free trial banner (hidden once used or if already premium) -->
-    <div id="freeTrialBanner" style="background:linear-gradient(135deg,rgba(200,240,90,0.1),rgba(124,106,245,0.08));border:1px solid rgba(200,240,90,0.3);border-radius:12px;padding:1.1rem 1.3rem;margin-bottom:1.2rem;display:none">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:0.6rem">
-        <span style="font-size:1.3rem">🎁</span>
-        <div>
-          <div style="font-weight:700;font-size:0.95rem;color:var(--accent)">7-Day Free Trial</div>
-          <div style="font-size:0.78rem;color:var(--muted)">Full Premium access — no payment details needed</div>
-        </div>
-      </div>
-      <button onclick="startFreeTrial()" style="width:100%;background:var(--accent);color:#0f0f13;font-weight:700;font-size:0.9rem;padding:10px;border-radius:9px;margin-top:0.3rem">Start Free Trial →</button>
-    </div>
-
-    <!-- Already used trial notice -->
-    <div id="trialUsedNotice" style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:0.8rem 1.1rem;margin-bottom:1.2rem;font-size:0.8rem;color:var(--muted);display:none">
-      ✅ You've already used your free trial — upgrade below to keep access.
-    </div>
-
     <div style="background:rgba(245,215,110,0.06);border:1px solid rgba(245,215,110,0.15);border-radius:12px;padding:1.2rem;margin-bottom:1.4rem">
       <ul class="plan-features">
         <li class="locked">Unlimited revision notes</li>
         <li class="locked">Unlimited revision Anki decks</li>
         <li class="locked">Progress tracking</li>
-        <li class="locked">Paper score tracker</li>
         <li class="locked">Offline downloads</li>
       </ul>
     </div>
@@ -3080,20 +2932,7 @@ function renderSubjectNotes(subjectName) {
 function renderSubjectQuestions(subjectName) {
   const filtered = papers.filter(p => p.subject.toLowerCase().includes(subjectName.toLowerCase().split(' ')[0]));
   const list = document.getElementById('subjectQList');
-  if (!filtered.length) { list.innerHTML = '<p style="color:var(--muted)">No questions for this subject yet.</p>'; return; }
-  // Group by year newest first
-  const byYear = {};
-  filtered.forEach(p => { const yr = p.year || 'Other'; if (!byYear[yr]) byYear[yr] = []; byYear[yr].push(p); });
-  const sortedYears = Object.keys(byYear).sort((a, b) => b - a);
-  list.innerHTML = sortedYears.map(yr => `
-    <div style="margin-bottom:1.2rem">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-        <div style="font-family:'Fraunces',serif;font-size:1rem;font-weight:800;color:var(--text)">${yr}</div>
-        <div style="flex:1;height:1px;background:var(--border)"></div>
-        <div style="font-size:0.72rem;color:var(--muted);font-weight:600">${byYear[yr].length} paper${byYear[yr].length !== 1 ? 's' : ''}</div>
-      </div>
-      ${byYear[yr].map(p => paperRow(p)).join('')}
-    </div>`).join('');
+  list.innerHTML = filtered.length ? filtered.map(p => paperRow(p)).join('') : '<p style="color:var(--muted)">No questions for this subject yet.</p>';
 }
 
 // ============================
@@ -3179,36 +3018,7 @@ function renderPapers(subject) {
   currentPapersSubject = subject;
   document.getElementById('papersSubjectTitle').textContent = subject + ' Past Papers';
   const filtered = papers.filter(p => p.subject === subject);
-  renderPapersByYear(filtered);
-}
-
-function renderPapersByYear(paperList) {
-  const container = document.getElementById('papersList');
-  if (!paperList.length) { container.innerHTML = '<p style="color:var(--muted)">No papers added yet.</p>'; return; }
-
-  // Group by year, sorted newest first
-  const byYear = {};
-  paperList.forEach(p => {
-    const yr = p.year || 'Other';
-    if (!byYear[yr]) byYear[yr] = [];
-    byYear[yr].push(p);
-  });
-  const sortedYears = Object.keys(byYear).sort((a, b) => b - a);
-
-  container.innerHTML = sortedYears.map(yr => {
-    const yearPapers = byYear[yr];
-    const allLocked = yearPapers.every(p => p.premium && !isPremium && !isAdmin);
-    return `<div style="margin-bottom:1.4rem">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-        <div style="font-family:'Fraunces',serif;font-size:1.05rem;font-weight:800;color:var(--text)">${yr}</div>
-        <div style="flex:1;height:1px;background:var(--border)"></div>
-        <div style="font-size:0.72rem;color:var(--muted);font-weight:600">${yearPapers.length} paper${yearPapers.length !== 1 ? 's' : ''}</div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        ${yearPapers.map(p => paperRow(p)).join('')}
-      </div>
-    </div>`;
-  }).join('');
+  document.getElementById('papersList').innerHTML = filtered.length ? filtered.map(p => paperRow(p)).join('') : '<p style="color:var(--muted)">No papers added yet.</p>';
 }
 function paperRow(p) {
   const msBtn = p.markscheme && p.markscheme !== '#'
@@ -3229,7 +3039,6 @@ function paperRow(p) {
 function downloadMarkscheme(id, title) {
   const p = papers.find(x => String(x.id) === String(id)) || topicTests.find(x => String(x.id) === String(id));
   if (!p || !p.markscheme || p.markscheme === '#') { showToast('📋 Mark scheme not added yet — add via Admin Panel'); return; }
-  if (p.premium && !isPremium && !isAdmin) { openModal('premiumModal'); return; }
   let link = p.markscheme;
   if (link.startsWith('memory_ms:')) {
     const memId = link.replace('memory_ms:', '');
@@ -3252,7 +3061,7 @@ function filterPapers(subject, btn) {
 }
 function filterByBoard(board) {
   const filtered = papers.filter(p => p.subject === currentPapersSubject && (board === 'All Boards' || p.board === board));
-  renderPapersByYear(filtered);
+  document.getElementById('papersList').innerHTML = filtered.length ? filtered.map(p => paperRow(p)).join('') : '<p style="color:var(--muted)">No papers found.</p>';
 }
 
 // ============================
@@ -3307,7 +3116,6 @@ function filterTopicTestsByTopic(topic) {
 function downloadTopicTest(id, title) {
   const t = topicTests.find(x => String(x.id) === String(id));
   if (!t || t.link === '#') { showToast('📄 Test link not added yet — add via Admin Panel'); return; }
-  if (t.premium && !isPremium && !isAdmin) { openModal('premiumModal'); return; }
   let link = t.link;
   if (link.startsWith('memory:')) {
     const memId = link.replace('memory:', '');
@@ -3326,7 +3134,6 @@ function downloadTopicTest(id, title) {
 function downloadPaper(id, title) {
   const p = papers.find(x => String(x.id) === String(id));
   if (!p || p.link === '#') { showToast('📄 Paper link not added yet — add via Admin Panel'); return; }
-  if (p.premium && !isPremium && !isAdmin) { openModal('premiumModal'); return; }
   let dataLink = p.link;
   // Check in-memory store for uploaded PDFs
   if (p.link.startsWith('memory:')) {
@@ -3527,110 +3334,15 @@ function renderAdminPapers() {
   const list = document.getElementById('adminPapersList');
   if (!list) return;
   if (!papers.length) { list.innerHTML = '<p style="color:var(--muted);font-size:0.85rem">No papers yet.</p>'; return; }
-
-  // Group by subject then year
-  const grouped = {};
-  papers.forEach(p => {
-    if (!grouped[p.subject]) grouped[p.subject] = {};
-    if (!grouped[p.subject][p.year]) grouped[p.subject][p.year] = [];
-    grouped[p.subject][p.year].push(p);
-  });
-
-  let html = '';
-  Object.keys(grouped).sort().forEach(subj => {
-    const years = Object.keys(grouped[subj]).sort((a,b) => b - a);
-    html += `<div style="margin-bottom:1rem">
-      <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;padding:4px 0;border-bottom:1px solid var(--border)">${subj}</div>`;
-    years.forEach(yr => {
-      grouped[subj][yr].forEach(p => {
-        const hasMsLink = p.markscheme && p.markscheme !== '#';
-        const msStatus = hasMsLink
-          ? `<span style="color:#a89ff5;font-size:0.72rem;font-weight:600">📋 MS ✓</span>`
-          : `<span style="color:var(--muted);font-size:0.72rem">No MS</span>`;
-        html += `<div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:6px">
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
-            <div style="min-width:0;flex:1">
-              <span style="font-weight:600;font-size:0.88rem">${p.title}</span>
-              <span style="color:var(--muted);font-size:0.75rem;margin-left:8px">${p.board} · ${p.year}${p.premium?' · ⭐':''}</span>
-              <span style="margin-left:10px">${msStatus}</span>
-            </div>
-            <div style="display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap">
-              <button onclick="openAdminMsModal(${p.id})"
-                style="background:rgba(124,106,245,0.12);border:1px solid rgba(124,106,245,0.3);color:#a89ff5;font-size:0.72rem;font-weight:600;padding:5px 11px;border-radius:7px;cursor:pointer">
-                📋 ${hasMsLink ? 'Edit MS' : 'Add MS'}
-              </button>
-              <button class="btn-admin" style="padding:5px 11px;font-size:0.72rem" onclick="deletePaper(${p.id})">🗑 Delete</button>
-            </div>
-          </div>
-          <!-- Inline MS form (hidden by default) -->
-          <div id="msForm_${p.id}" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">
-            <label style="display:block;font-size:0.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px">Mark Scheme URL</label>
-            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-              <input type="url" id="msInput_${p.id}" value="${hasMsLink ? p.markscheme : ''}" placeholder="https://drive.google.com/..."
-                style="flex:1;min-width:200px;background:var(--bg);border:1px solid rgba(124,106,245,0.3);color:var(--text);padding:7px 12px;border-radius:8px;font-family:inherit;font-size:0.83rem">
-              <button onclick="saveAdminMs(${p.id})"
-                style="background:rgba(124,106,245,0.15);border:1px solid rgba(124,106,245,0.4);color:#a89ff5;font-weight:700;font-size:0.8rem;padding:7px 14px;border-radius:8px;cursor:pointer">
-                💾 Save
-              </button>
-              ${hasMsLink ? `<button onclick="clearAdminMs(${p.id})" style="background:rgba(255,107,138,0.1);border:1px solid rgba(255,107,138,0.25);color:#ff6b8a;font-size:0.78rem;font-weight:600;padding:7px 12px;border-radius:8px;cursor:pointer">🗑 Remove</button>` : ''}
-            </div>
-          </div>
-        </div>`;
-      });
-    });
-    html += `</div>`;
-  });
-
-  list.innerHTML = html;
-}
-
-function openAdminMsModal(paperId) {
-  const formEl = document.getElementById('msForm_' + paperId);
-  if (!formEl) return;
-  // Close all other open forms first
-  document.querySelectorAll('[id^="msForm_"]').forEach(el => {
-    if (el.id !== 'msForm_' + paperId) el.style.display = 'none';
-  });
-  formEl.style.display = formEl.style.display === 'none' ? '' : 'none';
-}
-
-function saveAdminMs(paperId) {
-  const input = document.getElementById('msInput_' + paperId);
-  if (!input) return;
-  const url = input.value.trim();
-  if (!url) { showToast('⚠️ Please enter a URL'); return; }
-  const idx = papers.findIndex(p => String(p.id) === String(paperId));
-  if (idx === -1) return;
-  papers[idx].markscheme = url;
-  // Persist
-  const metaOnly = papers.map(p => ({ ...p, link: p.link && p.link.startsWith('data:') ? 'memory:' + p.id : p.link }));
-  saveData('reviseup_papers', metaOnly);
-  // Update Firebase
-  if (typeof window._saveAnkiLinkToFirebase !== 'function' && typeof window._addPaperToFirebase === 'function') {
-    // Re-save the whole paper record to Firebase with updated markscheme
-    window._addPaperToFirebase({ ...papers[idx] });
-  }
-  if (typeof window.fbSet === 'function') {
-    const docId = String(paperId);
-    window.fbSet('papers', docId, { markscheme: url });
-  }
-  // Also try the Firestore fbSet exposed on window (set in Firebase module)
-  if (typeof window._fbUpdatePaperMs === 'function') window._fbUpdatePaperMs(papers[idx]._fbId || String(paperId), url);
-  showToast('✅ Mark scheme saved!');
-  renderAdminPapers();
-  renderPapers(currentPapersSubject);
-}
-
-function clearAdminMs(paperId) {
-  const idx = papers.findIndex(p => String(p.id) === String(paperId));
-  if (idx === -1) return;
-  papers[idx].markscheme = '#';
-  const metaOnly = papers.map(p => ({ ...p, link: p.link && p.link.startsWith('data:') ? 'memory:' + p.id : p.link }));
-  saveData('reviseup_papers', metaOnly);
-  if (typeof window._fbUpdatePaperMs === 'function') window._fbUpdatePaperMs(papers[idx]._fbId || String(paperId), '#');
-  showToast('🗑 Mark scheme removed');
-  renderAdminPapers();
-  renderPapers(currentPapersSubject);
+  list.innerHTML = papers.map(p => `
+    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--bg3);padding:10px 14px;border-radius:8px;gap:12px">
+      <div style="min-width:0">
+        <span style="font-weight:600;font-size:0.88rem">${p.title}</span>
+        <span style="color:var(--muted);font-size:0.78rem;margin-left:8px">${p.subject} · ${p.board} · ${p.year}${p.premium?' · ⭐':''}</span>
+      </div>
+      <button class="btn-admin" style="padding:5px 12px;font-size:0.75rem;flex-shrink:0" onclick="deletePaper(${p.id})">🗑 Delete</button>
+    </div>
+  `).join('');
 }
 
 function deleteNote(id) {
@@ -3950,138 +3662,8 @@ function logoutUser() {
   updateNavForAuth();
   updateNotesBanner();
   updatePremiumUI();
-  // Explicitly hide trial badge on logout
-  const badge = document.getElementById('navTrialBadge');
-  if (badge) badge.style.display = 'none';
   showToast('👋 Logged out successfully');
 }
-
-// ============================
-// 7-DAY FREE TRIAL
-// ============================
-const TRIAL_DURATION_DAYS = 7;
-
-function getTrialData() {
-  return loadData('reviseup_trial', null);
-}
-function saveTrialData(data) {
-  saveData('reviseup_trial', data);
-}
-
-function hasUsedTrial() {
-  const t = getTrialData();
-  return t && t.used;
-}
-
-function isTrialActive() {
-  const t = getTrialData();
-  if (!t || !t.startDate || !t.used) return false;
-  const start = new Date(t.startDate);
-  const now   = new Date();
-  const diffDays = (now - start) / (1000 * 60 * 60 * 24);
-  return diffDays < TRIAL_DURATION_DAYS;
-}
-
-function trialDaysRemaining() {
-  const t = getTrialData();
-  if (!t || !t.startDate) return 0;
-  const start = new Date(t.startDate);
-  const now   = new Date();
-  const diffDays = (now - start) / (1000 * 60 * 60 * 24);
-  return Math.max(0, Math.ceil(TRIAL_DURATION_DAYS - diffDays));
-}
-
-function startFreeTrial() {
-  if (!isLoggedIn) {
-    closeModal('premiumModal');
-    openModal('signupModal');
-    showToast('✅ Sign up first — then start your free trial!');
-    return;
-  }
-  if (hasUsedTrial()) {
-    showToast('⚠️ You\'ve already used your free trial');
-    return;
-  }
-  const trialData = { used: true, startDate: new Date().toISOString(), email: currentUser.email };
-  saveTrialData(trialData);
-  // Save trial info to Firebase so it persists across devices
-  if (typeof window._saveUserToFirebase === 'function') {
-    window._saveUserToFirebase({ ...currentUser, trialUsed: true, trialStart: trialData.startDate });
-  }
-  isPremium = true;
-  // Update session
-  localStorage.setItem('reviseup_session', JSON.stringify({ email: currentUser.email, premium: true, trial: true }));
-  closeModal('premiumModal');
-  updateNavForAuth();
-  updateNotesBanner();
-  updatePremiumUI();
-  updateTrialBadge();
-  showToast('🎁 7-day free trial started! Full Premium access is yours.');
-}
-
-function checkTrialExpiry() {
-  // If the user is on trial, check if it's expired
-  const t = getTrialData();
-  if (!t || !t.used) return;
-  if (!isTrialActive() && isPremium && t.used && !currentUser?.paidPremium) {
-    // Trial expired — revoke premium
-    isPremium = false;
-    const session = JSON.parse(localStorage.getItem('reviseup_session') || '{}');
-    if (session.trial) {
-      session.premium = false;
-      localStorage.setItem('reviseup_session', JSON.stringify(session));
-    }
-    updateNavForAuth();
-    updateNotesBanner();
-    updatePremiumUI();
-    updateTrialBadge();
-    showToast('⏰ Your 7-day free trial has ended. Upgrade to keep Premium access!');
-    setTimeout(() => openModal('premiumModal'), 1500);
-  }
-}
-
-function updateTrialBadge() {
-  const badge   = document.getElementById('navTrialBadge');
-  const daysEl  = document.getElementById('navTrialDays');
-  if (!badge || !daysEl) return;
-  const t = getTrialData();
-  // Only show badge if user is actively logged in AND on an active trial
-  const active = isLoggedIn && t && t.used && isTrialActive() && !currentUser?.paidPremium;
-  badge.style.display = active ? 'flex' : 'none';
-  if (active) daysEl.textContent = trialDaysRemaining();
-}
-
-function updatePremiumModalTrialUI() {
-  const banner     = document.getElementById('freeTrialBanner');
-  const usedNotice = document.getElementById('trialUsedNotice');
-  if (!banner || !usedNotice) return;
-  if (isPremium || isAdmin) {
-    // Already premium — hide both
-    banner.style.display     = 'none';
-    usedNotice.style.display = 'none';
-    return;
-  }
-  if (!isLoggedIn) {
-    // Not logged in — show trial banner (will prompt login when clicked)
-    banner.style.display     = '';
-    usedNotice.style.display = 'none';
-    return;
-  }
-  if (hasUsedTrial()) {
-    banner.style.display     = 'none';
-    usedNotice.style.display = '';
-  } else {
-    banner.style.display     = '';
-    usedNotice.style.display = 'none';
-  }
-}
-
-// Hook into openModal to refresh trial UI when premium modal opens
-const _origOpenModal = openModal;
-openModal = function(id) {
-  _origOpenModal(id);
-  if (id === 'premiumModal') updatePremiumModalTrialUI();
-};
 
 function premiumSignup() {
   if (!isLoggedIn) { closeModal('premiumModal'); openModal('signupModal'); return; }
@@ -4123,8 +3705,6 @@ function updateNavForAuth() {
     if (userInfo)   userInfo.style.display   = 'none';
     if (premiumBtn) premiumBtn.style.display = 'flex';
   }
-  // Always refresh trial badge
-  if (typeof updateTrialBadge === 'function') updateTrialBadge();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -4136,12 +3716,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (currentUser && currentUser.email && currentUser.email.toLowerCase() === 'ahmem4648@gmail.com') {
     isPremium = true;
   }
-  // Restore trial premium if still active
-  if (!isPremium && typeof isTrialActive === 'function' && isTrialActive()) isPremium = true;
-  checkTrialExpiry();
   updateNavForAuth();
   updatePremiumUI();
-  updateTrialBadge();
   // Init new question pages
   renderEngQuestions();
   renderLitQuestions();
@@ -4194,12 +3770,6 @@ function updatePremiumUI() {
   // Update flashcard free banner
   const fcFreeBanner = document.getElementById('fcFreeBanner');
   if (fcFreeBanner) fcFreeBanner.style.display = (isPremium || isAdmin) ? 'none' : (isLoggedIn ? '' : 'none');
-
-  // Premium page: hide trial banner if already premium or trial used
-  const ppTrialBanner = document.getElementById('premiumPageTrialBanner');
-  if (ppTrialBanner) {
-    ppTrialBanner.style.display = (unlocked || hasUsedTrial()) ? 'none' : '';
-  }
 }
 
 // ── Admin Premium Preview Toggle ──────────────────────────────────────────────
@@ -4997,7 +4567,6 @@ function switchPHTab(btn, panelId) {
   document.getElementById(panelId).classList.add('active');
   if (panelId === 'ph-anki')      renderPHAnki();
   if (panelId === 'ph-progress')  renderProgress();
-  if (panelId === 'ph-scores')    { renderScoreTracker(); setTimeout(renderScoreTracker, 800); }
   if (panelId === 'ph-planner')   initPlanner();
   if (panelId === 'ph-stats')     renderStats();
 }
@@ -5102,41 +4671,34 @@ function openAnkiSubject(key) {
   document.getElementById('phAnkiSubjectView').style.display = 'none';
   document.getElementById('phAnkiDeckView').style.display = '';
   document.getElementById('phAnkiDeckTitle').textContent = s.icon + ' ' + s.label;
+  document.getElementById('phAnkiDeckCount').textContent = s.decks.length + ' decks · ' + s.decks.reduce((a,d)=>a+d.cards,0) + ' cards total';
 
-  const totalCards = s.decks.reduce((a, d) => a + d.cards, 0);
-  document.getElementById('phAnkiDeckCount').textContent = totalCards + ' cards total';
-
-  // Find the uploaded deck for this subject from Firestore 'decks' collection
-  const subjectKey   = s.key.toLowerCase();
-  const subjectLabel = s.label.toLowerCase();
-  const adminDeck = decks.find(d => {
-    const ds = (d.subject || '').toLowerCase();
-    return ds === subjectKey || ds === subjectLabel || ds.includes(subjectKey) || subjectLabel.includes(ds) || subjectKey.includes(ds);
-  });
-  const downloadLink = (adminDeck && adminDeck.link && adminDeck.link !== '#') ? adminDeck.link : null;
+  // Resolve download links: Priority 1 = admin-set link store, Priority 2 = hardcoded deck link, Priority 3 = admin-uploaded deck fallback
+  const savedLinks = getAnkiLinks();
+  const adminDecks = decks.filter(d => d.subject.toLowerCase().includes(s.label.toLowerCase().split(' ')[0]) || s.label.toLowerCase().includes(d.subject.toLowerCase()));
 
   const list = document.getElementById('phAnkiDeckList');
-
-  // What topics are covered — shown as info pills
-  const topicPills = s.decks.map(d =>
-    `<span style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:0.75rem;color:var(--muted)">${d.title}</span>`
-  ).join('');
-
-  list.innerHTML = `
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;text-align:center">
-      <div style="font-size:3rem;margin-bottom:1rem">${s.icon}</div>
-      <div style="font-family:Fraunces,serif;font-size:1.4rem;font-weight:800;margin-bottom:0.4rem">${s.label} — Complete Anki Deck</div>
-      <div style="color:var(--muted);font-size:0.85rem;margin-bottom:1.5rem">${totalCards} cards · Import the .apkg file directly into Anki</div>
-      <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:2rem">${topicPills}</div>
-      ${!downloadLink
-        ? `<button class="btn-download-premium" style="opacity:0.5;cursor:default;font-size:1rem;padding:12px 28px">📋 Coming Soon</button>
-           <div style="margin-top:0.8rem;font-size:0.75rem;color:var(--muted)">This deck is being prepared — check back soon</div>`
-        : (isPremium || isAdmin)
-          ? `<a href="${downloadLink}" target="_blank" download class="btn-download-premium" style="font-size:1rem;padding:12px 28px;display:inline-flex;align-items:center;gap:8px;background:rgba(245,215,110,0.18);border-color:rgba(245,215,110,0.5)">⬇ Download Full Deck (.apkg)</a>
-             <div style="margin-top:0.8rem;font-size:0.75rem;color:var(--muted)">Opens Google Drive — click the download icon to save the file</div>`
-          : `<button class="btn-download-premium" onclick="openModal('premiumModal')" style="font-size:1rem;padding:12px 28px;display:inline-flex;align-items:center;gap:8px;background:rgba(245,215,110,0.1);border-color:rgba(245,215,110,0.3);cursor:pointer">⭐ Unlock with Premium</button>
-             <div style="margin-top:0.8rem;font-size:0.75rem;color:var(--muted)">Upgrade to Premium to download this Anki deck</div>`}
+  list.innerHTML = s.decks.map(d => {
+    const storedLink  = savedLinks[s.key] && savedLinks[s.key][d.title];
+    const uploaded    = adminDecks.find(ad => ad.title.toLowerCase().includes(d.title.toLowerCase().split(' ')[0]));
+    const resolvedLink = (storedLink && storedLink !== '#')
+      ? storedLink
+      : (d.link && d.link !== '#' && d.link !== '')
+        ? d.link
+        : (uploaded && uploaded.link && uploaded.link !== '#' && uploaded.link !== '') ? uploaded.link : null;
+    return `<div class="anki-deck-row">
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:600;font-size:0.9rem;margin-bottom:2px">${d.title}</div>
+        <div style="font-size:0.75rem;color:var(--muted)">${d.cards} cards · ${d.desc}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+        <span style="font-size:0.7rem;color:var(--muted);background:var(--bg3);padding:3px 8px;border-radius:5px">${d.cards} cards</span>
+        ${resolvedLink
+          ? `<a href="${resolvedLink}" target="_blank" download class="btn-download-premium">⬇ Download .apkg</a>`
+          : `<button class="btn-download-premium" style="opacity:0.5;cursor:default" title="No link yet — set one in Admin Panel → Premium Hub Anki Links">📋 Coming Soon</button>`}
+      </div>
     </div>`;
+  }).join('');
 }
 
 // ── Progress Tracking ─────────────────────────────────────────────────────────
@@ -5714,236 +5276,6 @@ showQuizScore = function() {
 
 // (end premium hub)
 
-// ============================
-// HOME PAGE: Premium Hub Preview visibility
-// Shows locked preview to free users, hides for premium (they use the real hub)
-// ============================
-function updateHomePremiumHubPreview() {
-  const preview = document.getElementById('homePremiumHubPreview');
-  if (!preview) return;
-  // Hide the preview entirely for premium/admin — they have access to the real hub
-  preview.style.display = (isPremium || isAdmin) ? 'none' : '';
-}
-
-// Patch updatePremiumUI to also refresh the home preview
-const _origUpdatePremiumUI = updatePremiumUI;
-updatePremiumUI = function() {
-  _origUpdatePremiumUI();
-  updateHomePremiumHubPreview();
-};
-
-// ============================
-// PAPER SCORE TRACKER
-// ============================
-let _scoreChart = null;
-
-function loadPaperScores() {
-  return loadData('reviseup_paper_scores', {});
-  // shape: { [paperId]: [ { date, score, maxScore }, ... ] }
-}
-function savePaperScores(data) {
-  saveData('reviseup_paper_scores', data);
-}
-
-function renderScoreTracker() {
-  const subjectFilter = (document.getElementById('scoreSubjectFilter') || {}).value || 'all';
-  const scores = loadPaperScores();
-
-  // Prefer whichever source has more papers (Firebase overwrites window.papers,
-  // while the local `papers` let-var holds localStorage data)
-  const localPapers = (typeof papers !== 'undefined' ? papers : []);
-  const winPapers   = (window.papers && window.papers.length > localPapers.length) ? window.papers : localPapers;
-  const localTests  = (typeof topicTests !== 'undefined' ? topicTests : []);
-  const winTests    = (window.topicTests && window.topicTests.length > localTests.length) ? window.topicTests : localTests;
-
-  const allItems = winPapers.concat(winTests).filter(p => {
-    if (subjectFilter === 'all') return true;
-    return p.subject && p.subject.toLowerCase().includes(subjectFilter.toLowerCase());
-  });
-
-  const list = document.getElementById('scoreTrackerList');
-  if (!list) return;
-
-  if (!allItems.length) {
-    list.innerHTML = '<p style="color:var(--muted);font-size:0.85rem">No papers found for this subject yet — add some via the Admin Panel.</p>';
-    renderScoreGraph(scores, subjectFilter);
-    return;
-  }
-
-  list.innerHTML = allItems.map(p => {
-    const key = 'paper_' + p.id;
-    const entries = (scores[key] || []);
-    const latestEntry = entries[entries.length - 1];
-    const latestScore = latestEntry ? `${latestEntry.score}/${latestEntry.maxScore} (${Math.round(latestEntry.score/latestEntry.maxScore*100)}%)` : '—';
-    const entriesHtml = entries.length
-      ? entries.slice(-5).reverse().map(e => {
-          const pct = Math.round(e.score / e.maxScore * 100);
-          const col = pct >= 80 ? 'var(--accent)' : pct >= 60 ? '#f5a623' : '#ff6b8a';
-          return `<span style="font-size:0.72rem;color:var(--muted)">${e.date}</span>
-            <span style="font-size:0.78rem;font-weight:700;color:${col}">${e.score}/${e.maxScore} <span style="color:${col}">(${pct}%)</span></span>`;
-        }).join('<span style="color:var(--border)">·</span>')
-      : '<span style="color:var(--muted);font-size:0.78rem">No entries yet</span>';
-
-    return `<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem 1.2rem">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:0.8rem">
-        <div>
-          <h4 style="font-weight:600;font-size:0.9rem;margin-bottom:2px">${p.title}</h4>
-          <p style="color:var(--muted);font-size:0.75rem">${p.subject || ''}${p.board ? ' · ' + p.board : ''}${p.year ? ' · ' + p.year : ''}</p>
-        </div>
-        <div style="font-size:0.78rem;color:var(--muted);text-align:right;flex-shrink:0">Latest: <strong style="color:var(--text)">${latestScore}</strong></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:0.75rem;margin-bottom:0.8rem;min-height:22px">
-        ${entriesHtml}
-      </div>
-      <div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap">
-        <div>
-          <label style="display:block;font-size:0.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px">Score</label>
-          <input type="number" id="score_${p.id}" min="0" placeholder="e.g. 68" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:7px;font-family:inherit;font-size:0.85rem;width:90px">
-        </div>
-        <div>
-          <label style="display:block;font-size:0.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px">Out of</label>
-          <input type="number" id="max_${p.id}" min="1" placeholder="e.g. 80" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:7px;font-family:inherit;font-size:0.85rem;width:90px">
-        </div>
-        <div>
-          <label style="display:block;font-size:0.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px">Date</label>
-          <input type="date" id="date_${p.id}" value="${new Date().toISOString().split('T')[0]}" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:7px;font-family:inherit;font-size:0.85rem">
-        </div>
-        <button onclick="addPaperScore('${p.id}')" style="background:var(--accent);color:#0f0f13;font-weight:700;font-size:0.82rem;padding:8px 16px;border-radius:7px;margin-bottom:0">Log Score</button>
-        ${entries.length ? `<button onclick="clearPaperScore('${p.id}')" style="background:rgba(255,107,138,0.1);border:1px solid rgba(255,107,138,0.25);color:#ff6b8a;font-size:0.75rem;font-weight:600;padding:7px 12px;border-radius:7px">Clear</button>` : ''}
-      </div>
-    </div>`;
-  }).join('');
-
-  renderScoreGraph(scores, subjectFilter);
-}
-
-function addPaperScore(paperId) {
-  const scoreEl = document.getElementById('score_' + paperId);
-  const maxEl   = document.getElementById('max_' + paperId);
-  const dateEl  = document.getElementById('date_' + paperId);
-  if (!scoreEl || !maxEl) return;
-  const score = parseFloat(scoreEl.value);
-  const maxScore = parseFloat(maxEl.value);
-  const date = dateEl ? dateEl.value : new Date().toISOString().split('T')[0];
-  if (isNaN(score) || isNaN(maxScore) || maxScore <= 0) {
-    showToast('⚠️ Please enter a valid score and total marks'); return;
-  }
-  if (score > maxScore) { showToast('⚠️ Score cannot be greater than the total marks'); return; }
-  const scores = loadPaperScores();
-  const key = 'paper_' + paperId;
-  if (!scores[key]) scores[key] = [];
-  scores[key].push({ date, score, maxScore });
-  savePaperScores(scores);
-  showToast('✅ Score logged!');
-  renderScoreTracker();
-}
-
-function clearPaperScore(paperId) {
-  const scores = loadPaperScores();
-  delete scores['paper_' + paperId];
-  savePaperScores(scores);
-  renderScoreTracker();
-}
-
-function clearAllScores() {
-  if (!confirm('Clear all paper scores? This cannot be undone.')) return;
-  saveData('reviseup_paper_scores', {});
-  renderScoreTracker();
-  showToast('🗑 All scores cleared');
-}
-
-function renderScoreGraph(scores, subjectFilter) {
-  const canvas = document.getElementById('scoreProgressChart');
-  const emptyEl = document.getElementById('scoreGraphEmpty');
-  if (!canvas) return;
-
-  // Gather all entries across papers (filtered by subject)
-  let allEntries = [];
-  const localPapers2 = (typeof papers !== 'undefined' ? papers : []);
-  const winPapers2   = (window.papers && window.papers.length > localPapers2.length) ? window.papers : localPapers2;
-  const localTests2  = (typeof topicTests !== 'undefined' ? topicTests : []);
-  const winTests2    = (window.topicTests && window.topicTests.length > localTests2.length) ? window.topicTests : localTests2;
-  const filteredPapers = winPapers2.concat(winTests2)
-    .filter(p => {
-    if (subjectFilter === 'all') return true;
-    return p.subject && p.subject.toLowerCase().includes(subjectFilter.toLowerCase());
-  });
-
-  filteredPapers.forEach(p => {
-    const key = 'paper_' + p.id;
-    const entries = scores[key] || [];
-    entries.forEach(e => {
-      allEntries.push({ date: e.date, pct: Math.round(e.score / e.maxScore * 100), label: p.title });
-    });
-  });
-
-  // Sort by date
-  allEntries.sort((a, b) => a.date.localeCompare(b.date));
-
-  const lbl = document.getElementById('scoreGraphSubjectLabel');
-  if (lbl) lbl.textContent = subjectFilter === 'all' ? '— All Subjects' : '— ' + subjectFilter;
-
-  if (!allEntries.length) {
-    canvas.style.display = 'none';
-    if (emptyEl) emptyEl.style.display = '';
-    return;
-  }
-  canvas.style.display = '';
-  if (emptyEl) emptyEl.style.display = 'none';
-
-  // Destroy previous chart
-  if (_scoreChart) { _scoreChart.destroy(); _scoreChart = null; }
-
-  const ctx = canvas.getContext('2d');
-  _scoreChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: allEntries.map(e => e.date + (allEntries.filter(x=>x.date===e.date).length>1 ? '\n'+e.label.substring(0,15) : '')),
-      datasets: [{
-        label: '% Score',
-        data: allEntries.map(e => e.pct),
-        borderColor: '#c8f05a',
-        backgroundColor: 'rgba(200,240,90,0.1)',
-        borderWidth: 2,
-        pointBackgroundColor: allEntries.map(e => e.pct >= 80 ? '#c8f05a' : e.pct >= 60 ? '#f5a623' : '#ff6b8a'),
-        pointRadius: 5,
-        pointHoverRadius: 7,
-        tension: 0.35,
-        fill: true,
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            title: (items) => allEntries[items[0].dataIndex].label,
-            label: (item) => `${item.raw}% — ${allEntries[item.dataIndex].date}`
-          },
-          backgroundColor: '#1e1e28',
-          titleColor: '#f0f0f5',
-          bodyColor: '#8888a0',
-          borderColor: 'rgba(255,255,255,0.07)',
-          borderWidth: 1,
-        }
-      },
-      scales: {
-        y: {
-          min: 0, max: 100,
-          ticks: { color: '#8888a0', callback: v => v + '%' },
-          grid: { color: 'rgba(255,255,255,0.05)' },
-        },
-        x: {
-          ticks: { color: '#8888a0', maxRotation: 45, font: { size: 10 } },
-          grid: { color: 'rgba(255,255,255,0.04)' }
-        }
-      }
-    }
-  });
-}
-
 
 </script>
 
@@ -6043,14 +5375,8 @@ function renderScoreGraph(scores, subjectFilter) {
           window.currentUser = match;
           window.isPremium   = match.premium || false;
           if (match.email.toLowerCase() === 'ahmem4648@gmail.com') { window.isPremium = true; window.isAdmin = true; }
-          // Restore trial premium if trial is still active
-          if (!window.isPremium && typeof isTrialActive === 'function' && isTrialActive()) {
-            window.isPremium = true;
-          }
         }
       }
-      if (typeof updateTrialBadge  === 'function') updateTrialBadge();
-      if (typeof checkTrialExpiry  === 'function') checkTrialExpiry();
 
       // Re-render everything now data is live
       if (typeof renderNotes === 'function')    renderNotes(window.notes);
@@ -6058,11 +5384,6 @@ function renderScoreGraph(scores, subjectFilter) {
       if (typeof updateNavForAuth === 'function') updateNavForAuth();
       if (typeof updatePremiumUI  === 'function') updatePremiumUI();
       if (typeof updateNotesBanner === 'function') updateNotesBanner();
-      // Re-render score tracker if it's currently visible (papers now loaded from Firebase)
-      if (typeof renderScoreTracker === 'function') {
-        const scoresPanel = document.getElementById('ph-scores');
-        if (scoresPanel && scoresPanel.classList.contains('active')) renderScoreTracker();
-      }
 
     } catch(e) {
       console.error('Firebase bootstrap error:', e);
@@ -6155,14 +5476,6 @@ function renderScoreGraph(scores, subjectFilter) {
       const docId = email.replace(/[^a-zA-Z0-9]/g, '_');
       await fbSet('users', docId, { premium: premiumStatus });
     } catch(e) { console.error('updateUserPremium firebase error:', e); }
-  };
-
-  // ── Update just the markscheme field on a paper in Firestore ──────────────────
-  window._fbUpdatePaperMs = async function(fbId, markschemeUrl) {
-    if (!fbId) return;
-    try {
-      await fbSet('papers', String(fbId), { markscheme: markschemeUrl });
-    } catch(e) { console.error('updatePaperMs firebase error:', e); }
   };
 
 </script>

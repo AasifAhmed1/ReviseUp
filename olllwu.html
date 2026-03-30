@@ -1202,12 +1202,13 @@
         <p class="section-sub">Expertly curated Anki decks for every GCSE subject. Import and start learning in seconds.</p>
         <div style="position:relative;margin-top:1.5rem">
           <div class="anki-grid">
-            <div class="deck-card"><h4>🧮 Maths Complete</h4><p>243 cards • All topics</p></div>
-            <div class="deck-card"><h4>🧬 Biology Complete</h4><p>312 cards • All topics</p></div>
-            <div class="deck-card"><h4>⚗️ Chemistry Complete</h4><p>287 cards • All topics</p></div>
-            <div class="deck-card"><h4>⚡ Physics Complete</h4><p>264 cards • All topics</p></div>
-            <div class="deck-card"><h4>🌍 Geography Complete</h4><p>198 cards • All topics</p></div>
-            <div class="deck-card"><h4>🏛️ History Complete</h4><p>220 cards • All topics</p></div>
+            <div class="deck-card"><h4>🏛️ History Complete</h4><p>622 cards • All topics</p></div>
+            <div class="deck-card"><h4>🌍 Geography Complete</h4><p>1,068 cards • All topics</p></div>
+            <div class="deck-card"><h4>⚗️ Chemistry Complete</h4><p>462 cards • All topics</p></div>
+            <div class="deck-card"><h4>💼 Business Complete</h4><p>379 cards • All topics</p></div>
+            <div class="deck-card"><h4>⚡ Physics Complete</h4><p>437 cards • All topics</p></div>
+            <div class="deck-card"><h4>🇫🇷 French Complete</h4><p>6,719 cards • All topics</p></div>
+            <div class="deck-card"><h4>🧬 Biology Complete</h4><p>690 cards • All topics</p></div>
           </div>
           <div class="anki-overlay" id="ankiLockOverlay">
             <div class="anki-lock-msg">
@@ -1533,7 +1534,7 @@
     <div class="section">
       <div class="section-label">Interactive Revision</div>
       <div class="section-title">Flashcard Mode ⚡</div>
-      <p class="section-sub">Flip through Q&amp;A cards built from your uploaded Anki decks. Signed-in users get 10 cards per deck free — upgrade to go unlimited.</p>
+      <p class="section-sub">Flip through Q&amp;A cards using built-in GCSE decks or your uploaded Anki decks. Signed-in users get 10 cards per deck free — upgrade to go unlimited.</p>
 
       <!-- Sign-in wall for guests -->
       <div id="fcSignInWall" style="display:none;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:3rem;text-align:center;max-width:500px;margin:2rem auto">
@@ -1580,8 +1581,8 @@
           <button onclick="startFCDeck()" style="background:var(--accent);color:#0f0f13;font-weight:700;font-size:0.88rem;padding:10px 20px;border-radius:9px">Start →</button>
         </div>
 
-        <!-- No decks message -->
-        <div id="fcNoDeckMsg" style="display:none;color:var(--muted);font-size:0.88rem;padding:1.5rem 0">No flashcard decks uploaded for this subject yet. Ask your admin to upload some via the Admin Panel.</div>
+        <!-- No decks message (hidden — built-in decks always available) -->
+        <div id="fcNoDeckMsg" style="display:none;color:var(--muted);font-size:0.88rem;padding:1.5rem 0"></div>
 
         <!-- Card area -->
         <div id="fcMainArea" style="display:none">
@@ -1644,7 +1645,6 @@
       <div class="ph-tabs">
         <button class="ph-tab active" onclick="switchPHTab(this,'ph-anki')">🃏 Anki Decks</button>
         <button class="ph-tab" onclick="switchPHTab(this,'ph-progress')">📊 Progress</button>
-        <button class="ph-tab" onclick="switchPHTab(this,'ph-flashcards')">⚡ Flashcards</button>
         <button class="ph-tab" onclick="switchPHTab(this,'ph-planner')">📅 Study Planner</button>
         <button class="ph-tab" onclick="switchPHTab(this,'ph-stats')">🏆 My Stats</button>
       </div>
@@ -1699,65 +1699,6 @@
         </div>
 
         <div id="progressSubjectGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px"></div>
-      </div>
-
-      <!-- ===== FLASHCARDS PANEL ===== -->
-      <div class="ph-panel" id="ph-flashcards">
-        <div class="section-label">Premium Feature</div>
-        <div class="section-title" style="margin-bottom:0.5rem">Flashcard Mode</div>
-        <p class="section-sub">Quick-fire Q&A flashcards built from your revision notes. Click a card to reveal the answer.</p>
-
-        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:2rem;align-items:flex-end">
-          <div>
-            <label style="display:block;font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Subject</label>
-            <select id="fcSubjectSel" onchange="loadFlashcards()" style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:9px 14px;border-radius:9px;font-family:inherit;font-size:0.88rem">
-              <option value="maths">Maths</option>
-              <option value="biology">Biology</option>
-              <option value="chemistry">Chemistry</option>
-              <option value="physics">Physics</option>
-              <option value="english">English Language</option>
-              <option value="literature">English Literature</option>
-              <option value="geography">Geography</option>
-              <option value="history">History</option>
-              <option value="business">Business</option>
-              <option value="french">French</option>
-            </select>
-          </div>
-          <button onclick="loadFlashcards()" style="background:var(--accent);color:#0f0f13;font-weight:700;font-size:0.88rem;padding:10px 20px;border-radius:9px">Shuffle & Start</button>
-        </div>
-
-        <div id="fcArea" style="display:none">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;flex-wrap:wrap;gap:8px">
-            <span id="fcProgress" style="font-size:0.82rem;color:var(--muted)"></span>
-            <div style="display:flex;gap:8px">
-              <button onclick="fcPrev()" style="background:var(--bg3);border:1px solid var(--border);color:var(--muted);font-size:0.82rem;padding:6px 14px;border-radius:7px">← Prev</button>
-              <button onclick="fcNext()" style="background:var(--bg3);border:1px solid var(--border);color:var(--muted);font-size:0.82rem;padding:6px 14px;border-radius:7px">Next →</button>
-            </div>
-          </div>
-          <div class="flashcard-wrap">
-            <div class="flashcard" id="mainFlashcard" onclick="this.classList.toggle('flipped')">
-              <div class="flashcard-front">
-                <div>
-                  <div class="flashcard-hint">Question — click to reveal</div>
-                  <div class="flashcard-text" id="fcQuestion"></div>
-                </div>
-              </div>
-              <div class="flashcard-back">
-                <div>
-                  <div class="flashcard-hint" style="color:rgba(245,215,110,0.6)">Answer</div>
-                  <div class="flashcard-answer" id="fcAnswer"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style="display:flex;gap:10px;justify-content:center;margin-top:1.5rem">
-            <button onclick="markFlashcard('hard')" style="background:rgba(255,107,138,0.1);border:1px solid rgba(255,107,138,0.3);color:#ff6b8a;font-weight:600;font-size:0.88rem;padding:9px 20px;border-radius:9px">😰 Hard</button>
-            <button onclick="markFlashcard('ok')" style="background:rgba(245,163,35,0.1);border:1px solid rgba(245,163,35,0.3);color:#f5a623;font-weight:600;font-size:0.88rem;padding:9px 20px;border-radius:9px">🤔 Got it</button>
-            <button onclick="markFlashcard('easy')" style="background:rgba(200,240,90,0.1);border:1px solid rgba(200,240,90,0.3);color:var(--accent);font-weight:600;font-size:0.88rem;padding:9px 20px;border-radius:9px">✅ Easy</button>
-          </div>
-          <p style="text-align:center;font-size:0.75rem;color:var(--muted);margin-top:1rem">Rating is saved — hard cards come back sooner</p>
-        </div>
-        <div id="fcEmpty" style="color:var(--muted);font-size:0.9rem;padding:2rem 0">Add revision notes via the Admin Panel to generate flashcards for this subject.</div>
       </div>
 
       <!-- ===== STUDY PLANNER PANEL ===== -->
@@ -2041,6 +1982,47 @@
           <h3>Existing Anki Decks</h3>
         </div>
         <div id="adminDecksList" style="display:flex;flex-direction:column;gap:8px;"></div>
+      </div>
+
+      <!-- PREMIUM HUB — SET DECK DOWNLOAD LINKS -->
+      <div class="admin-panel" style="border-color:rgba(245,215,110,0.3)">
+        <div class="admin-panel-header">
+          <span class="admin-badge" style="background:rgba(245,215,110,0.12);border-color:rgba(245,215,110,0.3);color:var(--premium)">⬇️</span>
+          <h3>Premium Hub — Anki Download Links</h3>
+        </div>
+        <p style="color:var(--muted);font-size:0.83rem;margin-bottom:1.2rem">Set the .apkg download URL for each deck shown in the Premium Hub. Links save to browser storage and appear instantly for premium members.</p>
+        <div class="admin-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Subject</label>
+              <select id="ankiLinkSubject" onchange="renderAnkiLinkDeckSelect()">
+                <option value="biology">Biology</option>
+                <option value="chemistry">Chemistry</option>
+                <option value="physics">Physics</option>
+                <option value="history">History</option>
+                <option value="geography">Geography</option>
+                <option value="business">Business</option>
+                <option value="french">French</option>
+                <option value="english">English Language</option>
+                <option value="literature">English Literature</option>
+                <option value="maths">Maths</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Deck</label>
+              <select id="ankiLinkDeck" onchange="prefillAnkiLinkUrl()"></select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Download URL (.apkg direct link, Google Drive, Dropbox, etc.)</label>
+            <input type="url" id="ankiLinkUrl" placeholder="https://drive.google.com/uc?export=download&id=...">
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn-admin" onclick="saveAnkiLink()">💾 Save Link</button>
+            <button class="btn-admin" style="background:rgba(255,107,138,0.1);border-color:rgba(255,107,138,0.3);color:#ff6b8a" onclick="clearAnkiLink()">🗑 Clear Link</button>
+          </div>
+        </div>
+        <div id="ankiLinksOverview" style="margin-top:1.4rem;display:flex;flex-direction:column;gap:6px"></div>
       </div>
 
       <!-- IMPORT FLASHCARD DECK (from CSV/JSON exported from Anki) -->
@@ -2521,6 +2503,8 @@
 </div>
 
 
+<!-- PREMIUM UPGRADE MODAL -->
+<div class="modal-overlay" id="premiumModal">
   <div class="modal" style="max-width:520px">
     <button class="modal-close" onclick="closeModal('premiumModal')">✕</button>
     <h2>⭐ Go Premium</h2>
@@ -2685,7 +2669,12 @@ const defaultPapers = [
   { id: 12, title: 'AQA Business Paper 1 2023', subject: 'Business', board: 'AQA', year: 2023, link: '#', premium: false },
 ];
 
-let notes = loadData('reviseup_notes', defaultNotes);
+let notes = (function() {
+  const stored = loadData('reviseup_notes', null);
+  // If nothing stored yet, use defaults. If stored but empty array, still use defaults.
+  if (!stored || !stored.length) return defaultNotes;
+  return stored;
+})();
 let papers = loadData('reviseup_papers', defaultPapers);
 let topicTests = loadData('reviseup_topic_tests', []);
 let isAdmin = false;
@@ -2735,8 +2724,8 @@ function incrementNoteCount() {
 }
 function canReadNote() {
   if (isPremium || isAdmin) return 'ok';
-  if (!isLoggedIn && notesReadToday >= 1) return 'signin';
-  if (isLoggedIn && notesReadToday >= 3) return 'premium';
+  if (!isLoggedIn && notesReadToday >= 1) return 'signin';   // guests: 1 free note then sign-in wall
+  if (isLoggedIn && !isPremium && notesReadToday >= 3) return 'premium'; // free members: 3/day then premium wall
   return 'ok';
 }
 
@@ -2744,12 +2733,13 @@ function canReadNote() {
 // ANKI DECKS DATA
 // ============================
 const defaultDecks = [
-  { id: 1, title: '🧮 Maths Complete', subject: 'Maths', cards: 243, desc: 'All topics', link: '#' },
-  { id: 2, title: '🧬 Biology Complete', subject: 'Biology', cards: 312, desc: 'All topics', link: '#' },
-  { id: 3, title: '⚗️ Chemistry Complete', subject: 'Chemistry', cards: 287, desc: 'All topics', link: '#' },
-  { id: 4, title: '⚡ Physics Complete', subject: 'Physics', cards: 264, desc: 'All topics', link: '#' },
-  { id: 5, title: '🌍 Geography Complete', subject: 'Geography', cards: 198, desc: 'All topics', link: '#' },
-  { id: 6, title: '🏛️ History Complete', subject: 'History', cards: 220, desc: 'All topics', link: '#' },
+  { id: 1, title: '🏛️ History Complete', subject: 'History', cards: 622, desc: 'All topics', link: '#' },
+  { id: 2, title: '🌍 Geography Complete', subject: 'Geography', cards: 1068, desc: 'All topics', link: '#' },
+  { id: 3, title: '⚗️ Chemistry Complete', subject: 'Chemistry', cards: 462, desc: 'All topics', link: '#' },
+  { id: 4, title: '💼 Business Complete', subject: 'Business', cards: 379, desc: 'All topics', link: '#' },
+  { id: 5, title: '⚡ Physics Complete', subject: 'Physics', cards: 437, desc: 'All topics', link: '#' },
+  { id: 6, title: '🇫🇷 French Complete', subject: 'French', cards: 6719, desc: 'All topics', link: '#' },
+  { id: 7, title: '🧬 Biology Complete', subject: 'Biology', cards: 690, desc: 'All topics', link: '#' },
 ];
 let decks = loadData('reviseup_decks', defaultDecks);
 
@@ -2791,7 +2781,7 @@ function showPage(page) {
     if (!isPremium && !isAdmin) { showPage('premium'); return; }
     renderPHAnki();
   }
-  if (page === 'admin') { renderAdminNotes(); renderAdminPapers(); renderAdminDecks(); renderAdminTopicTests(); updateTopicTestTopics(); updateQuizAdminTopics(); renderAdminEngQList(); renderAdminLitQList(); renderAdminHistQList(); updateLitTextFilter(); renderAdminFCDecksList(); }
+  if (page === 'admin') { renderAdminNotes(); renderAdminPapers(); renderAdminDecks(); renderAdminTopicTests(); updateTopicTestTopics(); updateQuizAdminTopics(); renderAdminEngQList(); renderAdminLitQList(); renderAdminHistQList(); updateLitTextFilter(); renderAdminFCDecksList(); renderAnkiLinkDeckSelect(); renderAnkiLinksOverview(); }
   if (page === 'eng-questions') { renderEngQuestions(); }
   if (page === 'lit-questions') { renderLitQuestions(); updateLitTextFilter(); }
   if (page === 'hist-questions') { renderHistQuestions(); }
@@ -2850,7 +2840,16 @@ function renderNotes(data) {
 }
 function noteCard(n) {
   const c = getSubjectColor(n.subject);
-  return `<div class="note-card" onclick="openNote(${n.id})">
+  const access = canReadNote();
+  const isLocked = access !== 'ok';
+  const lockedStyle = isLocked ? ' style="opacity:0.75"' : '';
+  const lockIcon = access === 'premium'
+    ? '<span style="position:absolute;top:12px;right:12px;font-size:1rem;opacity:0.7">⭐</span>'
+    : access === 'signin'
+      ? '<span style="position:absolute;top:12px;right:12px;font-size:1rem;opacity:0.7">🔒</span>'
+      : '';
+  return `<div class="note-card"${lockedStyle} onclick="openNote(${n.id})">
+    ${lockIcon}
     <span class="note-tag" style="background:${c.bg};color:${c.color}">${capitalise(n.subject)}</span>
     <h4>${n.title}</h4>
     <p>${n.content.substring(0,100)}...</p>
@@ -2861,55 +2860,61 @@ function noteCard(n) {
   </div>`;
 }
 function openNote(id) {
-  const access = canReadNote();
-  if (access === 'signin') { openModal('signInWallModal'); return; }
-  if (access === 'premium') { openModal('premiumWallModal'); return; }
-  const n = notes.find(x => x.id === id);
+  // Find note - use loose equality to handle string/number mismatch
+  var n = null;
+  for (var i = 0; i < notes.length; i++) {
+    if (notes[i].id == id) { n = notes[i]; break; }
+  }
   if (!n) return;
+
+  // Guest limit: 1 free note, then show sign-in wall
+  if (!isPremium && !isAdmin && !isLoggedIn) {
+    if (notesReadToday >= 1) { openModal('signInWallModal'); return; }
+  }
+  // Signed-in free user limit: 3 notes/day, then show premium wall
+  if (!isPremium && !isAdmin && isLoggedIn) {
+    if (notesReadToday >= 3) { openModal('premiumWallModal'); return; }
+  }
+
   incrementNoteCount();
   updateNotesBanner();
-  const c = getSubjectColor(n.subject);
-  const remaining = (isPremium || isAdmin) ? null : isLoggedIn ? Math.max(0, 3 - notesReadToday) : Math.max(0, 1 - notesReadToday);
-  const remainingBanner = (isPremium || isAdmin) ? '' : `
-    <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(200,240,90,0.07);border:1px solid rgba(200,240,90,0.18);border-radius:10px;padding:10px 16px;margin-bottom:1.8rem;font-size:0.83rem;gap:12px;flex-wrap:wrap">
-      <span style="color:var(--muted)">${remaining > 0 ? '📖 ' + remaining + ' note' + (remaining!==1?'s':'') + ' left today' : '🔒 No notes left today'}</span>
-      ${!isLoggedIn ? '<button onclick="openModal(\'signupModal\')" style="background:var(--accent);color:#0f0f13;font-weight:700;font-size:0.78rem;padding:6px 14px;border-radius:7px">Sign up free — 3/day</button>' : '<button onclick="openModal(\'premiumModal\')" style="background:linear-gradient(135deg,#f5d76e,#f5a623);color:#1a1000;font-weight:700;font-size:0.78rem;padding:6px 14px;border-radius:7px">Go Premium ⭐</button>'}
-    </div>`;
 
-  const formatted = n.content
+  var c = getSubjectColor(n.subject);
+  var formatted = n.content
     .replace(/^### (.+)$/gm, '<h4 style="font-family:Fraunces,serif;font-size:1.1rem;font-weight:700;margin:1.4rem 0 0.4rem">$1</h4>')
     .replace(/^## (.+)$/gm, '<h3 style="font-family:Fraunces,serif;font-size:1.3rem;font-weight:700;margin:1.6rem 0 0.6rem">$1</h3>')
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.+?)\*/g, '<em>$1</em>')
     .replace(/\n/g, '<br>');
 
-  // Remember source page to go back to
-  const activePage = document.querySelector('.page-section.active');
+  var activePage = document.querySelector('.page-section.active');
   window._noteReturnPage = activePage ? activePage.id.replace('page-','') : 'notes';
 
-  document.getElementById('noteDetailBreadcrumb').innerHTML = `
-    <a href="#" onclick="goBackFromNote();return false;" style="color:var(--muted);transition:color 0.15s">← Back</a>
-    <span>›</span>
-    <span style="color:var(--muted)">${capitalise(n.subject)}</span>
-    <span>›</span>
-    <span>${n.topic}</span>
-  `;
-  document.getElementById('noteDetailContent').innerHTML = `
-    ${remainingBanner}
-    <span class="note-tag" style="background:${c.bg};color:${c.color};margin-bottom:1.2rem;display:inline-block">${capitalise(n.subject)}</span>
-    <h1 style="font-family:Fraunces,serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;letter-spacing:-1px;line-height:1.1;margin-bottom:0.8rem">${n.title}</h1>
-    <div style="display:flex;gap:8px;margin-bottom:2rem;flex-wrap:wrap">
-      <span class="meta-pill">📚 ${n.topic}</span>
-      <span class="meta-pill">📊 ${n.diff}</span>
-      <span class="meta-pill">🎓 GCSE</span>
-    </div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;line-height:1.9;font-size:0.97rem">${formatted}</div>
-    ${isAdmin ? '<button class="btn-admin" style="margin-top:1.5rem" onclick="deleteNote(' + n.id + ')">🗑 Delete Note</button>' : ''}
-    <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;gap:10px;flex-wrap:wrap">
-      <button onclick="goBackFromNote()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);font-weight:600;font-size:0.88rem;padding:9px 18px;border-radius:9px">← Back</button>
-      <button onclick="showPage('notes')" style="background:transparent;border:1px solid var(--border);color:var(--muted);font-size:0.88rem;padding:9px 18px;border-radius:9px">All Subjects</button>
-    </div>
-  `;
+  var guestBanner = (!isPremium && !isAdmin && !isLoggedIn)
+    ? '<div style="display:flex;align-items:center;justify-content:space-between;background:rgba(200,240,90,0.07);border:1px solid rgba(200,240,90,0.18);border-radius:10px;padding:10px 16px;margin-bottom:1.8rem;font-size:0.83rem;gap:12px;flex-wrap:wrap"><span style="color:var(--muted)">👋 Guest preview — sign up free to read all notes</span><button onclick="openModal(\'signupModal\')" style="background:var(--accent);color:#0f0f13;font-weight:700;font-size:0.78rem;padding:6px 14px;border-radius:7px">Sign up free →</button></div>'
+    : '';
+
+  document.getElementById('noteDetailBreadcrumb').innerHTML =
+    '<a href="#" onclick="goBackFromNote();return false;" style="color:var(--muted)">← Back</a>' +
+    ' <span>›</span> <span style="color:var(--muted)">' + capitalise(n.subject) + '</span>' +
+    ' <span>›</span> <span>' + n.topic + '</span>';
+
+  document.getElementById('noteDetailContent').innerHTML =
+    guestBanner +
+    '<span class="note-tag" style="background:' + c.bg + ';color:' + c.color + ';margin-bottom:1.2rem;display:inline-block">' + capitalise(n.subject) + '</span>' +
+    '<h1 style="font-family:Fraunces,serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;letter-spacing:-1px;line-height:1.1;margin-bottom:0.8rem">' + n.title + '</h1>' +
+    '<div style="display:flex;gap:8px;margin-bottom:2rem;flex-wrap:wrap">' +
+      '<span class="meta-pill">📚 ' + n.topic + '</span>' +
+      '<span class="meta-pill">📊 ' + n.diff + '</span>' +
+      '<span class="meta-pill">🎓 GCSE</span>' +
+    '</div>' +
+    '<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;line-height:1.9;font-size:0.97rem">' + formatted + '</div>' +
+    (isAdmin ? '<button class="btn-admin" style="margin-top:1.5rem" onclick="deleteNote(' + n.id + ')">🗑 Delete Note</button>' : '') +
+    '<div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;gap:10px;flex-wrap:wrap">' +
+      '<button onclick="goBackFromNote()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);font-weight:600;font-size:0.88rem;padding:9px 18px;border-radius:9px">← Back</button>' +
+      '<button onclick="showPage(\'notes\')" style="background:transparent;border:1px solid var(--border);color:var(--muted);font-size:0.88rem;padding:9px 18px;border-radius:9px">All Subjects</button>' +
+    '</div>';
+
   showPage('note-detail');
 }
 
@@ -2947,18 +2952,19 @@ function updateNotesBanner() {
   if (!isLoggedIn) {
     const remaining = Math.max(0, 1 - notesReadToday);
     text.textContent = remaining > 0
-      ? `👋 Guest access: ${remaining} free note today. Sign up for 3/day.`
-      : `🔒 You've used your 1 free note today. Sign up free for 3 notes/day.`;
+      ? `👋 Guest access: 1 free note preview. Sign up free to read everything.`
+      : `🔒 Sign up free to unlock all revision notes.`;
     cta.style.display = 'block';
     cta.textContent = 'Sign up free →';
     cta.style.background = 'var(--accent)';
     cta.style.color = '#0f0f13';
     cta.onclick = () => openModal('signupModal');
   } else {
+    // Signed-in free users — 3 notes/day, nudge premium after that
     const remaining = Math.max(0, 3 - notesReadToday);
     text.textContent = remaining > 0
-      ? `📖 ${remaining} note${remaining !== 1 ? 's' : ''} left today (free plan). Go Premium for unlimited.`
-      : `🔒 You've used all 3 notes today. Upgrade for unlimited access.`;
+      ? `📖 Signed in — ${remaining} note${remaining !== 1 ? 's' : ''} remaining today. Go Premium for unlimited access.`
+      : `🔒 Daily limit reached — Go Premium for unlimited revision notes every day.`;
     cta.style.display = 'block';
     cta.textContent = 'Go Premium ⭐';
     cta.style.background = 'linear-gradient(135deg,#f5d76e,#f5a623)';
@@ -3231,9 +3237,12 @@ function addNote() {
   const diff       = document.getElementById('noteDiff').value;
   const noteContent = document.getElementById('noteContent').value.trim();
   if (!title || !noteContent) { showToast('⚠️ Please fill in title and content'); return; }
-  notes.unshift({ id: Date.now(), title, subject, topic, diff, content: noteContent });
+  const noteData = { id: Date.now(), title, subject, topic, diff, content: noteContent };
+  notes.unshift(noteData);
   saveData('reviseup_notes', notes);
-  showToast('✅ Note added!');
+  // Save to Firebase (cloud)
+  if (typeof window._addNoteToFirebase === 'function') window._addNoteToFirebase(noteData);
+  else showToast('✅ Note added!');
   document.getElementById('noteTitle').value = '';
   document.getElementById('noteContent').value = '';
   renderAdminNotes();
@@ -3286,11 +3295,17 @@ function addPaper() {
     link = (document.getElementById('paperLink') && document.getElementById('paperLink').value.trim()) || '#';
   }
   const markscheme = (document.getElementById('paperMarkscheme') && document.getElementById('paperMarkscheme').value.trim()) || '#';
-  papers.unshift({ id: paperId, title, subject, board, year, link, premium, markscheme });
+  const paperData = { id: paperId, title, subject, board, year, link, premium, markscheme };
+  papers.unshift(paperData);
   // Save only metadata (no base64) to localStorage
   const metaOnly = papers.map(p => ({ ...p, link: p.link.startsWith('data:') ? 'memory:' + p.id : p.link }));
   saveData('reviseup_papers', metaOnly);
-  showToast('✅ Paper added!');
+  // Save to Firebase if using a link (not binary upload)
+  if (paperMethod === 'link' && typeof window._addPaperToFirebase === 'function') {
+    window._addPaperToFirebase({ id: paperId, title, subject, board, year, link, premium, markscheme });
+  } else {
+    showToast('✅ Paper added!');
+  }
   document.getElementById('paperTitle').value = '';
   if (document.getElementById('paperMarkscheme')) document.getElementById('paperMarkscheme').value = '';
   paperFileData = null;
@@ -3331,17 +3346,25 @@ function renderAdminPapers() {
 }
 
 function deleteNote(id) {
-  notes = notes.filter(n => n.id !== id);
+  const note = notes.find(n => n.id == id);
+  notes = notes.filter(n => n.id != id);
   saveData('reviseup_notes', notes);
   showToast('🗑 Note deleted');
+  if (note && note._fbId && typeof window._deleteNoteFromFirebase === 'function') {
+    window._deleteNoteFromFirebase(note._fbId);
+  }
   renderAdminNotes();
   closeModal('noteModal');
 }
 
 function deletePaper(id) {
-  papers = papers.filter(p => p.id !== id);
+  const paper = papers.find(p => p.id == id);
+  papers = papers.filter(p => p.id != id);
   saveData('reviseup_papers', papers);
   showToast('🗑 Paper deleted');
+  if (paper && paper._fbId && typeof window._deletePaperFromFirebase === 'function') {
+    window._deletePaperFromFirebase(paper._fbId);
+  }
   renderAdminPapers();
 }
 
@@ -3355,9 +3378,11 @@ function addDeck() {
   const desc    = document.getElementById('deckDesc').value.trim() || 'Complete deck';
   const link    = document.getElementById('deckLink').value.trim() || '#';
   if (!title) { showToast('⚠️ Please enter a deck name'); return; }
-  decks.unshift({ id: Date.now(), title, subject, cards, desc, link });
+  const deckData = { id: Date.now(), title, subject, cards, desc, link };
+  decks.unshift(deckData);
   saveData('reviseup_decks', decks);
-  showToast('✅ Anki deck added!');
+  if (typeof window._addDeckToFirebase === 'function') window._addDeckToFirebase(deckData);
+  else showToast('✅ Anki deck added!');
   document.getElementById('deckTitle').value = '';
   document.getElementById('deckCards').value = '';
   document.getElementById('deckDesc').value = '';
@@ -3381,10 +3406,106 @@ function renderAdminDecks() {
 }
 
 function deleteDeck(id) {
-  decks = decks.filter(d => d.id !== id);
+  const deck = decks.find(d => d.id == id);
+  decks = decks.filter(d => d.id != id);
   saveData('reviseup_decks', decks);
   showToast('🗑 Deck deleted');
+  if (deck && deck._fbId && typeof window._deleteDeckFromFirebase === 'function') {
+    window._deleteDeckFromFirebase(deck._fbId);
+  }
   renderAdminDecks();
+}
+
+// ============================
+// ANKI LINK ADMIN (Premium Hub)
+// ============================
+function getAnkiLinks() {
+  // Firebase cache wins if available (set during bootstrap)
+  if (window._fbAnkiLinksCache) return window._fbAnkiLinksCache;
+  return loadData('reviseup_anki_links', {});
+}
+function saveAnkiLinks(obj) {
+  saveData('reviseup_anki_links', obj);
+  window._fbAnkiLinksCache = obj;
+}
+
+function renderAnkiLinkDeckSelect() {
+  const subjectKey = document.getElementById('ankiLinkSubject').value;
+  const s = ankiSubjects.find(x => x.key === subjectKey);
+  const sel = document.getElementById('ankiLinkDeck');
+  if (!sel || !s) return;
+  sel.innerHTML = s.decks.map(d => `<option value="${d.title}">${d.title}</option>`).join('');
+  // Pre-fill URL if a link already exists for this deck
+  prefillAnkiLinkUrl();
+}
+
+function prefillAnkiLinkUrl() {
+  const subjectKey = document.getElementById('ankiLinkSubject') && document.getElementById('ankiLinkSubject').value;
+  const deckTitle  = document.getElementById('ankiLinkDeck') && document.getElementById('ankiLinkDeck').value;
+  const urlInput   = document.getElementById('ankiLinkUrl');
+  if (!urlInput || !subjectKey || !deckTitle) return;
+  const links = getAnkiLinks();
+  urlInput.value = (links[subjectKey] && links[subjectKey][deckTitle]) || '';
+}
+
+function saveAnkiLink() {
+  const subjectKey = document.getElementById('ankiLinkSubject').value;
+  const deckTitle  = document.getElementById('ankiLinkDeck').value;
+  const url        = document.getElementById('ankiLinkUrl').value.trim();
+  if (!url) { showToast('⚠️ Please enter a download URL'); return; }
+  const links = getAnkiLinks();
+  if (!links[subjectKey]) links[subjectKey] = {};
+  links[subjectKey][deckTitle] = url;
+  saveAnkiLinks(links);
+  // Save to Firebase
+  if (typeof window._saveAnkiLinkToFirebase === 'function') window._saveAnkiLinkToFirebase(subjectKey, deckTitle, url);
+  showToast('✅ Download link saved to cloud!');
+  renderAnkiLinksOverview();
+}
+
+function clearAnkiLink() {
+  const subjectKey = document.getElementById('ankiLinkSubject').value;
+  const deckTitle  = document.getElementById('ankiLinkDeck').value;
+  const links = getAnkiLinks();
+  if (links[subjectKey]) delete links[subjectKey][deckTitle];
+  saveAnkiLinks(links);
+  document.getElementById('ankiLinkUrl').value = '';
+  showToast('🗑 Link cleared');
+  renderAnkiLinksOverview();
+}
+
+function renderAnkiLinksOverview() {
+  const container = document.getElementById('ankiLinksOverview');
+  if (!container) return;
+  const links = getAnkiLinks();
+  const rows = [];
+  for (const [subKey, decksObj] of Object.entries(links)) {
+    for (const [deckTitle, url] of Object.entries(decksObj)) {
+      if (url) rows.push({ subKey, deckTitle, url });
+    }
+  }
+  if (!rows.length) {
+    container.innerHTML = '<p style="color:var(--muted);font-size:0.82rem">No links saved yet.</p>';
+    return;
+  }
+  container.innerHTML = '<div style="font-size:0.78rem;font-weight:700;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em">Saved links (' + rows.length + ')</div>' +
+    rows.map(r => `<div style="display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;gap:10px;flex-wrap:wrap">
+      <div style="min-width:0;flex:1">
+        <span style="font-weight:600;font-size:0.82rem">${r.deckTitle}</span>
+        <span style="color:var(--muted);font-size:0.75rem;margin-left:6px">${r.subKey}</span>
+        <div style="color:var(--muted);font-size:0.7rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:340px;margin-top:1px">${r.url}</div>
+      </div>
+      <button class="btn-admin" style="padding:4px 10px;font-size:0.72rem;flex-shrink:0;background:rgba(255,107,138,0.1);border-color:rgba(255,107,138,0.3);color:#ff6b8a" onclick="clearSpecificAnkiLink('${r.subKey}','${r.deckTitle.replace(/'/g,"\'")}')">🗑</button>
+    </div>`).join('');
+}
+
+function clearSpecificAnkiLink(subKey, deckTitle) {
+  const links = getAnkiLinks();
+  if (links[subKey]) delete links[subKey][deckTitle];
+  saveAnkiLinks(links);
+  if (typeof window._deleteAnkiLinkFromFirebase === 'function') window._deleteAnkiLinkFromFirebase(subKey, deckTitle);
+  showToast('🗑 Link removed');
+  renderAnkiLinksOverview();
 }
 
 function renderSubjectDecks(subjectName) {
@@ -3518,6 +3639,8 @@ function verifySignupCode() {
   const users = JSON.parse(localStorage.getItem('reviseup_users') || '[]');
   users.push(newUser);
   localStorage.setItem('reviseup_users', JSON.stringify(users));
+  // Save to Firestore
+  if (typeof window._saveUserToFirebase === 'function') window._saveUserToFirebase(newUser);
   isLoggedIn = true;
   currentUser = newUser;
   isPremium = isPremiumEmail;
@@ -3549,6 +3672,7 @@ function premiumSignup() {
   const idx = users.findIndex(u => u.email === currentUser.email);
   if (idx !== -1) { users[idx].premium = true; localStorage.setItem('reviseup_users', JSON.stringify(users)); }
   localStorage.setItem('reviseup_session', JSON.stringify({ email: currentUser.email, premium: true }));
+  if (typeof window._updateUserPremiumInFirebase === 'function') window._updateUserPremiumInFirebase(currentUser.email, true);
   closeModal('premiumModal');
   updateNavForAuth();
   updateNotesBanner();
@@ -4445,7 +4569,6 @@ function switchPHTab(btn, panelId) {
   if (panelId === 'ph-progress')  renderProgress();
   if (panelId === 'ph-planner')   initPlanner();
   if (panelId === 'ph-stats')     renderStats();
-  if (panelId === 'ph-flashcards') loadFlashcards();
 }
 
 function requirePremiumPage(page) {
@@ -4455,70 +4578,70 @@ function requirePremiumPage(page) {
 
 // ── Anki Panel ────────────────────────────────────────────────────────────────
 const ankiSubjects = [
-  { key:'maths',      label:'Maths',             icon:'📐', color:'#c8f05a', decks:[
-    { title:'Algebra Complete',       cards:94,  desc:'Equations, quadratics, sequences, graphs' },
-    { title:'Number & Arithmetic',    cards:68,  desc:'Fractions, decimals, percentages, surds' },
-    { title:'Geometry & Measures',    cards:82,  desc:'Angles, area, volume, Pythagoras, trig' },
-    { title:'Statistics & Probability',cards:55, desc:'Charts, averages, probability trees' },
-  ]},
   { key:'biology',    label:'Biology',            icon:'🧬', color:'#5af0a0', decks:[
-    { title:'Cell Biology',           cards:78,  desc:'Cell structure, transport, cell division' },
-    { title:'Organisation',           cards:62,  desc:'Tissues, organs, digestive & respiratory systems' },
-    { title:'Infection & Response',   cards:55,  desc:'Pathogens, immune system, vaccines' },
-    { title:'Genetics & Evolution',   cards:88,  desc:'DNA, inheritance, natural selection' },
-    { title:'Bioenergetics',          cards:49,  desc:'Photosynthesis, respiration, metabolism' },
-    { title:'Homeostasis & Ecology',  cards:71,  desc:'Hormones, nervous system, ecosystems' },
+    { title:'Cell Biology',           cards:120, desc:'Cell structure, transport, cell division',          link:'' },
+    { title:'Organisation',           cards:110, desc:'Tissues, organs, digestive & respiratory systems',  link:'' },
+    { title:'Infection & Response',   cards:100, desc:'Pathogens, immune system, vaccines',               link:'' },
+    { title:'Genetics & Evolution',   cards:130, desc:'DNA, inheritance, natural selection',              link:'' },
+    { title:'Bioenergetics',          cards:115, desc:'Photosynthesis, respiration, metabolism',          link:'' },
+    { title:'Homeostasis & Ecology',  cards:115, desc:'Hormones, nervous system, ecosystems',            link:'' },
   ]},
   { key:'chemistry',  label:'Chemistry',          icon:'⚗️', color:'#5ab4f0', decks:[
-    { title:'Atomic Structure',       cards:58,  desc:'Atoms, elements, periodic table, isotopes' },
-    { title:'Bonding & Structure',    cards:64,  desc:'Ionic, covalent, metallic, nanostructures' },
-    { title:'Quantitative Chemistry', cards:72,  desc:'Moles, concentration, yield, Avogadro' },
-    { title:'Chemical Changes',       cards:66,  desc:'Reactivity, electrolysis, acids & bases' },
-    { title:'Organic Chemistry',      cards:54,  desc:'Alkanes, alkenes, polymers, alcohols' },
+    { title:'Atomic Structure',       cards:95,  desc:'Atoms, elements, periodic table, isotopes',       link:'' },
+    { title:'Bonding & Structure',    cards:92,  desc:'Ionic, covalent, metallic, nanostructures',       link:'' },
+    { title:'Quantitative Chemistry', cards:90,  desc:'Moles, concentration, yield, Avogadro',          link:'' },
+    { title:'Chemical Changes',       cards:93,  desc:'Reactivity, electrolysis, acids & bases',         link:'' },
+    { title:'Organic Chemistry',      cards:92,  desc:'Alkanes, alkenes, polymers, alcohols',            link:'' },
   ]},
   { key:'physics',    label:'Physics',            icon:'⚡', color:'#f05a9e', decks:[
-    { title:'Forces & Motion',        cards:80,  desc:'Newton\'s laws, momentum, pressure, space' },
-    { title:'Energy',                 cards:58,  desc:'Energy stores, efficiency, power' },
-    { title:'Waves & Optics',         cards:62,  desc:'EM spectrum, reflection, refraction, sound' },
-    { title:'Electricity',            cards:74,  desc:'Circuits, resistance, static, mains' },
-    { title:'Magnetism & Atomic',     cards:56,  desc:'Magnets, generators, nuclear physics' },
-  ]},
-  { key:'english',    label:'English Language',   icon:'✍️', color:'#f0b95a', decks:[
-    { title:'Language Techniques',    cards:60,  desc:'Simile, metaphor, alliteration, tone & more' },
-    { title:'Reading Skills',         cards:48,  desc:'Inference, analysis, structure, purpose' },
-    { title:'Writing Techniques',     cards:52,  desc:'AFOREST, PEEL, persuasion, narrative' },
-  ]},
-  { key:'literature', label:'English Literature', icon:'📖', color:'#c55af0', decks:[
-    { title:'Macbeth',                cards:65,  desc:'Themes, quotes, characters, context' },
-    { title:'An Inspector Calls',     cards:58,  desc:'Characters, responsibility, dramatic devices' },
-    { title:'A Christmas Carol',      cards:54,  desc:'Scrooge\'s journey, themes, Victorian context' },
-    { title:'Power & Conflict Poetry',cards:80,  desc:'All 15 poems — themes & comparisons' },
-    { title:'Unseen Poetry Skills',   cards:40,  desc:'Techniques, structure, how to analyse' },
-  ]},
-  { key:'geography',  label:'Geography',          icon:'🌍', color:'#5af0d8', decks:[
-    { title:'Natural Hazards',        cards:66,  desc:'Tectonic plates, earthquakes, volcanoes, weather' },
-    { title:'Living World',           cards:54,  desc:'Ecosystems, tropical rainforests, hot deserts' },
-    { title:'Urban Issues',           cards:60,  desc:'Urbanisation, UK cities, megacities' },
-    { title:'Changing Economic World',cards:58,  desc:'Development, LICs, NEEs, globalisation' },
+    { title:'Forces & Motion',        cards:90,  desc:'Newton\'s laws, momentum, pressure, space',       link:'' },
+    { title:'Energy',                 cards:87,  desc:'Energy stores, efficiency, power',                link:'' },
+    { title:'Waves & Optics',         cards:88,  desc:'EM spectrum, reflection, refraction, sound',      link:'' },
+    { title:'Electricity',            cards:85,  desc:'Circuits, resistance, static, mains',             link:'' },
+    { title:'Magnetism & Atomic',     cards:87,  desc:'Magnets, generators, nuclear physics',            link:'' },
   ]},
   { key:'history',    label:'History',            icon:'🏛️', color:'#f07e5a', decks:[
-    { title:'Elizabethan England',    cards:70,  desc:'Settlement, threats, culture, exploration' },
-    { title:'Cold War',               cards:74,  desc:'Origins, crises, proxy wars, end of Cold War' },
-    { title:'USA 1954–75',            cards:65,  desc:'Civil rights, Vietnam, protest movements' },
-    { title:'Medicine Through Time',  cards:68,  desc:'Medieval to modern — key figures & events' },
-    { title:'Germany 1890–1945',      cards:80,  desc:'Weimar, Nazi rise, Hitler\'s Germany' },
+    { title:'Elizabethan England',    cards:160, desc:'Settlement, threats, culture, exploration',       link:'' },
+    { title:'Cold War',               cards:155, desc:'Origins, crises, proxy wars, end of Cold War',    link:'' },
+    { title:'USA 1954–75',            cards:152, desc:'Civil rights, Vietnam, protest movements',        link:'' },
+    { title:'Medicine Through Time',  cards:155, desc:'Medieval to modern — key figures & events',      link:'' },
+  ]},
+  { key:'geography',  label:'Geography',          icon:'🌍', color:'#5af0d8', decks:[
+    { title:'Natural Hazards',        cards:272, desc:'Tectonic plates, earthquakes, volcanoes, weather',link:'' },
+    { title:'Living World',           cards:265, desc:'Ecosystems, tropical rainforests, hot deserts',   link:'' },
+    { title:'Urban Issues',           cards:268, desc:'Urbanisation, UK cities, megacities',             link:'' },
+    { title:'Changing Economic World',cards:263, desc:'Development, LICs, NEEs, globalisation',         link:'' },
   ]},
   { key:'business',   label:'Business',           icon:'💼', color:'#f5d76e', decks:[
-    { title:'Enterprise & Marketing', cards:62,  desc:'Entrepreneurs, market research, 4Ps' },
-    { title:'Finance',                cards:58,  desc:'Revenue, costs, profit, cash flow, break even' },
-    { title:'HR & Operations',        cards:54,  desc:'Motivation, recruitment, production, quality' },
-    { title:'Business Growth',        cards:48,  desc:'Expansion, globalisation, ethical trade' },
+    { title:'Enterprise & Marketing', cards:97,  desc:'Entrepreneurs, market research, 4Ps',            link:'' },
+    { title:'Finance',                cards:95,  desc:'Revenue, costs, profit, cash flow, break even',  link:'' },
+    { title:'HR & Operations',        cards:93,  desc:'Motivation, recruitment, production, quality',   link:'' },
+    { title:'Business Growth',        cards:94,  desc:'Expansion, globalisation, ethical trade',        link:'' },
   ]},
   { key:'french',     label:'French',             icon:'🇫🇷', color:'#5ae0f5', decks:[
-    { title:'Identity & Family',      cards:80,  desc:'Family vocab, personality, relationships' },
-    { title:'School & Free Time',     cards:72,  desc:'School subjects, hobbies, sports' },
-    { title:'Travel & Tourism',       cards:68,  desc:'Places, directions, accommodation' },
-    { title:'Grammar Essentials',     cards:90,  desc:'Tenses, verbs, conjugation, agreements' },
+    { title:'Identity & Culture',     cards:1700,desc:'Family, personality, relationships, culture',    link:'' },
+    { title:'School & Free Time',     cards:1680,desc:'School subjects, hobbies, sports',              link:'' },
+    { title:'Travel & Tourism',       cards:1120,desc:'Places, directions, accommodation',             link:'' },
+    { title:'Future Aspirations',     cards:1100,desc:'Work, ambitions, environment, global issues',   link:'' },
+    { title:'Grammar Essentials',     cards:1119,desc:'Tenses, verbs, conjugation, agreements',        link:'' },
+  ]},
+  { key:'english',    label:'English Language',   icon:'✍️', color:'#f0b95a', decks:[
+    { title:'Language Techniques',    cards:60,  desc:'Simile, metaphor, alliteration, tone & more',   link:'' },
+    { title:'Reading Skills',         cards:48,  desc:'Inference, analysis, structure, purpose',       link:'' },
+    { title:'Writing Techniques',     cards:52,  desc:'AFOREST, PEEL, persuasion, narrative',          link:'' },
+  ]},
+  { key:'literature', label:'English Literature', icon:'📖', color:'#c55af0', decks:[
+    { title:'Macbeth',                cards:65,  desc:'Themes, quotes, characters, context',            link:'' },
+    { title:'An Inspector Calls',     cards:58,  desc:'Characters, responsibility, dramatic devices',   link:'' },
+    { title:'A Christmas Carol',      cards:54,  desc:'Scrooge\'s journey, themes, Victorian context',  link:'' },
+    { title:'Power & Conflict Poetry',cards:80,  desc:'All 15 poems — themes & comparisons',           link:'' },
+    { title:'Unseen Poetry Skills',   cards:40,  desc:'Techniques, structure, how to analyse',         link:'' },
+  ]},
+  { key:'maths',      label:'Maths',              icon:'📐', color:'#c8f05a', decks:[
+    { title:'Algebra Complete',       cards:94,  desc:'Equations, quadratics, sequences, graphs',       link:'' },
+    { title:'Number & Arithmetic',    cards:68,  desc:'Fractions, decimals, percentages, surds',        link:'' },
+    { title:'Geometry & Measures',    cards:82,  desc:'Angles, area, volume, Pythagoras, trig',         link:'' },
+    { title:'Statistics & Probability',cards:55, desc:'Charts, averages, probability trees',            link:'' },
   ]},
 ];
 
@@ -4548,30 +4671,38 @@ function openAnkiSubject(key) {
   document.getElementById('phAnkiSubjectView').style.display = 'none';
   document.getElementById('phAnkiDeckView').style.display = '';
   document.getElementById('phAnkiDeckTitle').textContent = s.icon + ' ' + s.label;
-  document.getElementById('phAnkiDeckCount').textContent = s.decks.length + ' decks · ' + s.decks.reduce((a,d)=>a+d.cards,0) + ' cards total';
 
-  // Check if admin has uploaded decks for this subject
-  const adminDecks = decks.filter(d => d.subject.toLowerCase().includes(s.label.toLowerCase().split(' ')[0]) || s.label.toLowerCase().includes(d.subject.toLowerCase()));
+  const totalCards = s.decks.reduce((a, d) => a + d.cards, 0);
+  document.getElementById('phAnkiDeckCount').textContent = totalCards + ' cards total';
+
+  // Find the uploaded deck for this subject from Firestore 'decks' collection
+  const subjectKey   = s.key.toLowerCase();
+  const subjectLabel = s.label.toLowerCase();
+  const adminDeck = decks.find(d => {
+    const ds = (d.subject || '').toLowerCase();
+    return ds === subjectKey || ds === subjectLabel || ds.includes(subjectKey) || subjectLabel.includes(ds) || subjectKey.includes(ds);
+  });
+  const downloadLink = (adminDeck && adminDeck.link && adminDeck.link !== '#') ? adminDeck.link : null;
 
   const list = document.getElementById('phAnkiDeckList');
-  list.innerHTML = s.decks.map(d => {
-    // Find matching admin-uploaded deck
-    const uploaded = adminDecks.find(ad => ad.title.toLowerCase().includes(d.title.toLowerCase().split(' ')[0]));
-    const hasLink = uploaded && uploaded.link && uploaded.link !== '#';
-    const linkHref = hasLink ? uploaded.link : '#';
-    return `<div class="anki-deck-row">
-      <div style="flex:1;min-width:0">
-        <div style="font-weight:600;font-size:0.9rem;margin-bottom:2px">${d.title}</div>
-        <div style="font-size:0.75rem;color:var(--muted)">${d.cards} cards · ${d.desc}</div>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-        <span style="font-size:0.7rem;color:var(--muted);background:var(--bg3);padding:3px 8px;border-radius:5px">${d.cards} cards</span>
-        ${hasLink
-          ? `<a href="${linkHref}" target="_blank" class="btn-download-premium">⬇ Download .apkg</a>`
-          : `<button class="btn-download-premium" style="opacity:0.5;cursor:default" title="Link not added yet — add via Admin Panel">📋 Coming Soon</button>`}
-      </div>
+
+  // What topics are covered — shown as info pills
+  const topicPills = s.decks.map(d =>
+    `<span style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:0.75rem;color:var(--muted)">${d.title}</span>`
+  ).join('');
+
+  list.innerHTML = `
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;text-align:center">
+      <div style="font-size:3rem;margin-bottom:1rem">${s.icon}</div>
+      <div style="font-family:Fraunces,serif;font-size:1.4rem;font-weight:800;margin-bottom:0.4rem">${s.label} — Complete Anki Deck</div>
+      <div style="color:var(--muted);font-size:0.85rem;margin-bottom:1.5rem">${totalCards} cards · Import the .apkg file directly into Anki</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:2rem">${topicPills}</div>
+      ${downloadLink
+        ? `<a href="${downloadLink}" target="_blank" download class="btn-download-premium" style="font-size:1rem;padding:12px 28px;display:inline-flex;align-items:center;gap:8px;background:rgba(245,215,110,0.18);border-color:rgba(245,215,110,0.5)">⬇ Download Full Deck (.apkg)</a>
+           <div style="margin-top:0.8rem;font-size:0.75rem;color:var(--muted)">Opens Google Drive — click the download icon to save the file</div>`
+        : `<button class="btn-download-premium" style="opacity:0.5;cursor:default;font-size:1rem;padding:12px 28px">📋 Coming Soon</button>
+           <div style="margin-top:0.8rem;font-size:0.75rem;color:var(--muted)">This deck is being prepared — check back soon</div>`}
     </div>`;
-  }).join('');
 }
 
 // ── Progress Tracking ─────────────────────────────────────────────────────────
@@ -4689,25 +4820,41 @@ function loadFCDecks() {
   const noDeckMsg = document.getElementById('fcNoDeckMsg');
   const fcMainArea = document.getElementById('fcMainArea');
   const fcPremiumWall = document.getElementById('fcPremiumWall');
-  if (decksForSubject.length === 0) {
-    sel.innerHTML = '<option value="">— no decks uploaded yet —</option>';
-    if (noDeckMsg) noDeckMsg.style.display = '';
-    if (fcMainArea) fcMainArea.style.display = 'none';
-    if (fcPremiumWall) fcPremiumWall.style.display = 'none';
-    return;
-  }
+  if (fcPremiumWall) fcPremiumWall.style.display = 'none';
+  if (fcMainArea) fcMainArea.style.display = 'none';
   if (noDeckMsg) noDeckMsg.style.display = 'none';
-  sel.innerHTML = '<option value="">— choose a deck —</option>' + decksForSubject.map(d => `<option value="${d.id}">${d.name} (${d.cards.length} cards)</option>`).join('');
+
+  // Build options: built-in deck always available, plus any admin-imported decks
+  const builtIn = builtInFlashcards[subject] || [];
+  const subjectLabel = { maths:'Maths', biology:'Biology', chemistry:'Chemistry', physics:'Physics', english:'English Language', literature:'English Literature', geography:'Geography', history:'History', business:'Business', french:'French' }[subject] || subject;
+  let options = `<option value="__builtin__">${subjectLabel} — Built-in Deck (${builtIn.length} cards)</option>`;
+  if (decksForSubject.length > 0) {
+    options += decksForSubject.map(d => `<option value="${d.id}">${d.name} (${d.cards.length} cards)</option>`).join('');
+  }
+  sel.innerHTML = options;
 }
 
 function startFCDeck() {
   const sel = document.getElementById('fcDeckSel');
   if (!sel || !sel.value) { showToast('⚠️ Please choose a deck first'); return; }
-  const deck = fcImportedDecks.find(d => d.id === sel.value);
-  if (!deck) return;
-  fcMainDeckId = deck.id;
+
+  let cards;
+  let totalInDeck;
+  if (sel.value === '__builtin__') {
+    const subject = document.getElementById('fcSubjectSelMain') ? document.getElementById('fcSubjectSelMain').value : 'maths';
+    cards = [...(builtInFlashcards[subject] || [])];
+    totalInDeck = cards.length;
+    fcMainDeckId = '__builtin__';
+  } else {
+    const deck = fcImportedDecks.find(d => d.id === sel.value);
+    if (!deck) return;
+    cards = [...deck.cards];
+    totalInDeck = deck.cards.length;
+    fcMainDeckId = deck.id;
+  }
+
   // Shuffle cards
-  fcMainCards = [...deck.cards].sort(() => Math.random() - 0.5);
+  fcMainCards = cards.sort(() => Math.random() - 0.5);
   const limit = (isPremium || isAdmin) ? fcMainCards.length : Math.min(FC_FREE_LIMIT, fcMainCards.length);
   fcMainCards = fcMainCards.slice(0, limit);
   fcMainIndex = 0;
@@ -4739,9 +4886,15 @@ function fcMainNext() {
     renderFCMainCard();
   } else {
     // Check if there are more cards in the full deck that are locked
-    const sel = document.getElementById('fcDeckSel');
-    const deck = sel && sel.value ? fcImportedDecks.find(d => d.id === sel.value) : null;
-    const totalCards = deck ? deck.cards.length : fcMainCards.length;
+    let totalCards = fcMainCards.length;
+    if (fcMainDeckId === '__builtin__') {
+      const subject = document.getElementById('fcSubjectSelMain') ? document.getElementById('fcSubjectSelMain').value : 'maths';
+      totalCards = (builtInFlashcards[subject] || []).length;
+    } else {
+      const sel = document.getElementById('fcDeckSel');
+      const deck = sel && sel.value ? fcImportedDecks.find(d => d.id === sel.value) : null;
+      if (deck) totalCards = deck.cards.length;
+    }
     if (!isPremium && !isAdmin && totalCards > FC_FREE_LIMIT) {
       // Show premium wall
       document.getElementById('fcMainArea').style.display = 'none';
@@ -4943,60 +5096,8 @@ const builtInFlashcards = {
   ],
 };
 
-let fcCards = [], fcIndex = 0, fcRatings = {};
-
-function loadFlashcards() {
-  const subject = document.getElementById('fcSubjectSel') ? document.getElementById('fcSubjectSel').value : 'maths';
-  // Combine built-in with any notes-derived cards
-  const base = [...(builtInFlashcards[subject] || [])];
-  // Also pull from actual notes for this subject
-  const subjectNotes = notes.filter(n => n.subject.toLowerCase() === subject);
-  subjectNotes.forEach(n => {
-    base.push({ q: n.title + ' — key points?', a: n.content.substring(0, 200).replace(/\n/g,' ') });
-  });
-  // Shuffle
-  fcCards = base.sort(() => Math.random() - 0.5);
-  fcIndex = 0;
-  fcRatings = {};
-  if (!fcCards.length) {
-    document.getElementById('fcArea').style.display = 'none';
-    document.getElementById('fcEmpty').style.display = '';
-    return;
-  }
-  document.getElementById('fcArea').style.display = '';
-  document.getElementById('fcEmpty').style.display = 'none';
-  renderFlashcard();
-}
-
-function renderFlashcard() {
-  const card = fcCards[fcIndex];
-  if (!card) return;
-  const fc = document.getElementById('mainFlashcard');
-  if (fc) fc.classList.remove('flipped');
-  document.getElementById('fcQuestion').textContent = card.q;
-  document.getElementById('fcAnswer').textContent = card.a;
-  document.getElementById('fcProgress').textContent = 'Card ' + (fcIndex+1) + ' of ' + fcCards.length;
-}
-
-function fcNext() {
-  if (fcIndex < fcCards.length - 1) { fcIndex++; renderFlashcard(); }
-  else { showToast('🎉 You\'ve gone through all cards! Reshuffling...'); loadFlashcards(); }
-}
-
-function fcPrev() {
-  if (fcIndex > 0) { fcIndex--; renderFlashcard(); }
-}
-
-function markFlashcard(rating) {
-  const card = fcCards[fcIndex];
-  fcRatings[fcIndex] = rating;
-  if (rating === 'hard') {
-    // Push card to end to repeat
-    fcCards.push({...card});
-    showToast('📌 Added to repeat queue');
-  }
-  fcNext();
-}
+// (Premium Hub flashcard panel removed — use standalone Flashcards page instead)
+let fcCards = [], fcIndex = 0, fcRatings = {}; // kept for backward compat
 
 // ── Study Planner ─────────────────────────────────────────────────────────────
 let plannerWeekOffset = 0;
@@ -5162,21 +5263,224 @@ function renderStats() {
 }
 
 // Record activity when note opened or quiz completed
+// NOTE: must use function expressions (not declarations) here — function declarations
+// are hoisted, which would make _orig* capture the wrapper itself → infinite recursion.
 const _origIncrementNote = incrementNoteCount;
-function incrementNoteCount() { _origIncrementNote(); recordActivity(); }
+incrementNoteCount = function() { _origIncrementNote(); recordActivity(); };
 
 const _origShowQuizScore = showQuizScore;
-function showQuizScore() {
+showQuizScore = function() {
   _origShowQuizScore();
   saveQuizResult(quizState.subject, quizState.topic, quizState.score, quizState.questions.length);
   recordActivity();
-}
+};
 
 // ── Show "My Premium" nav link when unlocked ──────────────────────────────────
 // (hub link visibility is handled inside updatePremiumUI directly)
 
 // (end premium hub)
 
+
+</script>
+
+<!-- ==================== FIREBASE ==================== -->
+<script type="module">
+  import { initializeApp }                        from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+  import { getFirestore, collection, doc, getDocs, addDoc, deleteDoc, setDoc, onSnapshot, query, orderBy }
+                                                  from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey:            "AIzaSyDbW1g5udrEjFX3p0Egt4cGO-kLWqCjR64",
+    authDomain:        "reviseup-850f8.firebaseapp.com",
+    projectId:         "reviseup-850f8",
+    storageBucket:     "reviseup-850f8.firebasestorage.app",
+    messagingSenderId: "40786804893",
+    appId:             "1:40786804893:web:929c5bf81c351828739474"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getFirestore(app);
+
+  // ── Helpers ──────────────────────────────────────────────────────────────────
+  async function fbGetAll(col) {
+    const snap = await getDocs(collection(db, col));
+    return snap.docs.map(d => ({ _fbId: d.id, ...d.data() }));
+  }
+  async function fbAdd(col, data) {
+    const ref = await addDoc(collection(db, col), data);
+    return ref.id;
+  }
+  async function fbDelete(col, fbId) {
+    await deleteDoc(doc(db, col, fbId));
+  }
+  async function fbSet(col, id, data) {
+    await setDoc(doc(db, col, id), data, { merge: true });
+  }
+
+  // ── Show loading spinner while data fetches ───────────────────────────────────
+  function showLoader(msg) {
+    let el = document.getElementById('fbLoader');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'fbLoader';
+      el.style.cssText = 'position:fixed;inset:0;background:rgba(15,15,19,0.88);z-index:99998;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px';
+      el.innerHTML = '<div style="width:36px;height:36px;border:3px solid rgba(200,240,90,0.2);border-top-color:#c8f05a;border-radius:50%;animation:spin 0.7s linear infinite"></div><div style="color:#c8f05a;font-size:0.88rem;font-weight:600">' + msg + '</div>';
+      if (!document.getElementById('fbSpinStyle')) {
+        const s = document.createElement('style');
+        s.id = 'fbSpinStyle';
+        s.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+        document.head.appendChild(s);
+      }
+      document.body.appendChild(el);
+    } else {
+      el.querySelector('div:last-child').textContent = msg;
+      el.style.display = 'flex';
+    }
+  }
+  function hideLoader() {
+    const el = document.getElementById('fbLoader');
+    if (el) el.style.display = 'none';
+  }
+
+  // ── Bootstrap: load notes, papers, decks from Firestore ──────────────────────
+  async function bootstrap() {
+    showLoader('Loading ReviseUp…');
+    try {
+      const [fbNotes, fbPapers, fbDecks, fbUsers, fbAnkiLinks] = await Promise.all([
+        fbGetAll('notes'),
+        fbGetAll('papers'),
+        fbGetAll('decks'),
+        fbGetAll('users'),
+        fbGetAll('ankiLinks'),
+      ]);
+
+      // Merge with defaults — Firestore wins over hardcoded defaults
+      if (fbNotes.length)     window.notes  = fbNotes;
+      if (fbPapers.length)    window.papers = fbPapers;
+      if (fbDecks.length)     window.decks  = fbDecks;
+
+      // Rebuild ankiLinks store from Firestore docs (each doc: { subject, deckTitle, url })
+      if (fbAnkiLinks.length) {
+        const rebuilt = {};
+        fbAnkiLinks.forEach(r => {
+          if (!rebuilt[r.subject]) rebuilt[r.subject] = {};
+          rebuilt[r.subject][r.deckTitle] = r.url;
+        });
+        // Patch getAnkiLinks to return Firestore data
+        window._fbAnkiLinksCache = rebuilt;
+      }
+
+      // Restore session user from Firestore users list
+      const session = JSON.parse(localStorage.getItem('reviseup_session') || 'null');
+      if (session && session.email) {
+        const match = fbUsers.find(u => u.email && u.email.toLowerCase() === session.email.toLowerCase());
+        if (match) {
+          window.isLoggedIn  = true;
+          window.currentUser = match;
+          window.isPremium   = match.premium || false;
+          if (match.email.toLowerCase() === 'ahmem4648@gmail.com') { window.isPremium = true; window.isAdmin = true; }
+        }
+      }
+
+      // Re-render everything now data is live
+      if (typeof renderNotes === 'function')    renderNotes(window.notes);
+      if (typeof renderPapers === 'function')   renderPapers(window.currentPapersSubject || 'Maths');
+      if (typeof updateNavForAuth === 'function') updateNavForAuth();
+      if (typeof updatePremiumUI  === 'function') updatePremiumUI();
+      if (typeof updateNotesBanner === 'function') updateNotesBanner();
+
+    } catch(e) {
+      console.error('Firebase bootstrap error:', e);
+      showToast('⚠️ Could not load cloud data — showing local data');
+    }
+    hideLoader();
+  }
+  bootstrap();
+
+  // ── Override addNote to write to Firestore ────────────────────────────────────
+  window._addNoteToFirebase = async function(noteData) {
+    try {
+      const fbId = await fbAdd('notes', noteData);
+      noteData._fbId = fbId;
+      showToast('✅ Note saved to cloud!');
+    } catch(e) { console.error('addNote firebase error:', e); showToast('⚠️ Saved locally only'); }
+  };
+
+  // ── Override deleteNote to remove from Firestore ──────────────────────────────
+  window._deleteNoteFromFirebase = async function(fbId) {
+    if (!fbId) return;
+    try { await fbDelete('notes', fbId); }
+    catch(e) { console.error('deleteNote firebase error:', e); }
+  };
+
+  // ── Override addPaper to write to Firestore ───────────────────────────────────
+  window._addPaperToFirebase = async function(paperData) {
+    try {
+      const fbId = await fbAdd('papers', paperData);
+      paperData._fbId = fbId;
+      showToast('✅ Paper saved to cloud!');
+    } catch(e) { console.error('addPaper firebase error:', e); showToast('⚠️ Saved locally only'); }
+  };
+
+  // ── Override deletePaper to remove from Firestore ─────────────────────────────
+  window._deletePaperFromFirebase = async function(fbId) {
+    if (!fbId) return;
+    try { await fbDelete('papers', fbId); }
+    catch(e) { console.error('deletePaper firebase error:', e); }
+  };
+
+  // ── Override addDeck to write to Firestore ────────────────────────────────────
+  window._addDeckToFirebase = async function(deckData) {
+    try {
+      const fbId = await fbAdd('decks', deckData);
+      deckData._fbId = fbId;
+      showToast('✅ Deck saved to cloud!');
+    } catch(e) { console.error('addDeck firebase error:', e); showToast('⚠️ Saved locally only'); }
+  };
+
+  window._deleteDeckFromFirebase = async function(fbId) {
+    if (!fbId) return;
+    try { await fbDelete('decks', fbId); }
+    catch(e) { console.error('deleteDeck firebase error:', e); }
+  };
+
+  // ── Override signupUser to write to Firestore ─────────────────────────────────
+  window._saveUserToFirebase = async function(userData) {
+    try {
+      // Use email as doc ID (sanitised) so lookups are fast
+      const docId = userData.email.replace(/[^a-zA-Z0-9]/g, '_');
+      await fbSet('users', docId, userData);
+    } catch(e) { console.error('saveUser firebase error:', e); }
+  };
+
+  // ── Save/load anki links from Firestore ───────────────────────────────────────
+  window._saveAnkiLinkToFirebase = async function(subject, deckTitle, url) {
+    try {
+      const docId = (subject + '_' + deckTitle).replace(/[^a-zA-Z0-9]/g, '_');
+      await fbSet('ankiLinks', docId, { subject, deckTitle, url });
+      if (!window._fbAnkiLinksCache) window._fbAnkiLinksCache = {};
+      if (!window._fbAnkiLinksCache[subject]) window._fbAnkiLinksCache[subject] = {};
+      window._fbAnkiLinksCache[subject][deckTitle] = url;
+    } catch(e) { console.error('saveAnkiLink firebase error:', e); }
+  };
+
+  window._deleteAnkiLinkFromFirebase = async function(subject, deckTitle) {
+    try {
+      const docId = (subject + '_' + deckTitle).replace(/[^a-zA-Z0-9]/g, '_');
+      await fbDelete('ankiLinks', docId);
+      if (window._fbAnkiLinksCache && window._fbAnkiLinksCache[subject]) {
+        delete window._fbAnkiLinksCache[subject][deckTitle];
+      }
+    } catch(e) { console.error('deleteAnkiLink firebase error:', e); }
+  };
+
+  // ── Update premium status in Firestore ───────────────────────────────────────
+  window._updateUserPremiumInFirebase = async function(email, premiumStatus) {
+    try {
+      const docId = email.replace(/[^a-zA-Z0-9]/g, '_');
+      await fbSet('users', docId, { premium: premiumStatus });
+    } catch(e) { console.error('updateUserPremium firebase error:', e); }
+  };
 
 </script>
 </body>
