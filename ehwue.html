@@ -6138,7 +6138,7 @@ function renderScoreGraph(scores, subjectFilter) {
       ]);
 
       // Merge with defaults — Firestore wins over hardcoded defaults
-      if (fbNotes.length)  { window.notes = fbNotes; if (typeof notes !== 'undefined') notes = fbNotes; }
+      if (fbNotes.length)  window.notes  = fbNotes;
       if (fbPapers.length) {
         // Fix any old-format Drive share links saved before the normaliser was added
         window.papers = fbPapers.map(p => ({
@@ -6189,10 +6189,6 @@ function renderScoreGraph(scores, subjectFilter) {
 
       // Re-render everything now data is live
       if (typeof renderNotes === 'function')    renderNotes(window.notes);
-      // Also re-render subject notes grid if user is already on a subject notes page
-      if (typeof renderNotesForSubject === 'function' && typeof currentNotesSubject !== 'undefined' && currentNotesSubject) {
-        renderNotesForSubject(currentNotesSubject, 'all');
-      }
       if (typeof renderPapers === 'function')   renderPapers(window.currentPapersSubject || 'Maths');
       if (typeof renderTopicTests === 'function') renderTopicTests(window.currentTopicTestSubject || 'Maths', '');
       // Re-render Anki deck view if currently open (ankiLinks now loaded from Firestore)
