@@ -3835,12 +3835,51 @@ function clearSpecificAnkiLink(subKey, deckTitle) {
 }
 
 function renderSubjectDecks(subjectName) {
-  const filtered = decks.filter(d => d.subject.toLowerCase().includes(subjectName.toLowerCase().split(' ')[0]));
+  const sKey = subjectName.toLowerCase().split(' ')[0];
+  const filtered = decks.filter(d => d.subject.toLowerCase().includes(sKey));
   const grid = document.getElementById('subjectAnkiGrid');
   if (!grid) return;
-  const deckHTML = filtered.length
-    ? filtered.map(d => `<div class="deck-card"><h4>${d.title}</h4><p>${d.cards} cards · ${d.desc}</p>${(isPremium || isAdmin) ? `<a href="${d.link}" target="_blank" style="display:inline-block;margin-top:8px;color:var(--premium);font-size:0.78rem;font-weight:600">⬇ Download .apkg</a>` : ''}</div>`).join('')
-    : '<div class="deck-card"><h4>Coming Soon</h4><p>Deck for this subject is being prepared</p></div>';
+
+  // Helper: find download URL for a deck, checking ankiLinks Firestore cache as fallback
+  function getDeckDownloadLink(d) {
+    if (d.link && d.link !== '#') return d.link;
+    if (!window._fbAnkiLinksCache) return null;
+    const cache = window._fbAnkiLinksCache;
+    for (const cKey of Object.keys(cache)) {
+      if (cKey.toLowerCase().includes(sKey) || sKey.includes(cKey.toLowerCase())) {
+        const byTitle = cache[cKey][d.title];
+        if (byTitle) return byTitle;
+        const urls = Object.values(cache[cKey]).filter(Boolean);
+        if (urls.length) return urls[0];
+      }
+    }
+    return null;
+  }
+
+  let deckHTML;
+  if (filtered.length) {
+    deckHTML = filtered.map(d => {
+      const link = getDeckDownloadLink(d);
+      const downloadBtn = (isPremium || isAdmin) && link
+        ? `<a href="${link}" target="_blank" style="display:inline-block;margin-top:8px;color:var(--premium);font-size:0.78rem;font-weight:600">⬇ Download .apkg</a>`
+        : '';
+      return `<div class="deck-card"><h4>${d.title}</h4><p>${d.cards} cards · ${d.desc}</p>${downloadBtn}</div>`;
+    }).join('');
+  } else {
+    // No deck in Firestore decks — check ankiLinks cache directly
+    let ankiLinkHtml = '';
+    if (window._fbAnkiLinksCache) {
+      const cache = window._fbAnkiLinksCache;
+      for (const cKey of Object.keys(cache)) {
+        if (cKey.toLowerCase().includes(sKey) || sKey.includes(cKey.toLowerCase())) {
+          for (const [title, url] of Object.entries(cache[cKey])) {
+            if (url) ankiLinkHtml += `<div class="deck-card"><h4>${title}</h4><p>Anki Deck</p>${(isPremium || isAdmin) ? `<a href="${url}" target="_blank" style="display:inline-block;margin-top:8px;color:var(--premium);font-size:0.78rem;font-weight:600">⬇ Download .apkg</a>` : ''}</div>`;
+          }
+        }
+      }
+    }
+    deckHTML = ankiLinkHtml || '<div class="deck-card"><h4>Coming Soon</h4><p>Deck for this subject is being prepared</p></div>';
+  }
   grid.innerHTML = deckHTML;
 }
 // ── Login with 2FA ────────────────────────────────────────────────────────────
@@ -5139,6 +5178,7 @@ function renderPHAnki() {
 function openAnkiSubject(key) {
   const s = ankiSubjects.find(x => x.key === key);
   if (!s) return;
+  window._lastAnkiSubjectKey = key; // remember for bootstrap re-render
   document.getElementById('phAnkiSubjectView').style.display = 'none';
   document.getElementById('phAnkiDeckView').style.display = '';
   document.getElementById('phAnkiDeckTitle').textContent = s.icon + ' ' + s.label;
@@ -5153,7 +5193,23 @@ function openAnkiSubject(key) {
     const ds = (d.subject || '').toLowerCase();
     return ds === subjectKey || ds === subjectLabel || ds.includes(subjectKey) || subjectLabel.includes(ds) || subjectKey.includes(ds);
   });
-  const downloadLink = (adminDeck && adminDeck.link && adminDeck.link !== '#') ? adminDeck.link : null;
+  let downloadLink = (adminDeck && adminDeck.link && adminDeck.link !== '#') ? adminDeck.link : null;
+
+  // Also check the ankiLinks system (Firestore ankiLinks collection) if no link found yet
+  if (!downloadLink && window._fbAnkiLinksCache) {
+    // Try subject key and label variants against the cache
+    const cache = window._fbAnkiLinksCache;
+    const candidates = [subjectKey, subjectLabel, s.key, s.label];
+    outer: for (const cKey of Object.keys(cache)) {
+      for (const cand of candidates) {
+        if (cKey.toLowerCase() === cand.toLowerCase() || cKey.toLowerCase().includes(cand.toLowerCase()) || cand.toLowerCase().includes(cKey.toLowerCase())) {
+          // Take the first URL found for this subject in ankiLinks
+          const urls = Object.values(cache[cKey]).filter(Boolean);
+          if (urls.length) { downloadLink = urls[0]; break outer; }
+        }
+      }
+    }
+  }
 
   const list = document.getElementById('phAnkiDeckList');
 
@@ -6082,7 +6138,7 @@ function renderScoreGraph(scores, subjectFilter) {
       ]);
 
       // Merge with defaults — Firestore wins over hardcoded defaults
-      if (fbNotes.length)  window.notes  = fbNotes;
+      if (fbNotes.length)  { window.notes = fbNotes; if (typeof notes !== 'undefined') notes = fbNotes; }
       if (fbPapers.length) {
         // Fix any old-format Drive share links saved before the normaliser was added
         window.papers = fbPapers.map(p => ({
@@ -6133,8 +6189,17 @@ function renderScoreGraph(scores, subjectFilter) {
 
       // Re-render everything now data is live
       if (typeof renderNotes === 'function')    renderNotes(window.notes);
+      // Also re-render subject notes grid if user is already on a subject notes page
+      if (typeof renderNotesForSubject === 'function' && typeof currentNotesSubject !== 'undefined' && currentNotesSubject) {
+        renderNotesForSubject(currentNotesSubject, 'all');
+      }
       if (typeof renderPapers === 'function')   renderPapers(window.currentPapersSubject || 'Maths');
       if (typeof renderTopicTests === 'function') renderTopicTests(window.currentTopicTestSubject || 'Maths', '');
+      // Re-render Anki deck view if currently open (ankiLinks now loaded from Firestore)
+      const phAnkiDeckViewEl = document.getElementById('phAnkiDeckView');
+      if (phAnkiDeckViewEl && phAnkiDeckViewEl.style.display !== 'none' && typeof openAnkiSubject === 'function' && window._lastAnkiSubjectKey) {
+        openAnkiSubject(window._lastAnkiSubjectKey);
+      }
       if (typeof updateNavForAuth === 'function') updateNavForAuth();
       if (typeof updatePremiumUI  === 'function') updatePremiumUI();
       if (typeof updateNotesBanner === 'function') updateNotesBanner();

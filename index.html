@@ -6146,8 +6146,10 @@ function renderScoreGraph(scores, subjectFilter) {
           link:       (typeof normaliseDriveLink === 'function' && p.link)       ? normaliseDriveLink(p.link)       : p.link,
           markscheme: (typeof normaliseDriveLink === 'function' && p.markscheme) ? normaliseDriveLink(p.markscheme) : p.markscheme,
         }));
+        // Also sync the local variable so renderPapers picks it up immediately
+        if (typeof papers !== 'undefined') papers = window.papers;
       }
-      if (fbDecks.length)  window.decks  = fbDecks;
+      if (fbDecks.length)  { window.decks = fbDecks; if (typeof decks !== 'undefined') decks = window.decks; }
       if (fbTopicTests.length) {
         window.topicTests = fbTopicTests.map(t => ({
           ...t,
